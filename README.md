@@ -1,4 +1,4 @@
-## Hi there 👋
+## Hello world 👋
 
 <!--
 **NicoRuedaA/NicoRuedaA** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
@@ -15,5 +15,5 @@ Here are some ideas to get you started:
 - ⚡ Fun fact: ...
 -->
 <p align="center">
-![Mi banner de perfil](https://github.com/NicoRuedaA/NicoRuedaA/blob/main/b4deca85-e594-4574-b495-df5483937dbd.png?raw=true)
+<img src="https://github.com/NicoRuedaA/NicoRuedaA/blob/main/b4deca85-e594-4574-b495-df5483937dbd.png?raw=true" alt="Mi banner de perfil">
 </p>
