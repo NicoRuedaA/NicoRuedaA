@@ -3,7 +3,7 @@
 <p align="center">
 <img src="https://github.com/NicoRuedaA/NicoRuedaA/blob/main/b4deca85-e594-4574-b495-df5483937dbd.png?raw=true" alt="Mi banner de perfil">
 </p>
-🎓​I'm currently working on indie game development<br>👯I'm looking for projecs to collaborate on<br>​📚Learning Java and GDX
+🎓​I'm currently working on indie game development<br>👯I'm looking for projecs to collaborate on<br>​📚Learning Java
 
 
 ## 🌐 Socials:
