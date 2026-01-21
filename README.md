@@ -2,8 +2,9 @@
 
 <p align="center">
 <img src="https://github.com/NicoRuedaA/NicoRuedaA/blob/main/Sin título-2.jpg?raw=true" alt="Mi banner de perfil">
-</p>
-🎓​Currently working on indie game development<br>👯Looking for projects to collaborate on<br>​📚Learning Java <br>​✍Studying Cross-Platform Application Development
+</p text-align="center">
+
+🎓​Currently working on indie game development<br>👯Looking for projects to collaborate on<br>​📚Learning Java <br>👽 Experienced in Unity <br>​✍Studying Cross-Platform Application Development 
 
 
 ## 🌐 Socials:
