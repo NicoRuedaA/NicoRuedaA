@@ -1,4 +1,4 @@
-#  About Me:
+<img src="https://static.wixstatic.com/media/13462a_a39fe18bb29741b5bc498efdd7ccb8fd~mv2.png/v1/fill/w_80,h_80,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/logo.png?raw=true" alt="Mi banner de perfil">
 
 <p align="center">
 <img src="https://github.com/NicoRuedaA/NicoRuedaA/blob/main/Sin título-2.jpg?raw=true" alt="Mi banner de perfil">
