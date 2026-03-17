@@ -1,9 +1,13 @@
+<h1 align="center">Nico Rueda <br> Game Designer & Multiplatform Developer</h1>
+
+
 <p align="center">
   <img src="https://github.com/NicoRuedaA/NicoRuedaA/blob/main/Sin título-2.jpg?raw=true" alt="Profile Banner">
 </p>
 
-<h1 align="center">Nico Rueda <br> Game Designer & Multiplatform Developer</h1>
 
+
+---
 <p align="center">
   Crafting experiences.<br>
   Building solutions.
@@ -30,7 +34,7 @@
 ## 🌐 Web & Personal
 
 - **[Personal Website](https://github.com/NicoRuedaA/nicoruedaa.github.io)** · `JavaScript` `HTML5` ·
-  Personal portfolio and interactive blog built with vanilla JavaScript, deployed via GitHub Pages. Check it out at [nicorueda.dev](https://nicorueda.dev).
+  Personal portfolio and interactive blog built with vanilla JavaScript, deployed via GitHub Pages. Check it out at [nicoruedaa.github.io](https://nicoruedaa.github.io).
 
 ---
 
