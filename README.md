@@ -1,33 +1,116 @@
 <p align="center">
-<img src="https://github.com/NicoRuedaA/NicoRuedaA/blob/main/Sin título-2.jpg?raw=true" alt="Mi banner de perfil">
+  <img src="https://github.com/NicoRuedaA/NicoRuedaA/blob/main/Sin título-2.jpg?raw=true" alt="Profile Banner">
 </p>
+
+<h1 align="center">Nico Rueda <br> Game Designer & Multiplatform Developer</h1>
+
 <p align="center">
-🎓 Working on indie game development<br>​📚 Learning Java & LibGDX<br>​✍ Studying Cross-Platform Application Development 
+  Crafting experiences.<br>
+  Building solutions.
 </p>
 
-# 💻 Tech Stack:
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![C#](https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=csharp&logoColor=white) ![C++](https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white) ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white) ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) ![Godot Engine](https://img.shields.io/badge/GODOT-%23FFFFFF.svg?style=for-the-badge&logo=godot-engine) ![Unreal Engine](https://img.shields.io/badge/unrealengine-%23313131.svg?style=for-the-badge&logo=unrealengine&logoColor=white) ![Unity](https://img.shields.io/badge/unity-%23000000.svg?style=for-the-badge&logo=unity&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white) ![Adobe Illustrator](https://img.shields.io/badge/adobe%20illustrator-%23FF9A00.svg?style=for-the-badge&logo=adobe%20illustrator&logoColor=white) ![Adobe Photoshop](https://img.shields.io/badge/adobe%20photoshop-%2331A8FF.svg?style=for-the-badge&logo=adobe%20photoshop&logoColor=white) ![Krita](https://img.shields.io/badge/Krita-203759?style=for-the-badge&logo=krita&logoColor=EEF37B) ![Gimp](https://img.shields.io/badge/Gimp-657D8B?style=for-the-badge&logo=gimp&logoColor=FFFFFF)
+---
 
-## 🚀 Proyectos Destacados
+## 🎮 Game Dev
 
-### 🎮 Desarrollo de Videojuegos
-* **[Catpire Survivors](https://github.com/NicoRuedaA/Catpire_Survivors)** ![Java](https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white) ![LibGDX](https://img.shields.io/badge/LibGDX-E44D26?style=flat-square&logo=libgdx&logoColor=white)
-    > Juego estilo *action-roguelike* (bullet-hell) desarrollado con **Java y LibGDX**, enfocado en el manejo de hordas masivas y optimización de rendimiento.
+### [Catpire Survivors](https://github.com/NicoRuedaA/Catpire_Survivors)
 
-* **[Platform Godot](https://github.com/NicoRuedaA/Platform_Godot)** ![Godot](https://img.shields.io/badge/Godot_Engine-478CBF?style=flat-square&logo=godot-engine&logoColor=white)
-    > Template base para el desarrollo ágil de juegos de plataformas 2D con controladores de física optimizados.
+<details>
+  <summary>
+    <img src="https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white" />
+    <img src="https://img.shields.io/badge/LibGDX-E44D26?style=flat-square" />
+    &nbsp;
+    <img src="https://img.shields.io/badge/In%20Development-yellow?style=flat-square" />
+  </summary>
+<br>
+
+Action-roguelike (bullet-hell) developed with Java and LibGDX. Focused on handling massive enemy hordes and rendering performance optimization. Inspired by Vampire Survivors.
+
+> Key challenges: entity pooling, spatial partitioning, real-time hitbox management at scale.
+
+</details>
 
 ---
 
-### 🌐 Web & Personal
-* **[Personal Website](https://github.com/NicoRuedaA/nicoruedaa.github.io)** ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black) ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) ![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-222222?style=flat-square&logo=github&logoColor=white)
-    > Mi portafolio personal y blog interactivo desarrollado con JavaScript puro, desplegado mediante GitHub Pages.
+### [Platform Godot](https://github.com/NicoRuedaA/Platform_Godot)
+
+<details>
+  <summary>
+    <img src="https://img.shields.io/badge/Godot_Engine-478CBF?style=flat-square&logo=godot-engine&logoColor=white" />
+    &nbsp;
+    <img src="https://img.shields.io/badge/Template-blue?style=flat-square" />
+  </summary>
+<br>
+
+A reusable base template for 2D platformer development in Godot. Includes optimized physics controllers, coyote time, jump buffering, and modular player state machine.
+
+</details>
 
 ---
 
-### 🤖 Inteligencia Artificial & Data Science
-* **[Local AI Framework](https://github.com/NicoRuedaA/Local-AI-Framework)** ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white) ![AI](https://img.shields.io/badge/Local_AI-FF6F00?style=flat-square)
-    > Marco de trabajo para la implementación de modelos de IA locales, enfocado en la privacidad y eficiencia de cómputo.
+## 🤖 AI & Data Science
 
-* **[MTG Price Prediction](https://github.com/NicoRuedaA/MTG-price-prediction)** ![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white) ![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white)
-    > Análisis predictivo y machine learning aplicado al mercado de cartas de Magic: The Gathering.
+### [Local AI Framework](https://github.com/NicoRuedaA/Local-AI-Framework)
+
+<details>
+  <summary>
+    <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" />
+    &nbsp;
+    <img src="https://img.shields.io/badge/Active-brightgreen?style=flat-square" />
+  </summary>
+<br>
+
+A Python framework for running local AI models with a focus on privacy and compute efficiency. Built as an alternative to cloud-dependent AI tooling.
+
+</details>
+
+---
+
+### [MTG Price Prediction](https://github.com/NicoRuedaA/MTG-price-prediction)
+
+<details>
+  <summary>
+    <img src="https://img.shields.io/badge/Scikit--Learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white" />
+    <img src="https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white" />
+    &nbsp;
+    <img src="https://img.shields.io/badge/Active-brightgreen?style=flat-square" />
+  </summary>
+<br>
+
+Predictive analysis and ML applied to the Magic: The Gathering card market. Uses historical price data, set rotations, and tournament meta to forecast card value trends.
+
+</details>
+
+---
+
+## 🌐 Web & Personal
+
+### [Personal Website](https://github.com/NicoRuedaA/nicoruedaa.github.io)
+
+<details>
+  <summary>
+    <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" />
+    <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white" />
+    &nbsp;
+    <img src="https://img.shields.io/badge/Live-222222?style=flat-square&logo=github&logoColor=white" />
+  </summary>
+<br>
+
+Personal portfolio and interactive blog built with vanilla JavaScript, deployed via GitHub Pages. Check it out at [nicoruedaa.github.io](https://nicoruedaa.github.io).
+
+</details>
+
+---
+
+<p align="center"><b>Contact Me</b></p>
+
+<p align="center">
+  <a href="https://nicoruedaa.github.io"><img src="https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=github&logoColor=white" /></a>
+  <a href="mailto:nico99rueda@gmail.com"><img src="https://img.shields.io/badge/Contact-EA4335?style=for-the-badge&logo=gmail&logoColor=white" /></a>
+  <a href="https://www.linkedin.com/in/nicolas-rueda-araque/"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" /></a>
+  <a href="https://discord.com/users/nicorueda"><img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" /></a>
+</p>
+
+<p align="center">
+  <i>Open to collaborations on anything weird and interesting.</i>
+</p>
