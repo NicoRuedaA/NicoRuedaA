@@ -30,7 +30,7 @@
 ## 🌐 Web & Personal
 
 - **[Personal Website](https://github.com/NicoRuedaA/nicoruedaa.github.io)** · `JavaScript` `HTML5` ·
-  Personal portfolio and interactive blog built with vanilla JavaScript, deployed via GitHub Pages. Check it out at [nicoruedaa.github.io](https://nicoruedaa.github.io).
+  Personal portfolio and interactive blog built with vanilla JavaScript, deployed via GitHub Pages. Check it out at [nicorueda.dev](https://nicorueda.dev).
 
 ---
 
