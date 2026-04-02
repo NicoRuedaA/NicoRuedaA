@@ -22,7 +22,9 @@
 
 - **[Platform Godot](https://github.com/NicoRuedaA/Platform_Godot)** · `Godot Engine` ·
   A reusable base template for 2D platformer development in Godot. Includes optimized physics controllers, coyote time, jump buffering, and a modular player state machine.
-
+- **[DnD Hex Combat](https://github.com/NicoRuedaA/DnDHexCombat)** · `Unity` ·
+  A hex-based tactical combat prototype in Unity featuring D&D-inspired initiative turns, BFS pathfinding, and interactive unit action systems.
+  
 ## 🤖 AI & Data Science
 
 - **[Local AI Framework](https://github.com/NicoRuedaA/Local-AI-Framework)** · `Python` ·
