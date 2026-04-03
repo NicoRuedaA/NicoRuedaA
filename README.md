@@ -20,7 +20,7 @@
 - **[Catpire Survivors](https://github.com/NicoRuedaA/Catpire_Survivors)** · `Java` `LibGDX` ·
   Action-roguelike. developed with Java and LibGDX. Focused on handling massive enemy hordes and rendering performance optimization. Inspired by Vampire Survivors.
 
-- **[Platform Godot](https://github.com/NicoRuedaA/Platform_Godot)** · `Godot Engine` ·
+- **[Platform Godot](https://github.com/NicoRuedaA/Platform_Godot)** · `Godot` ·
   A reusable base template for 2D platformer development in Godot. Includes optimized physics controllers, coyote time, jump buffering, and a modular player state machine.
   
 - **[DnD Hex Combat](https://github.com/NicoRuedaA/DnDHexCombat)** · `Unity` ·
@@ -28,6 +28,10 @@
 
 - **[Unity Packages](https://github.com/NicoRuedaA/Unity-Packages)** · `Unity` ·
   A robust collection of Unity utilities featuring thread-safe Singleton patterns, editor automation tools, and efficient text-asset processing.
+
+- **[Isometric Godot](https://github.com/NicoRuedaA/Isometric_Godot)** · `Godot` ·
+  A turn-based isometric tactical RPG built with Godot Engine, featuring grid-based combat and a scalable modular architecture.
+  
   
 ## 🤖 AI & Data Science
 
