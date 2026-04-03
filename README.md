@@ -31,6 +31,9 @@
 
 - **[Isometric Godot](https://github.com/NicoRuedaA/Isometric_Godot)** · `Godot` ·
   A turn-based isometric tactical RPG built with Godot Engine, featuring grid-based combat and a scalable modular architecture.
+
+- **[Super Cide Bros](https://github.com/NicoRuedaA/Juego-Fiesta-Cide)** · `Java` `Java Swing` ·
+  A 2D Java platformer game featuring custom physics, sprite animations, and custom maps, developed for the CIDE educational center's celebration.
   
   
 ## 🤖 AI & Data Science
