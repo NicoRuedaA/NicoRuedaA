@@ -38,9 +38,6 @@
   
 ## 🤖 AI & Data Science
 
-- **[Local AI Framework](https://github.com/NicoRuedaA/Local-AI-Framework)** · `Python` ·
-  A Python framework for running local AI models with a focus on privacy and compute efficiency. Built as an alternative to cloud-dependent AI tooling.
-
 - **[MTG Price Prediction](https://github.com/NicoRuedaA/MTG-price-prediction)** · `Scikit-Learn` `Pandas` ·
   Predictive analysis and ML applied to the Magic: The Gathering card market. Uses historical price data, set rotations, and tournament meta to forecast card value trends.
 
