@@ -2,7 +2,7 @@
 
 
 <p align="center">
-  <img src="https://github.com/NicoRuedaA/NicoRuedaA/blob/main/Sin título-2.jpg?raw=true" alt="Profile Banner">
+  <img src="https://github.com/NicoRuedaA/NicoRuedaA/blob/main/ChatGPT Image Aug 3, 2026, 06_03_55 PM.png?raw=true" alt="Profile Banner">
 </p>
 
 
