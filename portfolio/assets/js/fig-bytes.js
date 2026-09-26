@@ -34,7 +34,7 @@ export function mount(fig) {
     const sigLen = hit ? hit[0].length : 0;
     hexEl.innerHTML = '';
     const head = document.createElement('div');
-    head.className = 'label'; head.style.marginBottom = '4px'; head.textContent = name;
+    head.className = 'label' + (hit ? '' : ' struck'); head.style.marginBottom = '4px'; head.textContent = name;
     hexEl.appendChild(head);
     bytes.slice(0, 12).forEach((b, i) => {
       const s = document.createElement('span');

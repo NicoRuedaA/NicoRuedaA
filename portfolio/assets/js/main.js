@@ -1,4 +1,5 @@
 import { theme, lang, onTheme, onLang, reducedMotion, fmt, t, setBi } from './core.js';
+import { inkFrame, seedOf } from './pen.js';
 
 const root = document.documentElement;
 const $ = (s, el = document) => el.querySelector(s);
@@ -8,11 +9,11 @@ const store = {
   set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* private mode */ } },
 };
 
-/* ---------------- theme: Boceto (light) / Motor (dark) ---------------- */
+/* ---------------- theme: Papel (light) / Tinta (dark) ---------------- */
 function syncTheme() {
   const cur = theme();
   $$('[data-set-theme]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.setTheme === cur)));
-  $$('meta[name="theme-color"]').forEach((m) => m.setAttribute('content', cur === 'dark' ? '#0a0c10' : '#e3e7ec'));
+  $$('meta[name="theme-color"]').forEach((m) => m.setAttribute('content', cur === 'dark' ? '#0f1326' : '#f6f6f2'));
 }
 $$('[data-set-theme]').forEach((b) => b.addEventListener('click', () => {
   const v = b.dataset.setTheme;
@@ -114,6 +115,7 @@ $$('[data-copy]').forEach((b) => {
     try {
       await navigator.clipboard.writeText(b.dataset.copy);
       setBi(b, 'Copiado', 'Copied');
+      b.classList.add('is-done');
     } catch (e) {
       // clipboard refused: select the text so the visitor can copy it by hand
       const target = b.previousElementSibling;
@@ -123,7 +125,7 @@ $$('[data-copy]').forEach((b) => {
       }
       setBi(b, 'Selecciónalo y copia', 'Select and copy');
     }
-    timer = setTimeout(() => { b.innerHTML = orig; }, 2400);
+    timer = setTimeout(() => { b.innerHTML = orig; b.classList.remove('is-done'); }, 2400);
   });
 });
 
@@ -203,12 +205,12 @@ $$('[data-sprite]').forEach((el) => {
     for (let a = 0; a <= 300; a += 5) d += (a ? 'L' : 'M') + X(a).toFixed(1) + ' ' + Y(100 / (100 + a)).toFixed(1);
     box.querySelector('code').textContent = t('daño = bruto × 100 / (100 + armadura)', 'damage = raw × 100 / (100 + armour)');
     svg.innerHTML = `
-      <line x1="${pad}" y1="${H - pad}" x2="${W - pad}" y2="${H - pad}" stroke="var(--rule)"/>
-      <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${H - pad}" stroke="var(--rule)"/>
-      <path d="${d}" fill="none" stroke="var(--ally)" stroke-width="2"/>
-      <line x1="${X(100)}" y1="${Y(0.5)}" x2="${X(100)}" y2="${H - pad}" stroke="var(--marker)" stroke-dasharray="3 3"/>
-      <circle cx="${X(100)}" cy="${Y(0.5)}" r="3.5" fill="var(--marker)"/>
-      <text x="${X(100) + 6}" y="${Y(0.5) - 6}" font-family="Martian Mono, monospace" font-size="12" fill="var(--ink-2)">${t('100 de armadura → 50 %', '100 armour → 50%')}</text>
+      <line x1="${pad}" y1="${H - pad}" x2="${W - pad + 4}" y2="${H - pad}" stroke="var(--pencil)"/>
+      <line x1="${pad}" y1="${pad - 4}" x2="${pad}" y2="${H - pad}" stroke="var(--pencil)"/>
+      <path d="${d}" fill="none" stroke="var(--pen)" stroke-width="1.75" stroke-linecap="round"/>
+      <line x1="${X(100)}" y1="${Y(0.5)}" x2="${X(100)}" y2="${H - pad}" stroke="var(--red)" stroke-dasharray="3 3"/>
+      <path d="M${X(100) - 4} ${Y(0.5) - 4}l8 8M${X(100) + 4} ${Y(0.5) - 4}l-8 8" stroke="var(--red)" stroke-width="1.6" stroke-linecap="round"/>
+      <text x="${X(100) + 8}" y="${Y(0.5) - 6}" font-family="Martian Mono, monospace" font-size="12" fill="var(--ink-2)">${t('100 de armadura → 50 %', '100 armour → 50%')}</text>
       <text x="${pad}" y="${H - 3}" font-family="Martian Mono, monospace" font-size="11" fill="var(--ink-3)">0</text>
       <text x="${W - pad - 22}" y="${H - 3}" font-family="Martian Mono, monospace" font-size="11" fill="var(--ink-3)">300</text>
       <text x="${pad + 4}" y="${pad + 4}" font-family="Martian Mono, monospace" font-size="11" fill="var(--ink-3)">100 %</text>`;
@@ -236,7 +238,7 @@ $$('[data-sprite]').forEach((el) => {
     const x = z + d.r2 / span;
     r.style.left = Math.min(x, z) * 100 + '%';
     r.style.width = Math.abs(d.r2 / span) * 100 + '%';
-    r.style.background = d.r2 < 0 ? 'var(--rival)' : 'var(--ally)';
+    r.style.setProperty('--pen', d.r2 < 0 ? 'var(--red)' : '');
     box.querySelector('[data-r2-v]').textContent = fmt(d.r2, { minimumFractionDigits: 2, signDisplay: 'exceptZero' });
     box.querySelector('[data-price]').textContent = money(d.price);
     box.querySelectorAll('[data-mtg-set]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mtgSet === cur)));
@@ -343,7 +345,29 @@ if (wEl) new IntersectionObserver(([e]) => { if (e.isIntersecting) weight(); }).
 const nearIO = new IntersectionObserver((entries) => {
   entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-near'); nearIO.unobserve(e.target); } });
 }, { rootMargin: '600px 0px' });
-$$('.stage-sapo, .boss__art, .colo').forEach((el) => nearIO.observe(el));
+$$('.stage-sapo, .boss__art, .colo, .scan').forEach((el) => nearIO.observe(el));
+
+/* ---------------- the pen: frames, underlines, sliders ---------------- */
+// every figure stage and game screen gets its hand-drawn rectangle; it draws
+// itself once, the first time it comes into view
+const drawIO = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add(e.target.matches('.ink-frame') ? 'is-drawn' : 'is-seen');
+    drawIO.unobserve(e.target);
+  });
+}, { threshold: 0.2 });
+$$('.plate__stage, .game__media').forEach((el, i) => {
+  const f = inkFrame(el, seedOf((el.closest('[id]')?.id || '') + i), el.matches('.game__media') ? 5 : 7);
+  drawIO.observe(f);
+});
+$$('.u').forEach((el) => drawIO.observe(el));
+// sliders: the filled part of the track is a biro stroke
+const fillRange = (el) => {
+  const min = Number(el.min || 0), max = Number(el.max || 100);
+  el.style.setProperty('--p', ((Number(el.value) - min) / (max - min)) * 100 + '%');
+};
+$$('input[type="range"]').forEach((el) => { fillRange(el); el.addEventListener('input', () => fillRange(el)); });
 
 /* ---------------- figures ---------------- */
 const figs = {

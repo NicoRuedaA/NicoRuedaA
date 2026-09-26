@@ -6,6 +6,7 @@
 // found, the tile is queued again so its neighbours get the cheaper cost too.
 // Movement is two clicks, as in the original: preview the path, click again to move.
 import { tokens, onTheme, onLang, reducedMotion, fitCanvas, t } from './core.js';
+import { pen, seedOf } from './pen.js';
 
 const COST = { road: 5, default: 10, difficult: 15 };
 const DIRS = [[1, 0], [1, -1], [0, -1], [-1, 0], [-1, 1], [0, 1]]; // Axial.cs neighbour order
@@ -121,78 +122,95 @@ export function mount(fig) {
     const oy = (h - (maxY - minY) * s) / 2 - minY * s;
     return { s, side, cx: (tl) => ox + s * X(tl), cy: (tl) => oy + s * Y(tl) };
   }
-  function hexPath(ctx, x, y, s, side) {
+  function corners(x, y, s, side) {
     const off = side ? 0 : -30;
-    ctx.beginPath();
-    for (let i = 0; i < 6; i++) {
+    return Array.from({ length: 6 }, (_, i) => {
       const a = (Math.PI / 180) * (60 * i + off);
-      const px = x + s * Math.cos(a), py = y + s * Math.sin(a);
-      i ? ctx.lineTo(px, py) : ctx.moveTo(px, py);
-    }
+      return [x + s * Math.cos(a), y + s * Math.sin(a)];
+    });
+  }
+  function hexPath(ctx, x, y, s, side) {
+    ctx.beginPath();
+    corners(x, y, s, side).forEach(([px, py], i) => (i ? ctx.lineTo(px, py) : ctx.moveTo(px, py)));
     ctx.closePath();
   }
 
+  // Drawn like the hex clusters in his notebook (03): one pencil stroke per
+  // edge that runs a little past each corner, numbers written inside.
   function draw() {
     const { ctx, w, h } = view;
     if (!w || !result) return;
     ctx.clearRect(0, 0, w, h);
     const { s, side, cx, cy } = geom();
-    const dark = tok.dark;
+    const P = pen(ctx);
     const shown = new Set();
     const n = Math.ceil(result.order.length * revealT);
     for (let i = 0; i < n; i++) shown.add(result.order[i]);
     const path = preview ? pathTo(preview) : [];
-    const labelPx = Math.max(10, Math.round(s * 0.36));
+    const labelPx = Math.max(10, Math.round(s * 0.34));
+    const bounds = (x, y) => [x - s, y - s, s * 2, s * 2];
+
+    // terrain first, under the grid
     for (const tl of tiles.values()) {
       const x = cx(tl), y = cy(tl), k = key(tl.q, tl.r);
-      hexPath(ctx, x, y, s * 0.96, side);
-      let fill = dark ? '#12161d' : tok.sheet2;
-      if (tl.type === 'road') fill = dark ? '#1d2430' : '#d7dce3';
-      if (tl.type === 'difficult') fill = dark ? '#16241c' : '#cfd8cf';
-      if (tl.type === 'obstacle') fill = dark ? '#4a5366' : tok.ink2;
-      ctx.fillStyle = fill; ctx.fill();
-      if (tl.type === 'difficult') { // hatch
-        ctx.save(); hexPath(ctx, x, y, s * 0.96, side); ctx.clip();
-        ctx.strokeStyle = dark ? 'rgba(74,222,128,.28)' : 'rgba(23,113,74,.35)'; ctx.lineWidth = 1;
-        for (let d = -s; d < s; d += 5) { ctx.beginPath(); ctx.moveTo(x + d, y - s); ctx.lineTo(x + d + s, y + s); ctx.stroke(); }
-        ctx.restore();
+      P.reseed(seedOf('t' + k));
+      if (tl.type === 'obstacle') {
+        P.hatch((c) => hexPath(c, x, y, s * 0.9, side), 3, { bounds: bounds(x, y), color: tok.ink, gap: 3.6, alpha: 0.85, w: 0.9 });
+      } else if (tl.type === 'difficult') {
+        P.hatch((c) => hexPath(c, x, y, s * 0.9, side), 1, { bounds: bounds(x, y), color: tok.pencil, gap: 4.5, alpha: 0.9, w: 0.9 });
+      } else if (tl.type === 'road') {
+        // a dashed track along the lower part of the cell, clear of the cost written in the middle
+        const [ax, ay, bx, by] = side ? [x + s * 0.5, y - s * 0.4, x + s * 0.5, y + s * 0.4] : [x - s * 0.4, y + s * 0.5, x + s * 0.4, y + s * 0.5];
+        P.line(ax, ay, bx, by, { color: tok.pencil, w: 1.3, dash: [3, 3], over: [0, 0] });
       }
-      if (tl.type === 'road') { // dashed centre line
-        ctx.strokeStyle = dark ? 'rgba(255,194,71,.35)' : 'rgba(138,90,0,.45)'; ctx.setLineDash([3, 3]); ctx.lineWidth = 1.2;
-        ctx.beginPath(); ctx.moveTo(x - s * 0.55, y); ctx.lineTo(x + s * 0.55, y); ctx.stroke(); ctx.setLineDash([]);
+    }
+    // the grid: every edge once, in pencil
+    const done = new Set();
+    for (const tl of tiles.values()) {
+      const cs = corners(cx(tl), cy(tl), s, side);
+      for (let i = 0; i < 6; i++) {
+        const a = cs[i], b = cs[(i + 1) % 6];
+        const ek = [Math.round((a[0] + b[0]) * 2), Math.round((a[1] + b[1]) * 2)].join(',');
+        if (done.has(ek)) continue;
+        done.add(ek);
+        P.reseed(seedOf('e' + ek));
+        P.line(a[0], a[1], b[0], b[1], { color: tok.pencil, w: 1, over: [0.5 + P.r(), 0.5 + P.r() * 1.5], bow: 0.01 });
       }
-      if (shown.has(k)) {
-        ctx.fillStyle = dark ? 'rgba(92,200,255,.16)' : 'rgba(36,55,160,.12)';
-        hexPath(ctx, x, y, s * 0.96, side); ctx.fill();
-      }
-      if (tl.type === 'obstacle') { ctx.strokeStyle = dark ? tok.ink3 : tok.ink2; ctx.lineWidth = 1.4; }
-      else { ctx.strokeStyle = shown.has(k) ? tok.ally : (dark ? '#262b35' : tok.rule); ctx.lineWidth = shown.has(k) ? 1.4 : 1; }
-      hexPath(ctx, x, y, s * 0.96, side); ctx.stroke();
-      if (shown.has(k) && s > 11) {
-        ctx.fillStyle = tok.ink2; ctx.font = `${labelPx}px "Martian Mono", monospace`;
+    }
+    // reachable tiles: an inner biro outline and the cost written inside
+    for (const tl of tiles.values()) {
+      const k = key(tl.q, tl.r);
+      if (!shown.has(k)) continue;
+      const x = cx(tl), y = cy(tl);
+      P.reseed(seedOf('r' + k));
+      P.poly(corners(x, y, s * 0.78, side), true, { color: tok.pen, w: 1.3, over: [0.3, 1.2] });
+      if (s > 11 && !(tl.q === unit.q && tl.r === unit.r)) {
+        ctx.font = `${labelPx}px "Martian Mono", monospace`;
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        ctx.fillText(String(result.cost.get(k)), x, y + s * 0.42);
-      }
-      if (k === cursor && document.activeElement === stage) {
-        ctx.strokeStyle = tok.marker; ctx.lineWidth = 2.5; hexPath(ctx, x, y, s * 0.82, side); ctx.stroke();
+        ctx.fillStyle = tok.pen;
+        ctx.fillText(String(result.cost.get(k)), x, y + 1);
       }
     }
-    // path preview in marker, as in his sketch
+    // keyboard cursor: a garnet ring that doesn't quite close
+    if (document.activeElement === stage) {
+      const tl = tiles.get(cursor);
+      P.reseed(seedOf('c' + cursor));
+      P.ring(cx(tl), cy(tl), s * 0.72, { color: tok.red, w: 2 });
+    }
+    // path preview in garnet, ending in his open arrowhead
     if (path.length > 1) {
-      ctx.strokeStyle = tok.marker; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-      ctx.beginPath();
-      path.forEach((k, i) => { const tl = tiles.get(k); i ? ctx.lineTo(cx(tl), cy(tl)) : ctx.moveTo(cx(tl), cy(tl)); });
-      ctx.stroke();
-      const last = tiles.get(path[path.length - 1]);
-      ctx.beginPath(); ctx.arc(cx(last), cy(last), s * 0.28, 0, Math.PI * 2); ctx.stroke();
+      const pts = path.map((k) => { const tl = tiles.get(k); return [cx(tl), cy(tl)]; });
+      P.reseed(seedOf('p' + path.join('|')));
+      P.path(pts, { color: tok.red, w: 2.4 });
+      const [x1, y1] = pts[pts.length - 1], [x0, y0] = pts[pts.length - 2];
+      P.head(x1, y1, Math.atan2(y1 - y0, x1 - x0), s * 0.42, { color: tok.red, w: 2.4 });
     }
-    // the unit
+    // the unit: a stick figure, as in his storyboards (05)
     const u = at(unit.q, unit.r);
-    ctx.fillStyle = tok.ally; ctx.strokeStyle = dark ? '#fff' : tok.sheet2; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.arc(cx(u), cy(u), s * 0.46, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-    ctx.fillStyle = dark ? '#0a0c10' : '#fff';
-    ctx.font = `600 ${Math.max(9, Math.round(s * 0.34))}px "Martian Mono", monospace`;
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('d20', cx(u), cy(u) + 1);
+    ctx.fillStyle = tok.paper;
+    hexPath(ctx, cx(u), cy(u), s * 0.7, side); ctx.fill();
+    P.reseed(20026);
+    P.stick(cx(u), cy(u), s * 1.15, { color: tok.ink, w: 1.8 });
   }
 
   const plural = (n, es1, esN, en1, enN) => t(`${n} ${n === 1 ? es1 : esN}`, `${n} ${n === 1 ? en1 : enN}`);

@@ -4,6 +4,7 @@
 // greedy mesh → AO) in a Web Worker. This file only projects and paints the
 // quads it returns.
 import { tokens, onTheme, onLang, reducedMotion, fitCanvas, visibleLoop, loadScript, fmt, t } from './core.js';
+import { hatchPatterns } from './pen.js';
 
 const SRC_IMG = 'assets/data/sapo64.png';
 const SRC_JS = 'assets/vendor/voxel.js';
@@ -148,12 +149,13 @@ export async function mount(fig) {
   }));
 
   // ---------- projection + painting ----------
-  let tok, paperRGB, strokeCol;
+  // Painted like a page of the notebook: the sprite's colours as a light wash,
+  // tone as 60° biro hatching (sparse, dense, crossed), edges in biro.
+  let tok, paperRGB, penRGB, pats = [null], patKey = '';
   const readTokens = () => {
     tok = tokens();
     paperRGB = hexRGB(tok.paper);
-    const a = hexRGB(tok.ally);
-    strokeCol = tok.dark ? 'rgba(92,200,255,0.22)' : `rgba(${a[0]},${a[1]},${a[2]},0.55)`;
+    penRGB = hexRGB(tok.pen);
   };
   readTokens();
   const view = fitCanvas(canvas, () => { state.dirty = true; draw(); });
@@ -161,10 +163,14 @@ export async function mount(fig) {
   function norm(v) { const l = Math.hypot(...v); return v.map((x) => x / l); }
   let P = new Float32Array(0); // projected corners, reused between frames
   const items = [];
+  let slow = 0; // frames that took too long: hatching pauses while moving
 
-  function draw() {
-    const { ctx, w, h } = view;
+  function draw(moving = false) {
+    const { ctx, w, h, dpr } = view;
     if (!w) return;
+    const k0 = tok.pen + dpr;
+    if (patKey !== k0) { pats = hatchPatterns(ctx, tok.pen, dpr, 4.5); patKey = k0; }
+    const t0 = performance.now();
     ctx.clearRect(0, 0, w, h);
     const cy = Math.cos(state.yaw), sy = Math.sin(state.yaw);
     const cp = Math.cos(state.pitch), sp = Math.sin(state.pitch);
@@ -197,18 +203,18 @@ export async function mount(fig) {
 
     const dark = tok.dark;
     const [pr, pg, pb] = paperRGB;
+    const hatchOn = !(moving && slow > 2);
+    const wash = dark ? 0.66 : 0.58; // how much of the sprite colour survives on the page
     ctx.lineJoin = 'round';
-    ctx.lineWidth = dark ? 0.6 : 0.7;
-    ctx.strokeStyle = strokeCol;
+    ctx.lineWidth = 0.7;
+    ctx.strokeStyle = `rgba(${penRGB[0]},${penRGB[1]},${penRGB[2]},${dark ? 0.5 : 0.62})`;
     for (const it of items) {
       const { f, i } = it;
       const base = palette[f.color] || [128, 128, 128];
       const diff = Math.max(0, -(it.n0 * L[0] + it.n1 * L[1] + it.n2 * L[2]));
       const ao = f.ao ? (f.ao[0] + f.ao[1] + f.ao[2] + f.ao[3]) / 4 : 1;
-      let k = 0.62 + (dark ? 0.78 : 0.5) * diff;
-      k *= 0.55 + 0.45 * ao;
-      let r = Math.min(255, base[0] * k), g = Math.min(255, base[1] * k), b = Math.min(255, base[2] * k);
-      if (!dark) { r = r * 0.88 + pr * 0.12; g = g * 0.88 + pg * 0.12; b = b * 0.88 + pb * 0.12; } // marker wash on paper
+      const lum = (0.2126 * base[0] + 0.7152 * base[1] + 0.0722 * base[2]) / 255;
+      const tone = lum * (0.45 + 0.75 * diff) * (0.6 + 0.4 * ao); // 0 dark … 1 light
       const o = i * 12;
       ctx.beginPath();
       ctx.moveTo(P[o], P[o + 1]);
@@ -216,14 +222,24 @@ export async function mount(fig) {
       ctx.lineTo(P[o + 6], P[o + 7]);
       ctx.lineTo(P[o + 9], P[o + 10]);
       ctx.closePath();
+      const lift = 0.8 + 0.35 * diff;
+      const r = Math.min(255, base[0] * lift) * wash + pr * (1 - wash);
+      const g = Math.min(255, base[1] * lift) * wash + pg * (1 - wash);
+      const b = Math.min(255, base[2] * lift) * wash + pb * (1 - wash);
       ctx.fillStyle = `rgb(${r | 0},${g | 0},${b | 0})`;
       ctx.fill();
-      ctx.stroke(); // Boceto: inked with the biro · Motor: faint wireframe
+      if (hatchOn) {
+        const lvl = tone > 0.42 ? 0 : tone > 0.3 ? 1 : tone > 0.17 ? 2 : 3;
+        if (lvl) { ctx.fillStyle = pats[lvl]; ctx.fill(); }
+      }
+      ctx.stroke();
     }
     ctx.fillStyle = tok.ink3;
     ctx.font = '11px "Martian Mono", monospace';
     ctx.fillText(`yaw ${Math.round((state.yaw * 180) / Math.PI)}°  ·  z ×${ez.toFixed(2)}`, 12, h - 12);
     state.dirty = false;
+    const ms = performance.now() - t0;
+    slow = ms > 14 ? slow + 1 : Math.max(0, slow - 1);
   }
 
   // ---------- interaction ----------
@@ -275,8 +291,10 @@ export async function mount(fig) {
       state.yaw += state.vy; state.vy *= 0.9; state.dirty = true; moving = true;
     }
     if (rm) state.extrude = 1;
-    if (state.dirty) draw();
-    return moving || !!drag || (!rm && now < state.swayUntil);
+    const going = moving || !!drag;
+    if (state.dirty) draw(going);
+    if (!going && slow > 2) { slow = 0; draw(false); } // at rest the hatching always comes back
+    return going || (!rm && now < state.swayUntil);
   });
 
   onTheme(() => { readTokens(); state.dirty = true; draw(); });

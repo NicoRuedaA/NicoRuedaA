@@ -1,8 +1,11 @@
 // FIG. 2 — replay of a real AI-vs-AI match recorded from Nico's Rust/WASM
 // match engine (seed 20026). The data file holds the leaders' sampled
 // positions (every 30 ticks), the lanes and the buildings.
-// Motor theme: live trails that persist and fade. Boceto theme: the full ink record.
+// Drawn like a page of his notebook: pencil lanes, biro squares for one team,
+// garnet triangles for the other, × for what falls.
+// Tinta theme: the trails fade as they age. Papel theme: the full ink record.
 import { tokens, onTheme, onLang, reducedMotion, fitCanvas, visibleLoop, t, fmt } from './core.js';
+import { pen, seedOf } from './pen.js';
 
 const SPEED = 300; // ticks per second of wall time (10× real time)
 const LAST = 9000;
@@ -49,38 +52,35 @@ export async function mount(fig) {
     const g = c.getContext('2d');
     g.setTransform(dpr, 0, 0, dpr, 0, 0);
     const { s, X, Y } = xf();
-    // grid, like the plate's graph paper
-    g.strokeStyle = tok.rule2; g.lineWidth = 1;
-    const step = 50 * s;
-    for (let x = X(bx0) % step; x < w; x += step) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, h); g.stroke(); }
-    for (let y = Y(by0) % step; y < h; y += step) { g.beginPath(); g.moveTo(0, y); g.lineTo(w, y); g.stroke(); }
-    // lanes as corridors
+    // lanes as a road drawn in pencil: a wide stroke with its middle rubbed out
     g.lineCap = 'round'; g.lineJoin = 'round';
+    const lw = Math.max(8, 20 * s);
     for (const lane of data.lanes) {
-      g.strokeStyle = tok.dark ? '#1b2029' : tok.rule;
-      g.lineWidth = Math.max(6, 22 * s);
-      g.beginPath();
-      lane.points.forEach(([x, y], i) => (i ? g.lineTo(X(x), Y(y)) : g.moveTo(X(x), Y(y))));
-      g.stroke();
+      const trace = () => { g.beginPath(); lane.points.forEach(([x, y], i) => (i ? g.lineTo(X(x), Y(y)) : g.moveTo(X(x), Y(y)))); };
+      g.globalCompositeOperation = 'source-over';
+      g.strokeStyle = tok.pencil; g.lineWidth = lw; trace(); g.stroke();
+      g.globalCompositeOperation = 'destination-out';
+      g.lineWidth = lw - 2; trace(); g.stroke();
     }
+    g.globalCompositeOperation = 'source-over';
+    // the buildings' outlines never change: draw them once
+    const P = pen(g);
+    for (const b of data.buildings) building(P, b, X, Y);
     return c;
   }
 
-  function drawBuilding(ctx, b, X, Y, down) {
-    const x = X(b.x), y = Y(b.y);
-    const r = b.cat === 'castle' ? 7 : b.cat.startsWith('turret') ? 3.5 : 4.5;
-    const col = b.team === 'blue' ? tok.ally : b.team === 'red' ? tok.rival : tok.ink3;
-    ctx.lineWidth = 1.4;
-    ctx.strokeStyle = col;
-    ctx.fillStyle = tok.dark ? 'rgba(10,12,16,.9)' : tok.sheet2;
-    ctx.beginPath();
-    if (b.team === 'red') { ctx.moveTo(x, y - r * 1.15); ctx.lineTo(x + r * 1.1, y + r * 0.85); ctx.lineTo(x - r * 1.1, y + r * 0.85); ctx.closePath(); }
-    else if (b.team === 'blue') { ctx.rect(x - r, y - r, r * 2, r * 2); }
-    else { ctx.arc(x, y, r, 0, Math.PI * 2); }
-    ctx.fill(); ctx.stroke();
-    if (down) {
-      ctx.strokeStyle = tok.ink2; ctx.lineWidth = 1.5;
-      ctx.beginPath(); ctx.moveTo(x - r - 2, y - r - 2); ctx.lineTo(x + r + 2, y + r + 2); ctx.moveTo(x + r + 2, y - r - 2); ctx.lineTo(x - r - 2, y + r + 2); ctx.stroke();
+  function size(b) { return b.cat === 'castle' ? 7 : b.cat.startsWith('turret') ? 3.6 : 4.8; }
+  // his notation: □ for one side, △ for the other, ○ for the neutral camps
+  function building(P, b, X, Y) {
+    const x = X(b.x), y = Y(b.y), r = size(b);
+    P.reseed(seedOf(b.id || `${b.x},${b.y}`));
+    if (b.team === 'blue') {
+      P.hatch((c) => c.rect(x - r, y - r, r * 2, r * 2), 2, { bounds: [x - r, y - r, r * 2, r * 2], color: tok.pen, gap: 3, alpha: 0.7, w: 0.7 });
+      P.box(x - r, y - r, r * 2, r * 2, { color: tok.pen, w: 1.4, over: [0.5, 1.5] });
+    } else if (b.team === 'red') {
+      P.poly([[x, y - r * 1.2], [x + r * 1.15, y + r * 0.9], [x - r * 1.15, y + r * 0.9]], true, { color: tok.red, w: 1.4, over: [0.5, 1.5] });
+    } else {
+      P.ring(x, y, r, { color: tok.pencil, w: 1.1 });
     }
   }
 
@@ -91,29 +91,30 @@ export async function mount(fig) {
     ctx.clearRect(0, 0, w, h);
     ctx.drawImage(staticLayer, 0, 0, w, h);
     const { X, Y } = xf();
-    for (const b of data.buildings) drawBuilding(ctx, b, X, Y, b.until != null && tick >= b.until);
+    const P = pen(ctx);
+    for (const b of data.buildings) {
+      if (b.until != null && tick >= b.until) {
+        P.reseed(seedOf('x' + (b.id || `${b.x},${b.y}`)));
+        P.cross(X(b.x), Y(b.y), size(b) + 2.5, { color: tok.ink, w: 1.5 });
+      }
+    }
 
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
     const dark = tok.dark;
     for (const l of lives) {
       const pts = l.pts;
       if (!pts.length || pts[0][0] > tick) continue;
-      const col = l.ally ? tok.ally : tok.rival;
+      const col = l.ally ? tok.pen : tok.red;
       if (dark) {
-        // phosphor persistence: old segments dim to a burn-in floor, the last seconds glow
-        ctx.globalCompositeOperation = 'lighter';
+        // Tinta: old segments fade to a faint floor, the last half-minute stays sharp
         for (let i = 1; i < pts.length && pts[i][0] <= tick; i++) {
           const age = (tick - pts[i][0]) / 900; // 30 s of game time
-          const a = Math.max(0.16, 1 - age);
-          ctx.strokeStyle = col;
-          ctx.globalAlpha = a * 0.22; ctx.lineWidth = 6; ctx.setLineDash([]);
+          ctx.globalAlpha = Math.max(0.18, 1 - age);
+          ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.setLineDash(l.ally ? [] : [5, 3]);
           ctx.beginPath(); ctx.moveTo(X(pts[i - 1][1]), Y(pts[i - 1][2])); ctx.lineTo(X(pts[i][1]), Y(pts[i][2])); ctx.stroke();
-          ctx.globalAlpha = a; ctx.lineWidth = 1.6; ctx.setLineDash(l.ally ? [] : [5, 3]);
-          ctx.stroke();
-          ctx.setLineDash([]);
         }
+        ctx.setLineDash([]);
         ctx.globalAlpha = 1;
-        ctx.globalCompositeOperation = 'source-over';
       } else {
         ctx.strokeStyle = col; ctx.lineWidth = 1.35; ctx.globalAlpha = 0.9;
         ctx.setLineDash(l.ally ? [] : [5, 3]);
@@ -127,12 +128,12 @@ export async function mount(fig) {
         ctx.setLineDash([]);
         ctx.globalAlpha = 1;
         // minute marks, as a printed record would have
-        ctx.fillStyle = col; ctx.font = '9px "Martian Mono", monospace';
+        ctx.fillStyle = col; ctx.font = '10px "Martian Mono", monospace';
         for (let i = 0; i < pts.length && pts[i][0] <= tick; i++) {
           if (pts[i][0] % 1800 === 0) {
             const x = X(pts[i][1]), y = Y(pts[i][2]);
             ctx.beginPath(); ctx.arc(x, y, 2.2, 0, Math.PI * 2); ctx.fill();
-            ctx.fillText(`${pts[i][0] / 1800}:00`, x + 4, y - 4);
+            ctx.fillText(`${pts[i][0] / 1800}'`, x + 4, y - 4);
           }
         }
       }
@@ -144,15 +145,13 @@ export async function mount(fig) {
       let x = cur[1], y = cur[2];
       if (nx && nx[0] > tick) { const k = (tick - cur[0]) / (nx[0] - cur[0]); x += (nx[1] - x) * k; y += (nx[2] - y) * k; }
       const dead = pts[pts.length - 1][0] < LAST && tick >= pts[pts.length - 1][0];
+      P.reseed(seedOf(l.id || String(l.pts[0][0])));
       if (dead) {
-        ctx.strokeStyle = col; ctx.lineWidth = 2;
-        const px = X(x), py = Y(y);
-        ctx.beginPath(); ctx.moveTo(px - 5, py - 5); ctx.lineTo(px + 5, py + 5); ctx.moveTo(px + 5, py - 5); ctx.lineTo(px - 5, py + 5); ctx.stroke();
+        P.cross(X(x), Y(y), 4.5, { color: col, w: 1.8 });
       } else {
-        ctx.fillStyle = dark ? '#fff' : tok.sheet2;
-        ctx.strokeStyle = col; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.arc(X(x), Y(y), dark ? 3.2 : 3.6, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-        if (dark) { ctx.fillStyle = col; ctx.globalAlpha = 0.25; ctx.beginPath(); ctx.arc(X(x), Y(y), 9, 0, Math.PI * 2); ctx.fill(); ctx.globalAlpha = 1; }
+        ctx.fillStyle = tok.paper;
+        ctx.beginPath(); ctx.arc(X(x), Y(y), 3.6, 0, Math.PI * 2); ctx.fill();
+        P.ring(X(x), Y(y), 3.8, { color: col, w: 1.8, closed: true });
       }
     }
     // readout
@@ -166,6 +165,7 @@ export async function mount(fig) {
     }
     readout.textContent = `tick ${fmt(tick)} / ${fmt(LAST)} · ${mm}:${ss}` + (ff ? t(' · sin movimiento, avance rápido', ' · no movement, fast-forward') : '') + end;
     scrub.value = String(tick);
+    scrub.style.setProperty('--p', (tick / LAST) * 100 + '%');
     scrub.setAttribute('aria-valuetext', t(`Tick ${tick} de ${LAST}, minuto ${mm}:${ss}`, `Tick ${tick} of ${LAST}, minute ${mm}:${ss}`));
   }
 

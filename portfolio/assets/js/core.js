@@ -25,6 +25,7 @@ export function tokens() {
     ink: g('--ink'), ink2: g('--ink-2'), ink3: g('--ink-3'),
     ally: g('--ally'), rival: g('--rival'), marker: g('--marker'), markerInk: g('--marker-ink'),
     ok: g('--ok'), hand: g('--hand'),
+    pen: g('--pen'), red: g('--red'), pencil: g('--pencil'),
     dark: theme() === 'dark',
   };
 }
