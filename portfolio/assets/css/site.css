@@ -504,6 +504,9 @@ input[type="range"] { accent-color: var(--marker); min-height: 32px; width: min(
 .case > .standfirst { grid-column: 8 / -1; grid-row: 2; margin-bottom: -10px; }
 .case__fig { grid-row: 2 / span 2; }
 .case__body { grid-column: 8 / -1; grid-row: 3; align-self: start; display: flex; flex-direction: column; gap: 18px; }
+/* the tall figure spans rows 2–3; a flexible last row takes all its extra height,
+   so the standfirst row stays as tall as its text */
+@media (min-width: 1021px) { .case { grid-template-rows: auto auto 1fr; } }
 .case__under { margin-top: 22px; display: flex; flex-direction: column; gap: 18px; }
 .standfirst { font-size: 1.12rem; line-height: 1.55; }
 .pdr { display: flex; flex-direction: column; gap: 14px; }
@@ -603,6 +606,7 @@ input[type="range"] { accent-color: var(--marker); min-height: 32px; width: min(
 .bytes__drop.is-over { border-color: var(--marker); background: color-mix(in srgb, var(--marker) 8%, transparent); }
 .bytes__out { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: center; min-height: 96px; }
 .hex { font-family: var(--f-mono); font-size: .8rem; line-height: 1.7; word-break: break-all; }
+.hex span { display: inline-block; } /* a byte never splits across lines */
 .hex .m { background: color-mix(in srgb, var(--ok) 22%, transparent); outline: 1px solid var(--ok); }
 .hex .x { background: color-mix(in srgb, var(--rival) 20%, transparent); outline: 1px solid var(--rival); }
 .stamp {
@@ -672,7 +676,7 @@ input[type="range"] { accent-color: var(--marker); min-height: 32px; width: min(
 .mtg__bar .t i { position: absolute; top: 0; bottom: 0; background: var(--ally); transition: width .5s cubic-bezier(.2,.8,.2,1), left .5s; }
 .mtg__bar .t .zero { position: absolute; top: -3px; bottom: -3px; width: 1px; background: var(--ink-3); }
 .mtg__card { display: flex; justify-content: space-between; gap: 10px; align-items: center; border-top: 1px solid var(--rule); padding-top: 8px; font-size: .86rem; }
-.mtg__card b { font-family: var(--f-mono); font-size: 1rem; }
+.mtg__card b { font-family: var(--f-mono); font-size: 1rem; white-space: nowrap; }
 .ci { display: grid; gap: 6px; border: 1px solid var(--rule); background: #0e1116; color: #d7dde8; padding: 10px; font-family: var(--f-mono); font-size: .68rem; }
 .ci div { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
 .ci .pill { padding: 1px 8px; border-radius: 99px; font-size: .6rem; color: #0b0d10; font-weight: 600; }
@@ -859,6 +863,7 @@ html.hitbox body :focus-visible, html.hitbox body .bytes__pick:focus-within { ou
 .races div { display: grid; grid-template-columns: 4.8rem repeat(5, minmax(0, 1fr)); gap: 4px; align-items: center; }
 .races .hd span { text-align: center; color: var(--ink-3); }
 .races .hd span:first-child { text-align: left; }
+.races abbr { text-decoration: none; }
 .races i { font-style: normal; min-height: 22px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--rule-2); color: var(--ink-3); }
 .races i::before { content: "·"; }
 .races i[data-v]::before { content: attr(data-v); }
@@ -894,7 +899,7 @@ html.hitbox body :focus-visible, html.hitbox body .bytes__pick:focus-within { ou
 @media (max-width: 520px) { .tl .when, .tl .what { grid-column: 1 / -1; } }
 
 /* contact */
-.boss__text { grid-column: 1 / span 8; }
+@media (min-width: 901px) { .boss__text { grid-column: 1 / span 8; } }
 .boss__text .big .s { display: block; }
 .boss__text .big .s + .s { color: var(--marker-ink); }
 .links { column-gap: clamp(24px, 3vw, 40px); }
@@ -924,11 +929,15 @@ html.hitbox body :focus-visible, html.hitbox body .bytes__pick:focus-within { ou
   .plate__bar .seg[data-brushes] button { grid-column: span 2; border-left: 0; background: var(--sheet); justify-content: center; min-height: 40px; }
   .plate__bar .seg[data-brushes] button:nth-child(n+4) { grid-column: span 3; }
   .plate__bar .seg[data-brushes] button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+  /* scout grades: label on top, three equal buttons below */
+  .plate__bar .range:has([data-scout-q]) { flex: 1 0 100%; flex-wrap: wrap; gap: 6px; }
+  .plate__bar .seg[data-scout-q] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+  .plate__bar .seg[data-scout-q] button { justify-content: center; min-height: 40px; }
   /* readable floor for small print */
   .score span, .chip, .index__tags, .plate__cap .src, .quote cite, .rule blockquote cite, .bits-legend, .fig-face .code, .fig0 .axes, .ci .pill, .legend-row, .plate__hint, .scout__tag, .play__size { font-size: .75rem; }
   .plate__bar .seg button, .tgl, .range { font-size: .72rem; }
 }
-@media (max-width: 360px) { .plate__bar .seg[data-brushes] button { padding: 0 .3rem; letter-spacing: .02em; } }
+@media (max-width: 360px) { .plate__bar .seg[data-brushes] button, .plate__bar .seg[data-scout-q] button { padding: 0 .3rem; letter-spacing: .02em; } .plate__bar .seg[data-scout-q] button { white-space: nowrap; } }
 
 /* landscape phones: figures fit the screen */
 @media (orientation: landscape) and (max-height: 520px) {
