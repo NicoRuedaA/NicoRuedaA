@@ -368,13 +368,9 @@ $$('.plate__stage, .game__media').forEach((el, i) => {
   inkFrame(el, seedOf((el.closest('[id]')?.id || '') + i), el.matches('.game__media') ? 5 : 7, { w: 2 });
   drawIO.observe(el);
 });
-// buttons, toggles and framed screenshots get their own hand-drawn box
 // the ideas drawn on the computer get a screen, like the screens in his storyboards
+// (buttons, toggles and screenshots use boxes he drew, cut from his pages: see site.css)
 $$('.bk--screen .scan__img').forEach((el, i) => inkFrame(el, seedOf('screen' + i), 6, { w: 1.8 }));
-$$('.btn, .tgl, .copy, .vid__play, .chip--state, .seg button, .shot, .mtg, .ci').forEach((el, i) => {
-  const big = el.matches('.shot, .mtg, .ci');
-  inkFrame(el, seedOf((el.textContent || '').trim().slice(0, 24) + i), big ? 6 : 3.5, { w: big ? 1.8 : el.matches('.btn:not(.btn--ghost)') ? 2 : 1.4 });
-});
 $$('.u').forEach((el) => drawIO.observe(el));
 /* numbers written with his own digits (cut from the AVL-tree pages of the notebook) */
 $$('[data-hw]').forEach((el) => {
