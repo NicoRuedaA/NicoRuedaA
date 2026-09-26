@@ -1,4 +1,4 @@
-import { theme, lang, onTheme, onLang, reducedMotion, fmt, t } from './core.js';
+import { theme, lang, onTheme, onLang, reducedMotion, fmt, t, setBi } from './core.js';
 
 const root = document.documentElement;
 const $ = (s, el = document) => el.querySelector(s);
@@ -12,8 +12,7 @@ const store = {
 function syncTheme() {
   const cur = theme();
   $$('[data-set-theme]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.setTheme === cur)));
-  const meta = document.querySelectorAll('meta[name="theme-color"]');
-  meta.forEach((m) => m.setAttribute('content', cur === 'dark' ? '#0a0c10' : '#e3e7ec'));
+  $$('meta[name="theme-color"]').forEach((m) => m.setAttribute('content', cur === 'dark' ? '#0a0c10' : '#e3e7ec'));
 }
 $$('[data-set-theme]').forEach((b) => b.addEventListener('click', () => {
   const v = b.dataset.setTheme;
@@ -55,28 +54,37 @@ syncLang();
 const menu = $('#menu');
 const openBtn = $('#menu-open');
 const closeBtn = $('#menu-close');
+const background = () => $$('body > :not(#menu):not(script)');
+const onEsc = (e) => { if (e.key === 'Escape') { e.preventDefault(); closeMenu(); } };
 function openMenu() {
   menu.hidden = false;
   document.body.style.overflow = 'hidden';
+  openBtn.setAttribute('aria-expanded', 'true');
+  background().forEach((el) => { el.inert = true; });
+  document.addEventListener('keydown', onEsc);
   closeBtn.focus();
 }
 function closeMenu(focusBack = true) {
+  if (menu.hidden) return;
   menu.hidden = true;
   document.body.style.overflow = '';
+  openBtn.setAttribute('aria-expanded', 'false');
+  background().forEach((el) => { el.inert = false; }); // before focusing: inert elements can't take focus
+  document.removeEventListener('keydown', onEsc);
   if (focusBack) openBtn.focus();
 }
 openBtn?.addEventListener('click', openMenu);
 closeBtn?.addEventListener('click', () => closeMenu());
 menu?.addEventListener('click', (e) => { if (e.target.closest('a')) closeMenu(false); });
 menu?.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') { e.preventDefault(); closeMenu(); }
-  if (e.key === 'Tab') {
-    const f = $$('a, button', menu).filter((x) => x.offsetParent !== null);
-    const first = f[0], last = f[f.length - 1];
-    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-  }
+  if (e.key !== 'Tab') return;
+  const f = $$('a, button', menu).filter((x) => x.offsetParent !== null);
+  const first = f[0], last = f[f.length - 1];
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
 });
+// the sheet only exists below the nav breakpoint (site.css: max-width 980px)
+window.matchMedia('(min-width: 981px)').addEventListener?.('change', (e) => { if (e.matches) closeMenu(false); });
 
 /* ---------------- active section in the nav ---------------- */
 const navLinks = $$('.nav a');
@@ -98,48 +106,88 @@ const navIO = new IntersectionObserver((entries) => {
 sections.forEach((s) => navIO.observe(s));
 
 /* ---------------- copy buttons ---------------- */
-$$('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
-  const text = b.dataset.copy;
-  const done = () => {
-    const prev = b.innerHTML;
-    b.textContent = t('Copiado', 'Copied');
-    setTimeout(() => { b.innerHTML = prev; }, 1600);
-  };
-  try { await navigator.clipboard.writeText(text); done(); }
-  catch (e) {
-    const link = b.previousElementSibling;
-    if (link) {
-      const r = document.createRange(); r.selectNodeContents(link);
-      const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+$$('[data-copy]').forEach((b) => {
+  const orig = b.innerHTML;
+  let timer = 0;
+  b.addEventListener('click', async () => {
+    clearTimeout(timer);
+    try {
+      await navigator.clipboard.writeText(b.dataset.copy);
+      setBi(b, 'Copiado', 'Copied');
+    } catch (e) {
+      // clipboard refused: select the text so the visitor can copy it by hand
+      const target = b.previousElementSibling;
+      if (target) {
+        const r = document.createRange(); r.selectNodeContents(target);
+        const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      }
+      setBi(b, 'Selecciónalo y copia', 'Select and copy');
     }
-    b.textContent = t('Selecciónalo y copia', 'Select and copy');
-  }
-}));
+    timer = setTimeout(() => { b.innerHTML = orig; }, 2400);
+  });
+});
 
 /* ---------------- click-to-play videos (nothing downloads until asked) ---------------- */
-$$('[data-video]').forEach((btn) => btn.addEventListener('click', () => {
+const videos = new Set();
+const vidIO = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    const v = e.target.querySelector('video');
+    if (!v) return;
+    if (!e.isIntersecting && !v.paused) { v.pause(); e.target.dataset.resume = '1'; }
+    else if (e.isIntersecting && e.target.dataset.resume) { delete e.target.dataset.resume; v.play().catch(() => {}); }
+  });
+});
+$$('[data-video]').forEach((btn) => {
   const box = btn.closest('.vid');
-  let v = box.querySelector('video');
-  if (!v) {
-    v = document.createElement('video');
-    v.src = btn.dataset.video;
-    v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'auto';
-    v.setAttribute('aria-label', btn.textContent.trim());
-    box.appendChild(v);
-  }
-  if (v.paused) { v.play().catch(() => {}); box.classList.add('is-playing'); btn.querySelector('[aria-hidden]').textContent = '❚❚'; }
-  else { v.pause(); box.classList.remove('is-playing'); btn.querySelector('[aria-hidden]').textContent = '▶'; }
-}));
+  const glyph = btn.querySelector('[aria-hidden]');
+  const labels = [...btn.querySelectorAll('[lang]')].map((el) => [el, el.textContent]);
+  btn.setAttribute('aria-pressed', 'false');
+  const show = (playing) => {
+    box.classList.toggle('is-playing', playing);
+    glyph.textContent = playing ? '❚❚' : '▶';
+    btn.setAttribute('aria-pressed', String(playing));
+  };
+  const fail = () => {
+    show(false);
+    labels.forEach(([el]) => { el.textContent = el.lang === 'en' ? 'Could not play' : 'No se pudo reproducir'; });
+  };
+  vidIO.observe(box);
+  btn.addEventListener('click', () => {
+    let v = box.querySelector('video');
+    if (!v) {
+      v = document.createElement('video');
+      v.muted = true; v.loop = true; v.playsInline = true; v.preload = 'auto';
+      v.setAttribute('aria-hidden', 'true'); // the poster alt and the button already describe it
+      v.addEventListener('error', fail, { once: true });
+      v.addEventListener('click', () => btn.click());
+      v.src = btn.dataset.video;
+      box.appendChild(v);
+      videos.add(v);
+    }
+    if (v.paused) {
+      videos.forEach((o) => { if (o !== v && !o.paused) o.pause(); });
+      $$('.vid.is-playing').forEach((b) => { if (b !== box) { b.classList.remove('is-playing'); const g = b.querySelector('.vid__play [aria-hidden]'); if (g) g.textContent = '▶'; b.querySelector('.vid__play')?.setAttribute('aria-pressed', 'false'); } });
+      labels.forEach(([el, txt]) => { el.textContent = txt; });
+      v.play().then(() => show(true)).catch(fail);
+    } else {
+      v.pause(); show(false);
+    }
+  });
+});
 
 /* ---------------- sprite strips (frog idle: 4 frames @ 400 ms, as in the game) ---------------- */
 $$('[data-sprite]').forEach((el) => {
   const n = Number(el.dataset.sprite), ms = Number(el.dataset.ms || 150);
-  let i = 0, timer = 0;
-  const step = () => { i = (i + 1) % n; el.style.backgroundPosition = `${(i / (n - 1)) * 100}% 0`; };
+  let i = 0, timer = 0, steps = 0;
+  const step = () => {
+    i = (i + 1) % n; el.style.backgroundPosition = `${(i / (n - 1)) * 100}% 0`;
+    if (++steps >= n * 8) { clearInterval(timer); timer = 0; } // plays 8 loops, then rests
+  };
+  const play = () => { if (!timer && !reducedMotion()) { steps = 0; timer = setInterval(step, ms); } };
   new IntersectionObserver(([e]) => {
-    clearInterval(timer);
-    if (e.isIntersecting && !reducedMotion()) timer = setInterval(step, ms);
+    if (e.isIntersecting) play(); else { clearInterval(timer); timer = 0; }
   }).observe(el);
+  el.closest('.game__media')?.addEventListener('pointerenter', play);
 });
 
 /* ---------------- Mobalike: 100 / (100 + armor) ---------------- */
@@ -153,18 +201,17 @@ $$('[data-sprite]').forEach((el) => {
     const Y = (m) => H - pad - m * (H - pad * 2);
     let d = '';
     for (let a = 0; a <= 300; a += 5) d += (a ? 'L' : 'M') + X(a).toFixed(1) + ' ' + Y(100 / (100 + a)).toFixed(1);
-    const code = box.querySelector('code');
-    code.textContent = t('daño = bruto × 100 / (100 + armadura)', 'damage = raw × 100 / (100 + armour)');
+    box.querySelector('code').textContent = t('daño = bruto × 100 / (100 + armadura)', 'damage = raw × 100 / (100 + armour)');
     svg.innerHTML = `
       <line x1="${pad}" y1="${H - pad}" x2="${W - pad}" y2="${H - pad}" stroke="var(--rule)"/>
       <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${H - pad}" stroke="var(--rule)"/>
       <path d="${d}" fill="none" stroke="var(--ally)" stroke-width="2"/>
       <line x1="${X(100)}" y1="${Y(0.5)}" x2="${X(100)}" y2="${H - pad}" stroke="var(--marker)" stroke-dasharray="3 3"/>
       <circle cx="${X(100)}" cy="${Y(0.5)}" r="3.5" fill="var(--marker)"/>
-      <text x="${X(100) + 6}" y="${Y(0.5) - 6}" font-family="Martian Mono, monospace" font-size="9" fill="var(--ink-2)">${t('100 de armadura → 50 %', '100 armour → 50%')}</text>
-      <text x="${pad}" y="${H - 4}" font-family="Martian Mono, monospace" font-size="8" fill="var(--ink-3)">0</text>
-      <text x="${W - pad - 16}" y="${H - 4}" font-family="Martian Mono, monospace" font-size="8" fill="var(--ink-3)">300</text>
-      <text x="${pad + 4}" y="${pad + 2}" font-family="Martian Mono, monospace" font-size="8" fill="var(--ink-3)">100 %</text>`;
+      <text x="${X(100) + 6}" y="${Y(0.5) - 6}" font-family="Martian Mono, monospace" font-size="12" fill="var(--ink-2)">${t('100 de armadura → 50 %', '100 armour → 50%')}</text>
+      <text x="${pad}" y="${H - 3}" font-family="Martian Mono, monospace" font-size="11" fill="var(--ink-3)">0</text>
+      <text x="${W - pad - 22}" y="${H - 3}" font-family="Martian Mono, monospace" font-size="11" fill="var(--ink-3)">300</text>
+      <text x="${pad + 4}" y="${pad + 4}" font-family="Martian Mono, monospace" font-size="11" fill="var(--ink-3)">100 %</text>`;
   };
   draw(); onLang(draw);
 })();
@@ -224,36 +271,44 @@ $$('[data-sprite]').forEach((el) => {
   const opts = box.querySelector('[data-opts]');
   const hp = box.querySelector('[data-hp]');
   let round = 0, won = 0, lives = 3;
-  const line = (cls, txt) => { const p = document.createElement('p'); p.className = cls; p.textContent = txt; log.appendChild(p); log.scrollTop = log.scrollHeight; };
-  const bars = () => { hp.innerHTML = Array.from({ length: 3 }, (_, i) => `<i class="${i < lives ? '' : 'off'}"></i>`).join(''); };
+  // every line is written in both languages; CSS shows the active one, so a
+  // language switch never interrupts the duel
+  const line = (cls, es, en) => {
+    const p = document.createElement('p'); p.className = cls; setBi(p, es, en);
+    log.appendChild(p); log.scrollTop = log.scrollHeight;
+  };
+  const bars = () => {
+    hp.innerHTML = Array.from({ length: 3 }, (_, i) => `<i class="${i < lives ? '' : 'off'}"></i>`).join('');
+    const sr = document.createElement('span'); sr.className = 'sr-only';
+    setBi(sr, `${lives} de 3 vidas`, `${lives} of 3 lives`);
+    hp.appendChild(sr);
+  };
+  const button = (es, en, onclick) => {
+    const b = document.createElement('button'); b.type = 'button'; setBi(b, es, en); b.onclick = onclick;
+    opts.appendChild(b);
+  };
   function ask() {
+    const hadFocus = opts.contains(document.activeElement);
     opts.textContent = '';
     if (lives === 0 || round >= P.length) {
-      line('sys', lives === 0 ? t(`> El pirata huye con el orgullo intacto. Ganaste ${won} de ${P.length}.`, `> The pirate flees, pride intact. You won ${won} of ${P.length}.`)
-        : t('> El pirata se rinde. Te ofrece un puesto en su tripulación.', '> The pirate gives up and offers you a spot on his crew.'));
-      const again = document.createElement('button'); again.type = 'button';
-      again.textContent = t('Otra vez', 'Again');
-      again.onclick = () => { log.textContent = ''; round = 0; won = 0; lives = 3; bars(); ask(); };
-      opts.appendChild(again);
-      return;
-    }
-    const q = P[round][lang()];
-    line('pir', 'PIRATA> ' + q[0]);
-    const choices = [q[1], q[2]].map((txt, i) => ({ txt, ok: i === 0 }));
-    if ((round * 7) % 2) choices.reverse();
-    choices.forEach((c) => {
-      const b = document.createElement('button'); b.type = 'button'; b.textContent = c.txt;
-      b.onclick = () => {
-        line('you', t('TÚ> ', 'YOU> ') + c.txt);
-        if (c.ok) { won++; line('sys', t('> Touché.', '> Touché.')); }
-        else { lives--; line('sys', t('> El pirata se ríe. Pierdes una vida.', '> The pirate laughs. You lose a life.')); }
+      if (lives === 0) line('sys', `> El pirata huye con el orgullo intacto. Ganaste ${won} de ${P.length}.`, `> The pirate flees, pride intact. You won ${won} of ${P.length}.`);
+      else line('sys', '> El pirata se rinde. Te ofrece un puesto en su tripulación.', '> The pirate gives up and offers you a spot on his crew.');
+      button('Otra vez', 'Again', () => { log.textContent = ''; round = 0; won = 0; lives = 3; bars(); ask(); });
+    } else {
+      const q = P[round];
+      line('pir', 'PIRATA> ' + q.es[0], 'PIRATE> ' + q.en[0]);
+      const choices = [[q.es[1], q.en[1], true], [q.es[2], q.en[2], false]];
+      if (round % 2) choices.reverse();
+      choices.forEach(([es, en, ok]) => button(es, en, () => {
+        line('you', 'TÚ> ' + es, 'YOU> ' + en);
+        if (ok) { won++; line('sys', '> Touché.', '> Touché.'); }
+        else { lives--; line('sys', '> El pirata se ríe. Pierdes una vida.', '> The pirate laughs. You lose a life.'); }
         bars(); round++; ask();
-      };
-      opts.appendChild(b);
-    });
+      }));
+    }
+    if (hadFocus) opts.querySelector('button')?.focus({ preventScroll: true });
   }
   bars(); ask();
-  onLang(() => { log.textContent = ''; round = 0; won = 0; lives = 3; bars(); ask(); });
 })();
 
 /* ---------------- hitbox mode ---------------- */
@@ -269,14 +324,28 @@ function weight() {
   const el = $('[data-weight]');
   if (!el || !performance.getEntriesByType) return;
   const entries = [...performance.getEntriesByType('navigation'), ...performance.getEntriesByType('resource')];
-  const bytes = entries.reduce((s, e) => s + (e.transferSize || e.encodedBodySize || 0), 0);
-  if (!bytes) { el.textContent = ''; return; }
-  el.textContent = t(`Esta visita ha transferido ${fmt(Math.round(bytes / 1024))} KB hasta ahora.`, `This visit has transferred ${fmt(Math.round(bytes / 1024))} KB so far.`);
+  let sent = 0, cached = 0;
+  for (const e of entries) {
+    if (e.transferSize > 0) sent += e.transferSize;
+    else if (e.decodedBodySize > 0) cached += e.encodedBodySize || e.decodedBodySize;
+  }
+  if (!sent && !cached) { el.textContent = ''; return; }
+  const kb = (b) => fmt(Math.round(b / 1024));
+  setBi(el,
+    `Esta visita ha transferido ${kb(sent)} KB hasta ahora${cached ? ` (y ${kb(cached)} KB desde la caché)` : ''}.`,
+    `This visit has transferred ${kb(sent)} KB so far${cached ? ` (plus ${kb(cached)} KB from cache)` : ''}.`);
 }
 window.addEventListener('load', () => setTimeout(weight, 1500));
-onLang(weight);
+const wEl = $('[data-weight]');
+if (wEl) new IntersectionObserver(([e]) => { if (e.isIntersecting) weight(); }).observe(wEl);
 
-/* ---------------- figures: mounted only when they come near the screen ---------------- */
+/* ---------------- below-the-fold art: fetch only when near ---------------- */
+const nearIO = new IntersectionObserver((entries) => {
+  entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-near'); nearIO.unobserve(e.target); } });
+}, { rootMargin: '600px 0px' });
+$$('.stage-sapo, .boss__art, .colo').forEach((el) => nearIO.observe(el));
+
+/* ---------------- figures ---------------- */
 const figs = {
   voxel: () => import('./fig-voxel.js'),
   scout: () => import('./fig-scout.js'),
@@ -285,16 +354,19 @@ const figs = {
   hex: () => import('./fig-hex.js'),
   bytes: () => import('./fig-bytes.js'),
 };
-const io = new IntersectionObserver((entries) => {
-  entries.forEach((e) => {
-    if (!e.isIntersecting) return;
-    io.unobserve(e.target);
-    const kind = e.target.dataset.fig;
-    figs[kind]?.().then((m) => m.mount(e.target)).catch((err) => {
-      console.error(err);
-      const ro = e.target.querySelector('[data-readout]');
-      if (ro) ro.textContent = t('No se pudo cargar esta figura.', 'This figure could not load.');
-    });
+function mountFig(el) {
+  const kind = el.dataset.fig;
+  figs[kind]?.().then((m) => m.mount(el)).catch((err) => {
+    console.error(err);
+    const ro = el.querySelector('[data-readout]');
+    if (ro) setBi(ro, 'No se pudo cargar esta figura.', 'This figure could not load.');
+    el.querySelectorAll('button, input, select').forEach((x) => { x.disabled = true; });
   });
+}
+// DOM-only figures mount at once so the page doesn't grow under an anchor jump;
+// the canvas ones wait until they come near the screen.
+const EAGER = new Set(['scout', 'face', 'bytes']);
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e) => { if (e.isIntersecting) { io.unobserve(e.target); mountFig(e.target); } });
 }, { rootMargin: '600px 0px' });
-$$('[data-fig]').forEach((el) => io.observe(el));
+$$('[data-fig]').forEach((el) => (EAGER.has(el.dataset.fig) ? mountFig(el) : io.observe(el)));

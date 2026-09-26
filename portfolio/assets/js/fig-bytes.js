@@ -19,9 +19,16 @@ export function mount(fig) {
   const drop = fig.querySelector('[data-drop]');
   const file = fig.querySelector('[data-file]');
   const btns = [...fig.querySelectorAll('[data-sample]')];
+  const status = fig.querySelector('[data-bytes-say]');
   let last = null;
 
-  function check(name, bytes) {
+  // head: up to 64 bytes, used only to explain *why* a file is rejected
+  const looksSvg = (bytes) => {
+    const head = new TextDecoder().decode(new Uint8Array(bytes.slice(0, 64))).replace(/^\uFEFF/, '').trimStart();
+    return /^(<\?xml|<svg|<!--|<!doctype svg)/i.test(head);
+  };
+
+  function check(name, bytes, announce) {
     last = { name, bytes };
     const hit = SIGNATURES.find(([sig]) => sig.every((b, i) => bytes[i] === b));
     const sigLen = hit ? hit[0].length : 0;
@@ -47,28 +54,31 @@ export function mount(fig) {
       why.textContent = t(`Empieza por la firma de un ${hit[1].toUpperCase()}: se guarda como .${hit[1]}, diga lo que diga la extensión.`,
         `It starts with a ${hit[1].toUpperCase()} signature: saved as .${hit[1]}, whatever the extension says.`);
     } else {
-      const isSvg = ascii.trim().startsWith('<svg') || ascii.trim().startsWith('<?xml');
-      why.textContent = isSvg
+      why.textContent = looksSvg(bytes)
         ? t(`Se llama .${ext}, pero dentro hay un SVG. Así se rompieron doce fotos en producción.`, `It is called .${ext}, but there is an SVG inside. That is how twelve photos broke in production.`)
         : t('No empieza por la firma de un JPEG ni de un PNG, así que no se guarda.', 'It does not start with a JPEG or PNG signature, so it is not saved.');
     }
+    if (announce && status) status.textContent = `${stamp.textContent}. ${why.textContent}`;
   }
 
   btns.forEach((b) => b.addEventListener('click', () => {
     const s = SAMPLES[b.dataset.sample];
     btns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-    check(s.name, s.bytes);
+    check(s.name, s.bytes, true);
   }));
   async function readFile(f) {
     if (!f) return;
-    const buf = new Uint8Array(await f.slice(0, 16).arrayBuffer());
+    const buf = new Uint8Array(await f.slice(0, 64).arrayBuffer());
     btns.forEach((x) => x.setAttribute('aria-pressed', 'false'));
-    check(f.name.slice(0, 40), [...buf]);
+    check(f.name.slice(0, 40), [...buf], true);
+    file.value = ''; // picking the same file again should work too
   }
   file.addEventListener('change', () => readFile(file.files[0]));
   ['dragenter', 'dragover'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('is-over'); }));
   ['dragleave', 'drop'].forEach((ev) => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('is-over'); }));
   drop.addEventListener('drop', (e) => readFile(e.dataTransfer.files[0]));
+  // a file dropped next to the zone must not make the browser navigate away
+  ['dragover', 'drop'].forEach((ev) => window.addEventListener(ev, (e) => { if (e.dataTransfer?.types?.includes('Files')) e.preventDefault(); }));
   onLang(() => last && check(last.name, last.bytes));
 
   // open on the case that caused the rule

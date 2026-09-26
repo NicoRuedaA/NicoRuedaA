@@ -15,6 +15,9 @@ export function mount(fig) {
   const codeEl = fig.querySelector('[data-code]');
   const bitsEl = fig.querySelector('[data-bits]');
   const legendEl = fig.querySelector('[data-bits-legend]');
+  const say = fig.querySelector('[data-face-say]');
+  const minus = fig.querySelector('[data-age="-5"]');
+  const plus = fig.querySelector('[data-age="5"]');
   let age = 24;
 
   function render() {
@@ -37,13 +40,17 @@ export function mount(fig) {
       `identityBits · 11 traits in 29 bits · age ${profile.age} (changes appearance, not identity)`,
     );
     canvas.setAttribute('aria-label', t(`Retrato generado para «${name}», ${profile.age} años`, `Portrait generated for “${name}”, age ${profile.age}`));
+    minus.disabled = age <= 16;
+    plus.disabled = age >= 60;
+    return profile;
   }
 
   let timer = 0;
   input.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(render, 60); });
   fig.querySelectorAll('[data-age]').forEach((b) => b.addEventListener('click', () => {
     age = Math.max(16, Math.min(60, age + Number(b.dataset.age)));
-    render();
+    const profile = render();
+    if (say) say.textContent = t(`Retrato actualizado: ${profile.age} años. La identidad no cambia.`, `Portrait updated: age ${profile.age}. The identity does not change.`);
   }));
   onLang(render);
   render();

@@ -68,7 +68,8 @@ export function mount(fig) {
   const marginEl = box.querySelector('[data-margin]');
   const daysEl = box.querySelector('[data-days]');
   const daysIn = fig.querySelector('#scout-days');
-  const qIn = fig.querySelector('#scout-q');
+  const qBtns = [...fig.querySelectorAll('[data-scout-q] [data-q]')];
+  let q = (qBtns.find((b) => b.getAttribute('aria-pressed') === 'true') || qBtns[1]).dataset.q;
   const realBtn = fig.querySelector('#scout-real');
 
   const rows = ATTRS.map(([id, es, en, real]) => {
@@ -83,7 +84,8 @@ export function mount(fig) {
 
   function render() {
     const days = Number(daysIn.value);
-    const [a, p] = qIn.value.split(',').map(Number);
+    const [a, p] = q.split(',').map(Number);
+    const showReal = box.classList.contains('show-real');
     const m = marginFor(a, p, days);
     marginEl.textContent = m === 0 ? t('exacto', 'exact') : '±' + m;
     daysEl.textContent = days;
@@ -94,16 +96,20 @@ export function mount(fig) {
       r.band.style.left = pos(lo) + '%';
       r.band.style.width = `max(3px, ${pos(hi) - pos(lo)}%)`;
       r.mark.style.left = pos(r.real) + '%';
-      r.val.textContent = lo === hi ? String(lo) : `${lo}–${hi}`;
-      r.row.setAttribute('aria-label', `${t(r.es, r.en)}: ${lo === hi ? lo : `${lo} – ${hi}`}`);
+      r.val.textContent = (lo === hi ? String(lo) : `${lo}–${hi}`) + (showReal && lo !== hi ? ` · ${r.real}` : '');
     }
   }
   daysIn.addEventListener('input', render);
-  qIn.addEventListener('change', render);
+  qBtns.forEach((b) => b.addEventListener('click', () => {
+    q = b.dataset.q;
+    qBtns.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    render();
+  }));
   realBtn.addEventListener('click', () => {
     const on = !box.classList.contains('show-real');
     box.classList.toggle('show-real', on);
     realBtn.setAttribute('aria-pressed', String(on));
+    render();
   });
   onLang(render);
   render();

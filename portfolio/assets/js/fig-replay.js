@@ -14,7 +14,9 @@ export async function mount(fig) {
   const scrub = fig.querySelector('[data-scrub]');
   const playBtn = fig.querySelector('[data-play]');
 
-  const data = await (await fetch('assets/data/match-20026.json')).json();
+  const res = await fetch('assets/data/match-20026.json');
+  if (!res.ok) throw new Error('match-20026.json ' + res.status);
+  const data = await res.json();
   const [bx0, by0, bx1, by1] = data.bounds;
   const lives = data.lives.map((l) => ({ ...l, ally: l.team === 'blue' }));
   // movement per sample tick, to fast-forward the idle stretches
@@ -104,15 +106,17 @@ export async function mount(fig) {
           const age = (tick - pts[i][0]) / 900; // 30 s of game time
           const a = Math.max(0.16, 1 - age);
           ctx.strokeStyle = col;
-          ctx.globalAlpha = a * 0.22; ctx.lineWidth = 6;
+          ctx.globalAlpha = a * 0.22; ctx.lineWidth = 6; ctx.setLineDash([]);
           ctx.beginPath(); ctx.moveTo(X(pts[i - 1][1]), Y(pts[i - 1][2])); ctx.lineTo(X(pts[i][1]), Y(pts[i][2])); ctx.stroke();
-          ctx.globalAlpha = a; ctx.lineWidth = 1.6;
+          ctx.globalAlpha = a; ctx.lineWidth = 1.6; ctx.setLineDash(l.ally ? [] : [5, 3]);
           ctx.stroke();
+          ctx.setLineDash([]);
         }
         ctx.globalAlpha = 1;
         ctx.globalCompositeOperation = 'source-over';
       } else {
         ctx.strokeStyle = col; ctx.lineWidth = 1.35; ctx.globalAlpha = 0.9;
+        ctx.setLineDash(l.ally ? [] : [5, 3]);
         ctx.beginPath();
         let started = false;
         for (let i = 0; i < pts.length && pts[i][0] <= tick; i++) {
@@ -120,6 +124,7 @@ export async function mount(fig) {
           if (!started) { ctx.moveTo(x, y); started = true; } else ctx.lineTo(x, y);
         }
         ctx.stroke();
+        ctx.setLineDash([]);
         ctx.globalAlpha = 1;
         // minute marks, as a printed record would have
         ctx.fillStyle = col; ctx.font = '9px "Martian Mono", monospace';
@@ -154,7 +159,12 @@ export async function mount(fig) {
     const secs = Math.floor(tick / 30);
     const mm = Math.floor(secs / 60), ss = String(secs % 60).padStart(2, '0');
     const ff = playing && !moving.get(Math.ceil(tick / 30) * 30) && tick < LAST;
-    readout.textContent = `tick ${fmt(tick)} / ${fmt(LAST)} · ${mm}:${ss}` + (ff ? t(' · sin movimiento, avance rápido', ' · no movement, fast-forward') : '') + (tick >= LAST ? t(' · fin de la traza', ' · end of trace') : '');
+    let end = '';
+    if (tick >= LAST) {
+      const down = (team) => data.buildings.filter((b) => b.team === team && b.until != null && b.until <= LAST).length;
+      end = t(` · fin: ${down('blue')} edificios azules y ${down('red')} rojos caídos`, ` · end: ${down('blue')} blue and ${down('red')} red buildings down`);
+    }
+    readout.textContent = `tick ${fmt(tick)} / ${fmt(LAST)} · ${mm}:${ss}` + (ff ? t(' · sin movimiento, avance rápido', ' · no movement, fast-forward') : '') + end;
     scrub.value = String(tick);
     scrub.setAttribute('aria-valuetext', t(`Tick ${tick} de ${LAST}, minuto ${mm}:${ss}`, `Tick ${tick} of ${LAST}, minute ${mm}:${ss}`));
   }
@@ -162,17 +172,11 @@ export async function mount(fig) {
   function setPlaying(v) {
     playing = v;
     if (playing && tick >= LAST) tick = 0;
-    playBtn.setAttribute('aria-pressed', String(playing));
     playBtn.textContent = playing ? t('Pausa', 'Pause') : tick >= LAST ? t('Repetir', 'Replay') : t('Reproducir', 'Play');
     loop.kick();
   }
   playBtn.addEventListener('click', () => setPlaying(!playing));
   scrub.addEventListener('input', () => { tick = Number(scrub.value); if (playing) setPlaying(false); draw(); });
-  stage.addEventListener('keydown', (e) => {
-    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); setPlaying(!playing); }
-    else if (e.key === 'ArrowRight') { e.preventDefault(); tick = Math.min(LAST, tick + 300); draw(); }
-    else if (e.key === 'ArrowLeft') { e.preventDefault(); tick = Math.max(0, tick - 300); draw(); }
-  });
 
   const loop = visibleLoop(stage, (dt) => {
     if (!playing) { draw(); return false; }
