@@ -1179,8 +1179,6 @@ h1, h2, .case__head h3, .boss__text .big { filter: url(#ink); }
 .bk--anatomia i.pencil { -webkit-mask-image: url(../cuaderno/p2/anatomia.webp); mask-image: url(../cuaderno/p2/anatomia.webp); }
 .bk--musculos .scan__img { aspect-ratio: 560 / 684; }
 .bk--musculos i.ink { -webkit-mask-image: url(../cuaderno/p2/musculos.webp); mask-image: url(../cuaderno/p2/musculos.webp); }
-.bk--punos .scan__img { aspect-ratio: 560 / 760; }
-.bk--punos i.pencil { -webkit-mask-image: url(../cuaderno/p2/punos.webp); mask-image: url(../cuaderno/p2/punos.webp); }
 .bk--avl .scan__img { aspect-ratio: 760 / 576; }
 .bk--avl i.black { -webkit-mask-image: url(../cuaderno/p2/avl.webp); mask-image: url(../cuaderno/p2/avl.webp); }
 .bk--tasio .scan__img { aspect-ratio: 640 / 292; }
@@ -1223,11 +1221,19 @@ h1, h2, .case__head h3, .boss__text .big { filter: url(#ink); }
 .bk--flores { grid-column: 1 / span 3; --r: .6deg; }
 .bk--cactus { grid-column: 4 / span 2; margin-top: 72px; --r: 2deg; }
 .bk--ala { grid-column: 1 / span 4; --r: -1.8deg; }
+.chars { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 36px 24px; margin-top: clamp(48px, 6vw, 88px); align-items: center; }
+.bk--lanza { grid-column: 1 / span 5; --r: -1deg; }
+.bk--lanza .scan__img { aspect-ratio: 591 / 560; }
+.bk--lanza i.ink { -webkit-mask-image: url(../cuaderno/p2/lanza-ink.webp); mask-image: url(../cuaderno/p2/lanza-ink.webp); }
+.bk--lanza i.pencil { -webkit-mask-image: url(../cuaderno/p2/lanza-pencil.webp); mask-image: url(../cuaderno/p2/lanza-pencil.webp); }
+.bk--cabezas { grid-column: 7 / -1; --r: .8deg; }
+.bk--cabezas .scan__img { aspect-ratio: 760 / 560; }
+.bk--cabezas i.pencil { -webkit-mask-image: url(../cuaderno/p2/cabezas.webp); mask-image: url(../cuaderno/p2/cabezas.webp); }
+@media (max-width: 640px) { .chars { gap: 28px 16px; } .bk--lanza { grid-column: 2 / span 10; } .bk--cabezas { grid-column: 1 / -1; } }
 .spread--studies { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 36px 24px; margin-top: clamp(40px, 5vw, 72px); align-items: start; }
 .bk--anatomia { grid-column: 1 / span 3; }
 .bk--musculos { grid-column: 4 / span 3; --r: -1deg; }
-.bk--punos { grid-column: 7 / span 2; --r: 1.2deg; }
-.bk--avl { grid-column: 9 / span 4; --r: -.6deg; }
+.bk--avl { grid-column: 7 / -1; --r: -.6deg; }
 .ideas { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 24px clamp(20px, 2.6vw, 40px); margin-top: clamp(48px, 6vw, 88px); align-items: start; }
 .ideas__head { grid-column: 1 / -1; }
 .bk--screen { grid-column: span 4; }
@@ -1237,8 +1243,7 @@ h1, h2, .case__head h3, .boss__text .big { filter: url(#ink); }
   .spread:not(.spread--studies)::before { display: none; }
   .spread--studies { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .bk--anatomia, .bk--musculos { grid-column: span 3; }
-  .bk--punos { grid-column: 1 / span 2; }
-  .bk--avl { grid-column: 3 / span 4; }
+  .bk--avl { grid-column: 1 / -1; }
   .bk--screen { grid-column: 1 / -1; max-width: 640px; }
 }
 @media (max-width: 640px) {

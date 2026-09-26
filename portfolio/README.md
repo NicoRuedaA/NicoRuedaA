@@ -11,7 +11,7 @@ El diseño gira alrededor de los cuadernos de Nico, y todo lo que puede ser de s
 - **Las rayas** que separan filas, índices y tarjetas son trazos escaneados de lápiz, boli y rotulador (`r-*.webp`, `v-pencil-*.webp`), y las frases clave llevan su **fluorescente rosa** (`hl-pink-*.webp`, de un diagrama entidad-relación).
 - **Su notación es la interfaz**: los subrayados de títulos, `->` en botones y enlaces, `└>` en problema/decisión/resultado, `?` en «lo que aún no hace» y `×` para cerrar son trazos recortados de sus páginas.
 - **Los marcos y los dibujos de las figuras los traza el código** (`assets/js/pen.js`) imitando cómo dibuja: cada lado es un trazo relleno con presión (entra fino, engorda y sale en cola) que se pasa de la esquina; sombreado a 60°, monigotes y hexágonos como los del cuaderno. Todo con semilla, así que un redibujado es siempre el mismo dibujo. Botones, conmutadores y capturas llevan el mismo marco.
-- **1.4 · Del cuaderno** es un pliego de dos páginas con robots, criaturas, estudios de anatomía, apuntes de clase y tres ideas de juego dibujadas a mano en el ordenador (archivos de 2021). Los robots de caja de una de las páginas andan por los márgenes del resto de la web.
+- **1.4 · Del cuaderno** es un pliego de dos páginas con robots y criaturas, un personaje suyo, estudios de anatomía y de cabezas, apuntes de clase y tres ideas de juego dibujadas a mano en el ordenador (archivos de 2021). Los robots de caja de una de las páginas andan por los márgenes del resto de la web.
 - Dos temas: **papel** (claro: papel blanco con grano, boli azul, granate, verde, lápiz y fluorescente) y **tinta** (oscuro: la tinta pasa a ser la página; las piezas en color van sobre un recorte de papel para conservar su negro).
 
 ## Figuras interactivas
@@ -41,8 +41,7 @@ Es una carpeta autocontenida con rutas relativas. Para `nicorueda.dev`, copia el
 
 ## Antes de publicar, revisar
 
-- Que `manageroflegends.com` y `viumanacor.cat` estén en línea (se enlazan desde los casos 01 y 06).
-- Fechas y datos personales de la ficha y la trayectoria (Corsoft, UdG, CIDE).
+- Fechas de la UdG en la ficha y la trayectoria.
 - Autoría del arte del Tactical Prototype, U.Roguelike y Animal Expirement (se presentan como arte del proyecto o del equipo, no como ilustración propia).
 - Los pies de los escaneos del cuaderno (`index.html`, clases `scan` y `bk`): describen lo que se ve; si alguno de esos dibujos era para un proyecto concreto, se puede decir.
 - Si el sapo con sombrero y puro del hero (`assets/cuaderno/sapo-boli.webp`) es el mismo personaje que el de *Sapo Mafioso*: ahora el pie no lo afirma.
