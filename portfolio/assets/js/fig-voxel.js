@@ -244,7 +244,7 @@ export async function mount(fig) {
 
   // ---------- interaction ----------
   let loop = null;
-  const wake = () => { state.dirty = true; state.swayUntil = performance.now() + SWAY_MS; loop?.kick(); };
+  const wake = () => { state.dirty = true; state.swayBase = null; state.swayUntil = performance.now() + SWAY_MS; loop?.kick(); };
   let drag = null;
   stage.addEventListener('pointerdown', (e) => {
     drag = { x: e.clientX, y: e.clientY, yaw: state.yaw, pitch: state.pitch };
@@ -284,8 +284,11 @@ export async function mount(fig) {
       state.yaw = -1.05 + 0.6 * (1 - Math.pow(1 - u, 2));
       state.dirty = true; moving = true;
     } else if (!rm && !drag && now > state.userUntil && now < state.swayUntil) {
-      // slow idle sway, like a model on a turntable
-      state.yaw += dt * 0.24 * Math.cos(now / 2900);
+      // slow idle sway around where it was left, like a model on a turntable:
+      // bounded (±17°), so it never ends up edge-on
+      if (state.swayBase == null) { state.swayBase = state.yaw; state.swayT = 0; }
+      state.swayT += dt;
+      state.yaw = state.swayBase + 0.3 * Math.sin(state.swayT * 0.55);
       state.dirty = true; moving = true;
     } else if (!drag && Math.abs(state.vy) > 0.0005) {
       state.yaw += state.vy; state.vy *= 0.9; state.dirty = true; moving = true;
