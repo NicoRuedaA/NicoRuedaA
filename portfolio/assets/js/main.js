@@ -362,6 +362,7 @@ $$('.plate__stage, .game__media').forEach((el, i) => {
   drawIO.observe(f);
 });
 $$('.u').forEach((el) => drawIO.observe(el));
+root.classList.add('js-ok'); // the head script keeps .js only if we got this far
 // sliders: the filled part of the track is a biro stroke
 const fillRange = (el) => {
   const min = Number(el.min || 0), max = Number(el.max || 100);

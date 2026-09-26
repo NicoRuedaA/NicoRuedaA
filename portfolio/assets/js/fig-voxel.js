@@ -159,7 +159,7 @@ export async function mount(fig) {
   };
   readTokens();
   const view = fitCanvas(canvas, () => { state.dirty = true; draw(); });
-  const L = norm([0.45, -0.75, 0.55]); // travels from an upper-left-front light (grid y points up)
+  const L = norm([-0.4, -0.5, 0.75]); // light from the viewer's upper right, onto the sprite's front plane (grid y points up)
   function norm(v) { const l = Math.hypot(...v); return v.map((x) => x / l); }
   let P = new Float32Array(0); // projected corners, reused between frames
   const items = [];
@@ -207,14 +207,12 @@ export async function mount(fig) {
     const wash = dark ? 0.66 : 0.58; // how much of the sprite colour survives on the page
     ctx.lineJoin = 'round';
     ctx.lineWidth = 0.7;
-    ctx.strokeStyle = `rgba(${penRGB[0]},${penRGB[1]},${penRGB[2]},${dark ? 0.5 : 0.62})`;
+    ctx.strokeStyle = `rgba(${penRGB[0]},${penRGB[1]},${penRGB[2]},${dark ? 0.22 : 0.3})`; // light pencil: the quads the Greedy toggle is about
     for (const it of items) {
       const { f, i } = it;
       const base = palette[f.color] || [128, 128, 128];
       const diff = Math.max(0, -(it.n0 * L[0] + it.n1 * L[1] + it.n2 * L[2]));
       const ao = f.ao ? (f.ao[0] + f.ao[1] + f.ao[2] + f.ao[3]) / 4 : 1;
-      const lum = (0.2126 * base[0] + 0.7152 * base[1] + 0.0722 * base[2]) / 255;
-      const tone = lum * (0.45 + 0.75 * diff) * (0.6 + 0.4 * ao); // 0 dark … 1 light
       const o = i * 12;
       ctx.beginPath();
       ctx.moveTo(P[o], P[o + 1]);
@@ -222,14 +220,15 @@ export async function mount(fig) {
       ctx.lineTo(P[o + 6], P[o + 7]);
       ctx.lineTo(P[o + 9], P[o + 10]);
       ctx.closePath();
-      const lift = 0.8 + 0.35 * diff;
+      const lift = (0.8 + 0.35 * diff) * (0.78 + 0.22 * ao); // corners in contact read a little darker
       const r = Math.min(255, base[0] * lift) * wash + pr * (1 - wash);
       const g = Math.min(255, base[1] * lift) * wash + pg * (1 - wash);
       const b = Math.min(255, base[2] * lift) * wash + pb * (1 - wash);
       ctx.fillStyle = `rgb(${r | 0},${g | 0},${b | 0})`;
       ctx.fill();
       if (hatchOn) {
-        const lvl = tone > 0.42 ? 0 : tone > 0.3 ? 1 : tone > 0.17 ? 2 : 3;
+        // shade only what turns away from the light; the wash already carries the sprite's colours
+        const lvl = diff > 0.45 ? 0 : diff > 0.15 ? 1 : 2;
         if (lvl) { ctx.fillStyle = pats[lvl]; ctx.fill(); }
       }
       ctx.stroke();
@@ -239,7 +238,7 @@ export async function mount(fig) {
     ctx.fillText(`yaw ${Math.round((state.yaw * 180) / Math.PI)}°  ·  z ×${ez.toFixed(2)}`, 12, h - 12);
     state.dirty = false;
     const ms = performance.now() - t0;
-    slow = ms > 14 ? slow + 1 : Math.max(0, slow - 1);
+    if (hatchOn) slow = ms > 14 ? slow + 1 : Math.max(0, slow - 1); // unhatched frames don't count, so hatching stays off until motion stops
   }
 
   // ---------- interaction ----------

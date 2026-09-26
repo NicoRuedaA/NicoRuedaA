@@ -7,7 +7,7 @@ Sitio estático: HTML, CSS y JavaScript sin frameworks ni paso de build. Biling�
 El diseño gira alrededor del cuaderno de Nico:
 
 - **Todo lo escrito o dibujado a mano son escaneos reales** del cuaderno (`assets/cuaderno/`) y del boceto del nivel 1.1 de *Sapo Mafioso*, 2022 (`assets/hand/`), convertidos en máscaras WebP y recoloreados con CSS. Cada escaneo lleva un pie que describe solo lo que se ve.
-- **Su notación es la interfaz**: los subrayados de títulos, `->` en botones y enlaces, `└>` en problema/decisión/resultado, `?` en «lo que aún no hace» y `×` para cerrar o caído son trazos recortados de sus páginas.
+- **Su notación es la interfaz**: los subrayados de títulos, `->` en botones y enlaces, `└>` en problema/decisión/resultado, `?` en «lo que aún no hace» y `×` para cerrar (y para marcar el valor real en la FIG. 1) son trazos recortados de sus páginas.
 - **Los marcos y los dibujos de las figuras los traza el código** (`assets/js/pen.js`) imitando cómo dibuja: una línea por lado que se pasa de la esquina, sombreado a 60°, monigotes y hexágonos como los del cuaderno. Todo con semilla, así que un redibujado es siempre el mismo dibujo.
 - Dos temas: **papel** (claro: papel blanco, boli azul, granate, verde y lápiz) y **tinta** (oscuro: la tinta pasa a ser la página).
 

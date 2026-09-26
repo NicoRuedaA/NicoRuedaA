@@ -161,7 +161,7 @@ export function mount(fig) {
       } else if (tl.type === 'road') {
         // a dashed track along the lower part of the cell, clear of the cost written in the middle
         const [ax, ay, bx, by] = side ? [x + s * 0.5, y - s * 0.4, x + s * 0.5, y + s * 0.4] : [x - s * 0.4, y + s * 0.5, x + s * 0.4, y + s * 0.5];
-        P.line(ax, ay, bx, by, { color: tok.pencil, w: 1.3, dash: [3, 3], over: [0, 0] });
+        P.line(ax, ay, bx, by, { color: tok.ink3, w: 1.5, dash: [3, 3], over: [0, 0] });
       }
     }
     // the grid: every edge once, in pencil

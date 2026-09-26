@@ -22,8 +22,8 @@
   --ink-2: #3b4363;
   --ink-3: #5b6072;           /* graphite: labels, pencil scans */
   /* tools */
-  --pen: #243291;             /* blue biro */
-  --red: #9b1c33;             /* garnet pen: selection, rival, "not yet" */
+  --pen: #243291;             /* blue biro; also what is selected */
+  --red: #9b1c33;             /* garnet pen: focus, rival, "not yet" */
   --ok: #1d6a41;              /* green crosses: accepted, copied */
   --pencil: #868a96;          /* graphics only, never text */
   --hatch-a: .16;             /* hatch opacity for hover fills */
@@ -242,7 +242,7 @@ a:hover .ext { background: var(--red); }
 .scan--story i { -webkit-mask-image: url(../cuaderno/story.webp); mask-image: url(../cuaderno/story.webp); }
 .scan--hexes .scan__img { aspect-ratio: 820 / 629; }
 .scan--hexes i { -webkit-mask-image: url(../cuaderno/hexes.webp); mask-image: url(../cuaderno/hexes.webp); }
-.scan--screens .scan__img { aspect-ratio: 760 / 429; }
+.scan--screens .scan__img { aspect-ratio: 780 / 475; }
 .scan--screens i { -webkit-mask-image: url(../cuaderno/screens.webp); mask-image: url(../cuaderno/screens.webp); }
 .scan--binary .scan__img { aspect-ratio: 420 / 503; }
 .scan--binary i { -webkit-mask-image: url(../cuaderno/binary.webp); mask-image: url(../cuaderno/binary.webp); }
@@ -387,7 +387,7 @@ input[type="range"]:focus-visible { outline-offset: 2px; }
 .nav a[aria-current="true"] { color: var(--ink); }
 .nav a[aria-current="true"]::after {
   content: ""; position: absolute; left: -2px; right: -6px; bottom: -3px; height: 6px;
-  background: var(--u-red) 0 50% / 100% 100% no-repeat;
+  background: var(--u-pen) 0 50% / 100% 100% no-repeat;
 }
 .controls { display: flex; align-items: center; gap: 10px; }
 .menu-btn { display: none; }
@@ -498,6 +498,7 @@ input[type="range"]:focus-visible { outline-offset: 2px; }
 /* the frame drawn by pen.js (ink-frame); before JS, a plain hairline box */
 .plate__stage, .game__media { outline: 1px solid color-mix(in srgb, var(--ink) 25%, transparent); outline-offset: -1px; }
 .js .plate__stage, .js .game__media { outline: 0; }
+.js .plate__stage:focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
 .ink-frame { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 3; }
 .ink-frame path { fill: none; stroke: var(--frame-c, var(--ink)); stroke-width: 1.5; stroke-linecap: round; vector-effect: non-scaling-stroke; }
 .ink-frame .pencil { stroke: var(--pencil); stroke-width: 1; }
@@ -631,7 +632,7 @@ input[type="range"]:focus-visible { outline-offset: 2px; }
 .aside-img figcaption, .tool__media figcaption { font-size: .82rem; color: var(--ink-3); }
 .shot { display: block; position: relative; }
 .shot img { width: 100%; }
-.shot::before, .mtg::before {
+.shot::before, .mtg::before, .ci::before {
   content: ""; position: absolute; inset: -5px; pointer-events: none; z-index: 1; --c: var(--ink); --w: 1.25px;
   background:
     linear-gradient(var(--c), var(--c)) 0 5px / calc(100% - 2px) var(--w) no-repeat,
@@ -642,6 +643,10 @@ input[type="range"]:focus-visible { outline-offset: 2px; }
 .pix { image-rendering: pixelated; image-rendering: crisp-edges; }
 @media (max-width: 1020px) {
   .case__fig, .case__body, .case > .standfirst { grid-column: 1 / -1; grid-row: auto; }
+  /* phones and tablets: figure, then the argument, then the side notes and scans */
+  .case__fig { display: contents; }
+  .case__fig > * { grid-column: 1 / -1; min-width: 0; }
+  .case__under { order: 1; margin-top: 0; }
   .case__head { grid-template-columns: 1fr; }
 }
 @media (min-width: 1021px) and (max-width: 1279px) { .pdr > div { grid-template-columns: 1fr; gap: 2px; } }
@@ -811,20 +816,28 @@ input[type="range"]:focus-visible { outline-offset: 2px; }
 .races i { font-style: normal; min-height: 22px; display: flex; align-items: center; justify-content: center; color: var(--pencil); }
 .races i::before { content: "·"; }
 .races i[data-v]::before { content: attr(data-v); }
-.races i[data-v] { color: var(--pen); font-weight: 600; outline: 1.25px solid var(--pen); outline-offset: -3px; }
-.races i.neg[data-v] { color: var(--red); outline-color: var(--red); }
+.races i[data-v] { position: relative; color: var(--pen); font-weight: 600; }
+.races i.neg[data-v] { color: var(--red); }
+.races i[data-v]::after {
+  content: ""; position: absolute; inset: 1px -1px; pointer-events: none; --c: currentColor; --w: 1.25px;
+  background:
+    linear-gradient(var(--c), var(--c)) 0 3px / calc(100% - 1px) var(--w) no-repeat,
+    linear-gradient(var(--c), var(--c)) 2px calc(100% - 3px) / calc(100% - 2px) var(--w) no-repeat,
+    linear-gradient(var(--c), var(--c)) 3px 0 / var(--w) calc(100% - 1px) no-repeat,
+    linear-gradient(var(--c), var(--c)) calc(100% - 3px) 1px / var(--w) calc(100% - 1px) no-repeat;
+}
 .races__note { margin: 4px 0 0; color: var(--ink-3); font-size: .64rem; }
 .game--row { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(20px, 2.6vw, 40px); }
 .game--row .game__media { grid-column: 1 / span 6; aspect-ratio: 2 / 1; }
 .game--row .game__body { grid-column: 7 / -1; padding-top: 0; }
 @media (max-width: 1020px) {
   .game, .game--wide { grid-column: span 6; }
+  .game--row { grid-column: 1 / -1; display: flex; flex-direction: column; }
   .game--row .game__media { aspect-ratio: 16 / 10; }
+  .game--row .game__body { padding-top: 18px; }
 }
 @media (max-width: 640px) {
   .game, .game--wide { grid-column: 1 / -1; }
-  .game--row { display: flex; flex-direction: column; }
-  .game--row .game__body { padding-top: 18px; }
 }
 
 /* ============================================================
@@ -853,7 +866,7 @@ input[type="range"]:focus-visible { outline-offset: 2px; }
 .mtg__bar .t .zero { position: absolute; top: -3px; bottom: -3px; width: 1px; background: var(--ink-3); }
 .mtg__card { display: flex; justify-content: space-between; gap: 10px; align-items: center; border-top: 1px solid var(--rule); padding-top: 10px; font-size: .9rem; }
 .mtg__card b { font-family: var(--f-mono); font-size: 1rem; white-space: nowrap; }
-.ci { display: grid; gap: 6px; background: #0e1116; color: #d7dde8; padding: 12px; font-family: var(--f-mono); font-size: .72rem; }
+.ci { position: relative; display: grid; gap: 6px; background: #0e1116; color: #d7dde8; padding: 12px; font-family: var(--f-mono); font-size: .72rem; }
 .ci div { display: flex; justify-content: space-between; gap: 8px; align-items: center; }
 .ci .pill { padding: 1px 8px; border-radius: 99px; font-size: .66rem; color: #0b0d10; font-weight: 600; }
 .ci .ok { background: #10b981; } .ci .run { background: #3b82f6; } .ci .ko { background: #ef4444; }
@@ -877,7 +890,7 @@ input[type="range"]:focus-visible { outline-offset: 2px; }
 .rule--paper { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(16px, 2.2vw, 32px); align-items: start; }
 .rule--paper > .label, .rule--paper > h3, .rule--paper > p { grid-column: 1 / span 5; }
 .rule--paper > .scan { grid-column: 7 / -1; grid-row: 1 / span 4; }
-.rule--paper .scan__img { max-width: 360px; }
+.rule--paper .scan__img { max-width: 480px; }
 @media (max-width: 980px) {
   .rules { grid-template-columns: 1fr 1fr; }
   .rule--paper > .label, .rule--paper > h3, .rule--paper > p { grid-column: 1 / span 6; }
@@ -947,7 +960,7 @@ input[type="range"]:focus-visible { outline-offset: 2px; }
 .swatches { display: flex; flex-wrap: wrap; gap: 6px 12px; }
 .swatches span { display: inline-flex; align-items: center; gap: 6px; font-family: var(--f-mono); font-size: .72rem; color: var(--ink-3); }
 .swatches i { width: 14px; height: 14px; display: inline-block; outline: 1px solid var(--rule); outline-offset: 1px; }
-.colo .hand--legend { width: 150px; }
+.colo .hand--legend { width: min(100%, 280px); }
 @media (max-width: 900px) { .colo__col { grid-column: 1 / -1; } }
 
 /* ---------- hitbox debug mode (his H / F1 toggle, as a page feature) ---------- */
@@ -1022,8 +1035,14 @@ html.hitbox body :focus-visible, html.hitbox body .bytes__pick:focus-within { ou
 /* forced colours (Windows high contrast) */
 @media (forced-colors: active) {
   .seg button[aria-pressed="true"], .tgl[aria-pressed="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
-  .hand > i, .scan__img > i, .mk, .ext { forced-color-adjust: none; background: CanvasText; }
+  .hand > i[class], .scan__img > i[class], .mk, .ext { forced-color-adjust: none; background: CanvasText; }
   .hand > i.mark, .scan__img > i.red { background: Highlight; }
   .btn, .tgl, .copy, .vid__play { border: 1px solid ButtonText; }
   .ink-frame path { stroke: CanvasText; }
+  /* drawn marks keep their drawing, in system colours */
+  .scout__track, .scout__real, .mtg__bar .t, .bits span, input[type="range"],
+  .btn--go::after, .btn--down::after, .stamp::before, .notyet::before, .pdr .label::before,
+  .plate__cap .src::before, .rule > .label::after, .tl li.is-now .when::before, .index__name::before {
+    forced-color-adjust: none; --pen: CanvasText; --pencil: GrayText; --red: Highlight; --ink-3: GrayText;
+  }
 }

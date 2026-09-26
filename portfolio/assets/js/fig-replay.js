@@ -84,6 +84,29 @@ export async function mount(fig) {
     }
   }
 
+  // One segment at a time. Dashed segments all point the same way and take
+  // their dash phase from map position, so red lives that share a road share
+  // one dash pattern and never merge into a solid line.
+  function segments(pts, dashed, alphaAt) {
+    const { ctx } = view;
+    const { X, Y } = xf();
+    ctx.save();
+    ctx.lineCap = dashed ? 'butt' : 'round';
+    if (dashed) ctx.setLineDash([5, 3]);
+    for (let i = 1; i < pts.length && pts[i][0] <= tick; i++) {
+      let ax = X(pts[i - 1][1]), ay = Y(pts[i - 1][2]), bx = X(pts[i][1]), by = Y(pts[i][2]);
+      if (ax === bx && ay === by) continue;
+      if (dashed) {
+        if (bx < ax || (bx === ax && by < ay)) { [ax, bx] = [bx, ax]; [ay, by] = [by, ay]; }
+        const len = Math.hypot(bx - ax, by - ay);
+        ctx.lineDashOffset = (((ax * (bx - ax) + ay * (by - ay)) / len) % 8 + 8) % 8;
+      }
+      if (alphaAt) ctx.globalAlpha = alphaAt(i);
+      ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
   function draw() {
     const { ctx, w, h } = view;
     if (!w) return;
@@ -107,25 +130,20 @@ export async function mount(fig) {
       const col = l.ally ? tok.pen : tok.red;
       if (dark) {
         // Tinta: old segments fade to a faint floor, the last half-minute stays sharp
-        for (let i = 1; i < pts.length && pts[i][0] <= tick; i++) {
-          const age = (tick - pts[i][0]) / 900; // 30 s of game time
-          ctx.globalAlpha = Math.max(0.18, 1 - age);
-          ctx.strokeStyle = col; ctx.lineWidth = 1.5; ctx.setLineDash(l.ally ? [] : [5, 3]);
-          ctx.beginPath(); ctx.moveTo(X(pts[i - 1][1]), Y(pts[i - 1][2])); ctx.lineTo(X(pts[i][1]), Y(pts[i][2])); ctx.stroke();
-        }
-        ctx.setLineDash([]);
+        ctx.strokeStyle = col; ctx.lineWidth = 1.5;
+        segments(pts, !l.ally, (i) => Math.max(0.18, 1 - (tick - pts[i][0]) / 900)); // 30 s of game time
         ctx.globalAlpha = 1;
       } else {
         ctx.strokeStyle = col; ctx.lineWidth = 1.35; ctx.globalAlpha = 0.9;
-        ctx.setLineDash(l.ally ? [] : [5, 3]);
-        ctx.beginPath();
-        let started = false;
-        for (let i = 0; i < pts.length && pts[i][0] <= tick; i++) {
-          const x = X(pts[i][1]), y = Y(pts[i][2]);
-          if (!started) { ctx.moveTo(x, y); started = true; } else ctx.lineTo(x, y);
-        }
-        ctx.stroke();
-        ctx.setLineDash([]);
+        if (l.ally) {
+          ctx.beginPath();
+          let started = false;
+          for (let i = 0; i < pts.length && pts[i][0] <= tick; i++) {
+            const x = X(pts[i][1]), y = Y(pts[i][2]);
+            if (!started) { ctx.moveTo(x, y); started = true; } else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        } else segments(pts, true);
         ctx.globalAlpha = 1;
         // minute marks, as a printed record would have
         ctx.fillStyle = col; ctx.font = '10px "Martian Mono", monospace';
