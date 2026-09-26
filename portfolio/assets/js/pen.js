@@ -182,23 +182,23 @@ export function pen(ctx, seed = 1) {
 }
 
 /**
- * The screen rectangle around a figure: four single strokes that run past
- * each other at the corners. An SVG overlay sized in CSS pixels, redrawn on
- * resize with the same seed, so it never changes shape.
+ * A rectangle drawn by hand around an element: four single strokes that run
+ * past each other at the corners. Each stroke is a filled shape, so it has a
+ * ballpoint's pressure: it lands thin, swells in the middle and lifts off thin,
+ * with a slight wobble. An SVG overlay in CSS pixels, redrawn on resize with
+ * the same seed, so the drawing never changes.
+ *   opts.w   base stroke width (px)   opts.os  corner overrun (px)
  */
-export function inkFrame(el, seed = 1, os = 6) {
+export function inkFrame(el, seed = 1, os = 6, opts = {}) {
   const NS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(NS, 'svg');
   svg.setAttribute('class', 'ink-frame');
   svg.setAttribute('aria-hidden', 'true');
   svg.setAttribute('focusable', 'false');
-  const paths = [0, 1, 2, 3].map(() => {
-    const p = document.createElementNS(NS, 'path');
-    p.setAttribute('pathLength', '1');
-    svg.appendChild(p);
-    return p;
-  });
+  const paths = [0, 1, 2, 3].map(() => svg.appendChild(document.createElementNS(NS, 'path')));
   el.appendChild(svg);
+  el.classList.add('has-ink');
+  const base = opts.w ?? 1.6;
   let lw = 0, lh = 0;
   const draw = () => {
     const w = el.clientWidth, h = el.clientHeight;
@@ -208,11 +208,26 @@ export function inkFrame(el, seed = 1, os = 6) {
     const j = (a) => (r() * 2 - 1) * a;
     const o = Math.min(os, 2 + Math.min(w, h) * 0.02);
     const run = () => o * (0.35 + r() * 0.75);
+    // one pen stroke from A to B as a closed outline with varying width
     const side = (x0, y0, x1, y1) => {
       const dx = x1 - x0, dy = y1 - y0, len = Math.hypot(dx, dy) || 1;
-      const bow = Math.min(1.4, len * 0.004) * (r() < 0.5 ? -1 : 1);
-      const mx = (x0 + x1) / 2 - (dy / len) * bow, my = (y0 + y1) / 2 + (dx / len) * bow;
-      return `M${x0.toFixed(1)} ${y0.toFixed(1)}Q${mx.toFixed(1)} ${my.toFixed(1)} ${x1.toFixed(1)} ${y1.toFixed(1)}`;
+      const ux = dx / len, uy = dy / len, nx = -uy, ny = ux;
+      const bow = Math.min(1.6, len * 0.005) * (r() < 0.5 ? -1 : 1);
+      const wob = Math.min(0.7, len * 0.002), ph = r() * 6.28, fq = 1 + r() * 2;
+      const wk = base * (0.85 + r() * 0.35), tail = 0.25 + r() * 0.3;
+      const n = Math.max(8, Math.min(40, Math.round(len / 14)));
+      const L = [], R = [];
+      for (let i = 0; i <= n; i++) {
+        const t = i / n;
+        const off = bow * 4 * t * (1 - t) + wob * Math.sin(ph + t * 6.28 * fq);
+        const cx = x0 + dx * t + nx * off, cy = y0 + dy * t + ny * off;
+        // pressure: thin landing, full body, thinner lift-off
+        const p = Math.min(1, t / 0.12) * (1 - (1 - tail) * Math.max(0, (t - 0.8) / 0.2));
+        const hw = (wk * (0.35 + 0.65 * p) * (0.92 + 0.16 * Math.sin(ph * 2 + t * 17))) / 2;
+        L.push(`${(cx + nx * hw).toFixed(1)} ${(cy + ny * hw).toFixed(1)}`);
+        R.push(`${(cx - nx * hw).toFixed(1)} ${(cy - ny * hw).toFixed(1)}`);
+      }
+      return 'M' + L.join('L') + 'L' + R.reverse().join('L') + 'Z';
     };
     svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
     const t0 = j(0.9), t1 = j(0.9), r0 = j(0.9), r1 = j(0.9), b0 = j(0.9), b1 = j(0.9), l0 = j(0.9), l1 = j(0.9);

@@ -108,13 +108,18 @@ sections.forEach((s) => navIO.observe(s));
 
 /* ---------------- copy buttons ---------------- */
 $$('[data-copy]').forEach((b) => {
-  const orig = b.innerHTML;
+  // the label lives in its own span so the pen-drawn frame survives label swaps
+  const label = document.createElement('span');
+  label.className = 'copy__t';
+  label.append(...b.childNodes);
+  b.appendChild(label);
+  const orig = label.innerHTML;
   let timer = 0;
   b.addEventListener('click', async () => {
     clearTimeout(timer);
     try {
       await navigator.clipboard.writeText(b.dataset.copy);
-      setBi(b, 'Copiado', 'Copied');
+      setBi(label, 'Copiado', 'Copied');
       b.classList.add('is-done');
     } catch (e) {
       // clipboard refused: select the text so the visitor can copy it by hand
@@ -123,9 +128,9 @@ $$('[data-copy]').forEach((b) => {
         const r = document.createRange(); r.selectNodeContents(target);
         const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
       }
-      setBi(b, 'Selecciónalo y copia', 'Select and copy');
+      setBi(label, 'Selecciónalo y copia', 'Select and copy');
     }
-    timer = setTimeout(() => { b.innerHTML = orig; b.classList.remove('is-done'); }, 2400);
+    timer = setTimeout(() => { label.innerHTML = orig; b.classList.remove('is-done'); }, 2400);
   });
 });
 
@@ -350,18 +355,37 @@ $$('.stage-sapo, .boss__art, .colo, .scan').forEach((el) => nearIO.observe(el));
 /* ---------------- the pen: frames, underlines, sliders ---------------- */
 // every figure stage and game screen gets its hand-drawn rectangle; it draws
 // itself once, the first time it comes into view
+// (the frame is clipped while hidden, so the observer watches its box, not the frame)
 const drawIO = new IntersectionObserver((entries) => {
   entries.forEach((e) => {
     if (!e.isIntersecting) return;
-    e.target.classList.add(e.target.matches('.ink-frame') ? 'is-drawn' : 'is-seen');
+    const f = e.target.querySelector(':scope > .ink-frame');
+    if (f && !e.target.matches('.u')) f.classList.add('is-drawn'); else e.target.classList.add('is-seen');
     drawIO.unobserve(e.target);
   });
 }, { threshold: 0.2 });
 $$('.plate__stage, .game__media').forEach((el, i) => {
-  const f = inkFrame(el, seedOf((el.closest('[id]')?.id || '') + i), el.matches('.game__media') ? 5 : 7);
-  drawIO.observe(f);
+  inkFrame(el, seedOf((el.closest('[id]')?.id || '') + i), el.matches('.game__media') ? 5 : 7, { w: 2 });
+  drawIO.observe(el);
+});
+// buttons, toggles and framed screenshots get their own hand-drawn box
+// the ideas drawn on the computer get a screen, like the screens in his storyboards
+$$('.bk--screen .scan__img').forEach((el, i) => inkFrame(el, seedOf('screen' + i), 6, { w: 1.8 }));
+$$('.btn, .tgl, .copy, .vid__play, .chip--state, .seg button, .shot, .mtg, .ci').forEach((el, i) => {
+  const big = el.matches('.shot, .mtg, .ci');
+  inkFrame(el, seedOf((el.textContent || '').trim().slice(0, 24) + i), big ? 6 : 3.5, { w: big ? 1.8 : el.matches('.btn:not(.btn--ghost)') ? 2 : 1.4 });
 });
 $$('.u').forEach((el) => drawIO.observe(el));
+/* numbers written with his own digits (cut from the AVL-tree pages of the notebook) */
+$$('[data-hw]').forEach((el) => {
+  const txt = el.textContent.trim();
+  if (!/^[\d.]+$/.test(txt)) return;
+  const hw = document.createElement('span');
+  hw.className = 'hw'; hw.setAttribute('aria-hidden', 'true');
+  for (const ch of txt) { const i = document.createElement('i'); i.className = ch === '.' ? 'gd' : 'g' + ch; hw.appendChild(i); }
+  const sr = document.createElement('span'); sr.className = 'sr-only'; sr.textContent = txt;
+  el.textContent = ''; el.append(sr, hw);
+});
 root.classList.add('js-ok'); // the head script keeps .js only if we got this far
 // sliders: the filled part of the track is a biro stroke
 const fillRange = (el) => {
