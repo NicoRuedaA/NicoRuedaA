@@ -84,8 +84,8 @@ menu?.addEventListener('keydown', (e) => {
   if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
   else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
 });
-// the sheet only exists below the nav breakpoint (site.css: max-width 980px)
-window.matchMedia('(min-width: 981px)').addEventListener?.('change', (e) => { if (e.matches) closeMenu(false); });
+// the sheet only exists below the nav breakpoint (site.css: max-width 1020px)
+window.matchMedia('(min-width: 1021px)').addEventListener?.('change', (e) => { if (e.matches) closeMenu(false); });
 
 /* ---------------- active section in the nav ---------------- */
 const navLinks = $$('.nav a');
