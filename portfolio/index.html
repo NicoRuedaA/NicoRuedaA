@@ -37,10 +37,10 @@
 
 <header class="bar" data-hb="header.bar">
   <div class="wrap bar__in">
-    <a class="brand" href="#top" aria-label="Nico Rueda, inicio">
+    <a class="brand" href="#top" aria-label="Nico Rueda, inicio" data-aria-en="Nico Rueda, home">
       <b>Nico Rueda</b><span>nicorueda.dev</span>
     </a>
-    <nav class="nav" aria-label="Secciones">
+    <nav class="nav" aria-label="Secciones" data-aria-en="Sections">
       <a href="#trabajo"><span lang="es">Trabajo</span><span lang="en">Work</span></a>
       <a href="#juegos"><span lang="es">Juegos</span><span lang="en">Games</span></a>
       <a href="#herramientas"><span lang="es">Herramientas</span><span lang="en">Tools</span></a>
@@ -52,12 +52,12 @@
         <button type="button" data-set-lang="es" aria-pressed="true" title="Español">ES</button>
         <button type="button" data-set-lang="en" aria-pressed="false" title="English">EN</button>
       </div>
-      <div class="seg" role="group" id="theme-group" aria-label="Tema: Boceto (claro) o Motor (oscuro)">
-        <button type="button" data-set-theme="light" aria-pressed="false" title="Boceto · tema claro">
+      <div class="seg" role="group" id="theme-group" aria-label="Tema: Boceto (claro) o Motor (oscuro)" data-aria-en="Theme: Sketch (light) or Engine (dark)">
+        <button type="button" data-set-theme="light" aria-pressed="false" title="Boceto · tema claro" data-title-en="Sketch · light theme">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 13.5l1-3.5 7.5-7.5 2.5 2.5L6 12.5z M9.5 4l2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
           <span class="seg__txt-long"><span lang="es">Boceto</span><span lang="en">Sketch</span></span>
         </button>
-        <button type="button" data-set-theme="dark" aria-pressed="false" title="Motor · tema oscuro">
+        <button type="button" data-set-theme="dark" aria-pressed="false" title="Motor · tema oscuro" data-title-en="Engine · dark theme">
           <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3.5" y="3.5" width="9" height="9" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M6 1.5v2M10 1.5v2M6 12.5v2M10 12.5v2M1.5 6h2M1.5 10h2M12.5 6h2M12.5 10h2" stroke="currentColor" stroke-width="1.4"/></svg>
           <span class="seg__txt-long"><span lang="es">Motor</span><span lang="en">Engine</span></span>
         </button>
@@ -68,7 +68,7 @@
   </div>
 </header>
 
-<div class="sheet-menu" id="menu" role="dialog" aria-modal="true" aria-label="Índice" hidden>
+<div class="sheet-menu" id="menu" role="dialog" aria-modal="true" aria-label="Índice" data-aria-en="Index" hidden>
   <div class="sheet-menu__head">
     <span class="label"><span lang="es">Índice</span><span lang="en">Index</span></span>
     <button type="button" class="btn btn--sm btn--ghost" id="menu-close"><span lang="es">Cerrar</span><span lang="en">Close</span></button>
@@ -99,7 +99,7 @@
           <span lang="es">Dibujo los niveles a boli antes de abrir el motor. Luego programo los sistemas que los mueven: simulaciones deterministas en Rust, herramientas para el navegador y servidores en producción.</span>
           <span lang="en">I sketch levels in ballpoint before I open an engine. Then I program the systems that run them: deterministic simulations in Rust, browser tools and production servers.</span>
         </p>
-        <ul class="proof" aria-label="Datos verificables">
+        <ul class="proof" aria-label="Datos verificables" data-aria-en="Verifiable figures">
           <li><b data-num="181000" data-approx="1">≈181.000</b><span lang="es">líneas de Rust en Manager of Legends</span><span lang="en">lines of Rust in Manager of Legends</span></li>
           <li><b data-num="253">253</b><span lang="es">tests en verde en Voxelizer</span><span lang="en">passing tests in Voxelizer</span></li>
           <li><b>2</b><span lang="es">juegos que se juegan en el navegador</span><span lang="en">games you can play in the browser</span></li>
@@ -111,8 +111,8 @@
         </div>
         <p class="play">
           <span class="label"><span lang="es">Jugar ya</span><span lang="en">Play now</span></span>
-          <a href="https://nicorueda.dev/juegos/catpire/" target="_blank" rel="noopener">Catpire Survivors <span class="ext" aria-hidden="true">↗</span><span class="sr-only">(nueva pestaña)</span></a>
-          <a href="https://nicorueda.dev/juegos/sapoGuvasto/" target="_blank" rel="noopener">Sapo Mafioso <span class="ext" aria-hidden="true">↗</span><span class="sr-only">(nueva pestaña)</span></a>
+          <a href="https://nicorueda.dev/juegos/catpire/" target="_blank" rel="noopener">Catpire Survivors <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a>
+          <a href="https://nicorueda.dev/juegos/sapoGuvasto/" target="_blank" rel="noopener">Sapo Mafioso <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a>
           <span class="mono" style="font-size:.66rem;color:var(--ink-3)"><span lang="es">≈58 MB y ≈32 MB</span><span lang="en">≈58 MB and ≈32 MB</span></span>
         </p>
         <p class="mailline">
@@ -122,14 +122,14 @@
       </div>
 
       <figure class="plate fig0 hero__fig" id="fig-0" data-fig="voxel" data-hb="figure#fig-0 · voxel.js">
-        <div class="plate__stage is-grab" tabindex="0" role="img" aria-label="Figura 0: la cabeza del sapo mafioso dibujada por Nico, convertida en un modelo 3D de vóxeles con el código de Voxelizer. Arrastra o usa las flechas para girarla.">
+        <div class="plate__stage is-grab" tabindex="0" role="img" aria-label="Figura 0: la cabeza del sapo mafioso dibujada por Nico, convertida en un modelo 3D de vóxeles con el código de Voxelizer. Arrastra o usa las flechas para girarla." data-aria-en="Figure 0: the mafia frog&#x27;s head drawn by Nico, turned into a 3D voxel model by Voxelizer&#x27;s code. Drag or use the arrow keys to rotate it.">
           <img class="rest" src="assets/img/sapo-head.webp" width="300" height="296" alt="">
           <canvas></canvas>
           <span class="axes" aria-hidden="true">FIG. 0 · voxel.js</span>
         </div>
         <div class="plate__bar">
           <span class="readout" aria-live="polite" data-readout><span lang="es">Cargando voxel.js…</span><span lang="en">Loading voxel.js…</span></span>
-          <div class="seg" role="group" aria-label="Malla">
+          <div class="seg" role="group" aria-label="Malla" data-aria-en="Mesh">
             <button type="button" data-mesh="greedy" aria-pressed="true">Greedy</button>
             <button type="button" data-mesh="naive" aria-pressed="false"><span lang="es">Por vóxel</span><span lang="en">Per voxel</span></button>
           </div>
@@ -144,8 +144,8 @@
     </div>
   </div>
 
-  <figure class="hero__level wrap" aria-label="Boceto original del nivel 1.1">
-    <div class="hand hand--level" role="img" aria-label="Escaneo del boceto a boli del nivel 1.1 del juego Sapo Mafioso, 2022: plataformas, cajas, enemigos y flechas hacia las salas siguientes."><i class="ink"></i><i class="mark"></i></div>
+  <figure class="hero__level wrap" aria-label="Boceto original del nivel 1.1" data-aria-en="Original sketch of level 1.1">
+    <div class="hand hand--level" role="img" aria-label="Escaneo del boceto a boli del nivel 1.1 del juego Sapo Mafioso, 2022: plataformas, cajas, enemigos y flechas hacia las salas siguientes." data-aria-en="Scan of the 2022 ballpoint sketch of Sapo Mafioso&#x27;s level 1.1: platforms, crates, enemies and arrows to the next rooms."><i class="ink"></i><i class="mark"></i></div>
     <figcaption>
       <span class="label"><span lang="es">Nivel 1.1 · boceto a boli y rotulador, junio de 2022</span><span lang="en">Level 1.1 · ballpoint and marker sketch, June 2022</span></span>
       <span class="label"><span lang="es">Las secciones de esta web siguen su numeración</span><span lang="en">This site's sections follow its numbering</span></span>
@@ -158,7 +158,7 @@
   <div class="wrap grid ficha__grid">
     <div class="ficha__who">
       <h2 class="label" id="h-ficha"><span lang="es">Ficha</span><span lang="en">Quick facts</span></h2>
-      <div class="hand hand--frame" role="img" aria-label="El jugador dentro del marco naranja, dibujado a mano en el boceto de 2022"><i class="ink"></i><i class="mark"></i></div>
+      <div class="hand hand--frame" role="img" aria-label="El jugador dentro del marco naranja, dibujado a mano en el boceto de 2022" data-aria-en="The player inside the orange frame, hand-drawn in the 2022 sketch"><i class="ink"></i><i class="mark"></i></div>
       <p><span lang="es">Yo, según mi propio boceto de 2022: el muñeco del marco naranja.</span><span lang="en">Me, according to my own 2022 sketch: the stick figure in the orange frame.</span></p>
     </div>
     <dl class="facts">
@@ -203,7 +203,7 @@
       </div>
     </div>
 
-    <ol class="index" aria-label="Índice de casos">
+    <ol class="index" aria-label="Índice de casos" data-aria-en="Case index">
       <li><a href="#mol"><span class="label">01</span><span class="index__name">Manager of Legends</span><span class="index__desc"><span lang="es">Simulador de gestión de esports para MOBAs</span><span lang="en">Esports management sim for MOBAs</span></span><span class="index__tags">RUST · WASM · REACT · 2026</span></a></li>
       <li><a href="#motor"><span class="label">02</span><span class="index__name"><span lang="es">Motor de partida</span><span lang="en">Match engine</span></span><span class="index__desc"><span lang="es">Simulación MOBA determinista a 30 Hz</span><span lang="en">Deterministic 30 Hz MOBA simulation</span></span><span class="index__tags">RUST · WASM · THREE.JS · 2026</span></a></li>
       <li><a href="#voxelizer"><span class="label">03</span><span class="index__name">Voxelizer</span><span class="index__desc"><span lang="es">De pixel art a vóxeles, en el navegador</span><span lang="en">Pixel art to voxels, in the browser</span></span><span class="index__tags">JS · THREE.JS · MPL-2.0 · 2026</span></a></li>
@@ -256,7 +256,7 @@
         </figure>
         <div class="case__under">
 
-        <div class="score" aria-label="Marcador">
+        <div class="score" aria-label="Marcador" data-aria-en="Scoreboard">
           <div><b>≈181k</b><span lang="es">líneas de Rust</span><span lang="en">lines of Rust</span></div>
           <div><b>≈127k</b><span lang="es">líneas de TS</span><span lang="en">lines of TS</span></div>
           <div><b>1.069</b><span lang="es">tests Rust (núcleo)</span><span lang="en">Rust tests (core)</span></div>
@@ -265,7 +265,7 @@
           <div><b>21</b><span>ADR</span></div>
         </div>
 
-        <ol class="evo" aria-label="Evolución">
+        <ol class="evo" aria-label="Evolución" data-aria-en="Evolution">
           <li><span class="mono"><span lang="es">origen</span><span lang="en">origin</span></span><span lang="es">Fork parcial de OpenFootManager (simulador de fútbol, GPL).</span><span lang="en">Partial fork of OpenFootManager (a GPL football sim).</span></li>
           <li><span class="mono">v0.3.6</span><span lang="es">App de escritorio con Tauri y un SQLite por partida.</span><span lang="en">Desktop app with Tauri and one SQLite file per save.</span></li>
           <li><span class="mono">v0.4.0</span><span lang="es">Migración a web: Rust → WASM, IndexedDB y guardado en la nube (junio de 2026).</span><span lang="en">Move to the web: Rust → WASM, IndexedDB and cloud saves (June 2026).</span></li>
@@ -295,12 +295,12 @@
       </header>
       <div class="case__fig">
         <figure class="plate fig-replay" data-fig="replay" data-hb="figure · match-20026.json">
-          <div class="plate__stage" tabindex="0" role="img" aria-label="Figura 2: repetición de una partida real del motor, inteligencia artificial contra inteligencia artificial, semilla 20026. Las trazas azules son los líderes de un equipo y las rojas los del otro.">
+          <div class="plate__stage" tabindex="0" role="img" aria-label="Figura 2: repetición de una partida real del motor, inteligencia artificial contra inteligencia artificial, semilla 20026. Las trazas azules son los líderes de un equipo y las rojas los del otro. Espacio reproduce o pausa; las flechas avanzan o retroceden." data-aria-en="Figure 2: replay of a real engine match, AI versus AI, seed 20026. Blue traces are one team&#x27;s leaders and red traces the other&#x27;s. Space plays or pauses; arrow keys step.">
             <canvas></canvas>
           </div>
           <div class="plate__bar">
             <button type="button" class="tgl" data-play aria-pressed="true"><span lang="es">Pausa</span><span lang="en">Pause</span></button>
-            <label class="range"><span class="sr-only">Tick</span><input type="range" min="0" max="9000" step="30" value="0" data-scrub aria-label="Tick de la partida"></label>
+            <label class="range"><span class="sr-only">Tick</span><input type="range" min="0" max="9000" step="30" value="0" data-scrub aria-label="Tick de la partida" data-aria-en="Match tick"></label>
             <span class="readout" data-readout>tick 0 / 9000</span>
           </div>
           <div class="plate__bar">
@@ -351,7 +351,7 @@
       <div class="case__fig">
         <figure class="plate" data-hb="figure · assets/image.gif">
           <div class="vid" style="--ar: 800 / 520">
-            <img src="assets/img/voxelizer-poster.webp" alt="Interfaz de Voxelizer con un mago de pixel art convertido en vóxeles." loading="lazy" width="800" height="520">
+            <img src="assets/img/voxelizer-poster.webp" alt="Interfaz de Voxelizer con un mago de pixel art convertido en vóxeles." data-alt-en="Voxelizer&#x27;s interface with a pixel-art wizard turned into voxels." loading="lazy" width="800" height="520">
             <button type="button" class="vid__play" data-video="assets/video/voxelizer.webm"><span aria-hidden="true">▶</span> <span lang="es">Ver demo · 15 s · 1 MB</span><span lang="en">Watch demo · 15 s · 1 MB</span></button>
           </div>
           <figcaption class="plate__cap">
@@ -392,7 +392,7 @@
       <div class="case__fig">
         <figure class="plate fig-face" data-fig="face" data-hb="figure · face-model.js + renderer.js">
           <div class="plate__stage">
-            <canvas width="512" height="512" role="img" aria-label="Retrato generado a partir del nombre escrito"></canvas>
+            <canvas width="512" height="512" role="img" aria-label="Retrato generado a partir del nombre escrito" data-aria-en="Portrait generated from the typed name"></canvas>
             <div class="face-form">
               <label for="face-name"><span lang="es">Escribe un nombre</span><span lang="en">Type a name</span></label>
               <input id="face-name" type="text" value="Nico Rueda" maxlength="64" autocomplete="off" spellcheck="false">
@@ -416,7 +416,7 @@
         <div class="case__under">
 
         <figure class="aside-img">
-          <img src="assets/img/faces.webp" alt="Diez retratos de la línea base, cada uno con su edad y su código SF2." loading="lazy" width="1600" height="700">
+          <img src="assets/img/faces.webp" alt="Diez retratos de la línea base, cada uno con su edad y su código SF2." data-alt-en="Ten baseline portraits, each with its age and SF2 code." loading="lazy" width="1600" height="700">
           <figcaption><span lang="es">Diez de las 100 identidades de la línea base congelada (renderizador Canvas 2D, arte propio).</span><span lang="en">Ten of the 100 identities in the frozen baseline (Canvas 2D renderer, my own art).</span></figcaption>
         </figure>
         </div>
@@ -445,7 +445,7 @@
       </header>
       <div class="case__fig">
         <figure class="plate fig-hex" data-fig="hex" data-hb="figure · Pathfinding.cs ← GraphSearch.cs">
-          <div class="plate__stage" tabindex="0" role="application" aria-label="Figura 5: tablero hexagonal interactivo. Haz clic en una casilla alcanzable para ver el camino; elige un pincel para pintar terreno.">
+          <div class="plate__stage" tabindex="0" role="application" aria-label="Figura 5: tablero hexagonal interactivo. Haz clic en una casilla alcanzable para ver el camino y otra vez para mover; elige un pincel para pintar terreno. Las flechas mueven el cursor y Enter actúa." data-aria-en="Figure 5: interactive hex board. Click a reachable tile to see the path, click it again to move; pick a brush to paint terrain. Arrow keys move the cursor, Enter acts.">
             <canvas></canvas>
           </div>
           <div class="plate__bar">
@@ -475,7 +475,7 @@
         </div>
 
         <figure class="aside-img">
-          <img src="assets/img/vox-lineup.webp" alt="Siete personajes de pixel art del proyecto extruidos a vóxeles." loading="lazy" width="2100" height="300">
+          <img src="assets/img/vox-lineup.webp" alt="Siete personajes de pixel art del proyecto extruidos a vóxeles." data-alt-en="Seven of the project&#x27;s pixel-art characters extruded into voxels." loading="lazy" width="2100" height="300">
           <figcaption><span lang="es">Sprites del proyecto extruidos con sprite2voxel.py, el antecesor en Python de Voxelizer.</span><span lang="en">Project sprites extruded with sprite2voxel.py, Voxelizer's Python ancestor.</span></figcaption>
         </figure>
         </div>
@@ -506,7 +506,7 @@
         <figure class="plate fig-bytes" data-fig="bytes" data-hb="figure · fetch_photos.py">
           <div class="plate__stage" style="background:var(--sheet)">
             <div class="bytes">
-              <div class="bytes__files" role="group" aria-label="Archivos de ejemplo">
+              <div class="bytes__files" role="group" aria-label="Archivos de ejemplo" data-aria-en="Sample files">
                 <button type="button" class="tgl" data-sample="jpg">cafe-sa-placa.jpg</button>
                 <button type="button" class="tgl" data-sample="png">forn-logo.png</button>
                 <button type="button" class="tgl" data-sample="svg">botiga.jpg</button>
@@ -561,7 +561,7 @@
     <div class="shelf">
       <article class="game game--wide" data-hb="game · Sapo Mafioso">
         <div class="game__media">
-          <div class="stage-sapo" role="img" aria-label="El sapo mafioso, con sombrero y puro, en el puerto de grúas del juego. Arte dibujado por Nico.">
+          <div class="stage-sapo" role="img" aria-label="El sapo mafioso, con sombrero y puro, en el puerto de grúas del juego. Arte dibujado por Nico." data-aria-en="The mafia frog, with fedora and cigar, in the game&#x27;s crane harbour. Art drawn by Nico.">
             <div class="sapo" data-sprite="4" data-ms="400"></div>
           </div>
         </div>
@@ -576,7 +576,7 @@
       <article class="game game--wide" data-hb="game · Catpire Survivors">
         <div class="game__media">
           <div class="vid" style="--ar:594/332">
-            <img src="assets/img/catpire-poster.webp" alt="Partida de Catpire Survivors: el mago rodeado de enemigos, con corazones y experiencia en el HUD." loading="lazy" width="594" height="332">
+            <img src="assets/img/catpire-poster.webp" alt="Partida de Catpire Survivors: el mago rodeado de enemigos, con corazones y experiencia en el HUD." data-alt-en="Catpire Survivors gameplay: the wizard surrounded by enemies, with hearts and experience in the HUD." loading="lazy" width="594" height="332">
             <button type="button" class="vid__play" data-video="assets/video/catpire.webm"><span aria-hidden="true">▶</span> <span lang="es">Ver partida</span><span lang="en">Watch gameplay</span></button>
           </div>
         </div>
@@ -591,7 +591,7 @@
       <article class="game" data-hb="game · Isometric Tactics">
         <div class="game__media">
           <div class="vid" style="--ar:800/450">
-            <img src="assets/img/iso-poster.webp" alt="Tablero isométrico de 8×8 rodeado de lava con dos ejércitos de pixel art." loading="lazy" width="800" height="450">
+            <img src="assets/img/iso-poster.webp" alt="Tablero isométrico de 8×8 rodeado de lava con dos ejércitos de pixel art." data-alt-en="An 8×8 isometric board ringed by lava with two pixel-art armies." loading="lazy" width="800" height="450">
             <button type="button" class="vid__play" data-video="assets/video/iso.webm"><span aria-hidden="true">▶</span> <span lang="es">Ver</span><span lang="en">Watch</span></button>
           </div>
         </div>
@@ -606,7 +606,7 @@
       <article class="game" data-hb="game · Super Cide Bros">
         <div class="game__media">
           <div class="vid" style="--ar:800/450">
-            <img src="assets/img/scb-poster.webp" alt="Plataformas con el campus del colegio CIDE como fondo en parallax." loading="lazy" width="800" height="450">
+            <img src="assets/img/scb-poster.webp" alt="Plataformas con el campus del colegio CIDE como fondo en parallax." data-alt-en="Platformer with the CIDE school campus as parallax background." loading="lazy" width="800" height="450">
             <button type="button" class="vid__play" data-video="assets/video/scb.webm"><span aria-hidden="true">▶</span> <span lang="es">Ver</span><span lang="en">Watch</span></button>
           </div>
         </div>
@@ -620,7 +620,7 @@
 
       <article class="game" data-hb="game · U.Roguelike">
         <div class="game__media" style="display:grid;place-items:center;background:#16323a">
-          <img class="pix" src="assets/img/templar.png" alt="Sprite de un templario atacando con la espada." width="64" height="64" style="width:38%;height:auto">
+          <img class="pix" src="assets/img/templar.png" alt="Sprite de un templario atacando con la espada." data-alt-en="Sprite of a templar attacking with a sword." width="64" height="64" style="width:38%;height:auto">
         </div>
         <div class="game__body">
           <div class="game__meta"><span class="chip">Unity 2022</span><span class="chip">2024</span><span class="chip"><span lang="es">Equipo</span><span lang="en">Team</span></span></div>
@@ -634,7 +634,7 @@
         <div class="game__media">
           <div class="formula" data-armor>
             <code>daño = bruto × 100 / (100 + armadura)</code>
-            <svg viewBox="0 0 300 110" role="img" aria-label="Curva de reducción de daño: con 100 de armadura se recibe la mitad."></svg>
+            <svg viewBox="0 0 300 110" role="img" aria-label="Curva de reducción de daño: con 100 de armadura se recibe la mitad." data-aria-en="Damage reduction curve: with 100 armour you take half."></svg>
           </div>
         </div>
         <div class="game__body">
@@ -647,7 +647,7 @@
 
       <article class="game" data-hb="game · PlayableRaces">
         <div class="game__media">
-          <div class="races" role="img" aria-label="Modificadores de las razas frente al humano: maná, velocidad, vida y daño.">
+          <div class="races" role="img" aria-label="Modificadores de las razas frente al humano: maná, velocidad, vida y daño." data-aria-en="Race modifiers against the human baseline: mana, speed, health and damage.">
             <div class="hd"><span></span><span><span lang="es">maná</span><span lang="en">mana</span></span><span><span lang="es">veloc.</span><span lang="en">speed</span></span><span><span lang="es">vida</span><span lang="en">HP</span></span><span><span lang="es">daño</span><span lang="en">dmg</span></span></div>
             <div><span><span lang="es">Elfo</span><span lang="en">Elf</span></span><i style="--d:25"></i><i style="--d:20"></i><i style="--d:0"></i><i style="--d:0"></i></div>
             <div><span><span lang="es">Bestia</span><span lang="en">Beast</span></span><i class="neg" style="--d:-15"></i><i style="--d:25"></i><i style="--d:0"></i><i style="--d:15"></i></div>
@@ -664,7 +664,7 @@
 
       <article class="game" data-hb="game · Animal Expirement">
         <div class="game__media" style="background:#2c2140">
-          <img src="assets/img/animal-key.webp" alt="Portada de Animal Expirement: un cerdo, un ratón y un conejo sobre un fondo morado estrellado." loading="lazy" width="500" height="500" style="object-fit:contain">
+          <img src="assets/img/animal-key.webp" alt="Portada de Animal Expirement: un cerdo, un ratón y un conejo sobre un fondo morado estrellado." data-alt-en="Animal Expirement cover: a pig, a mouse and a rabbit on a starry purple background." loading="lazy" width="500" height="500" style="object-fit:contain">
         </div>
         <div class="game__body">
           <div class="game__meta"><span class="chip">Phaser 3</span><span class="chip">2022</span><span class="chip"><span lang="es">Equipo de 2</span><span lang="en">Team of 2</span></span></div>
@@ -676,7 +676,7 @@
 
       <article class="game" data-hb="game · Duelo de insultos">
         <div class="game__media">
-          <div class="term" data-duel aria-label="Minijuego: duelo de insultos">
+          <div class="term" data-duel aria-label="Minijuego: duelo de insultos" data-aria-en="Mini-game: insult duel">
             <div class="term__bar"><span lang="es">PIRATA</span><span lang="en">PIRATE</span> <span data-hp></span></div>
             <div class="term__log" data-log></div>
             <div class="term__opts" data-opts></div>
@@ -706,12 +706,12 @@
       <li class="tool" data-hb="tool · IA Hub">
         <div><h3>IA Hub</h3><p class="label">Electron · React 19 · TypeScript · 2026</p><div class="tool__links"><a href="https://github.com/NicoRuedaA/ia-hub" target="_blank" rel="noopener">GitHub ↗</a></div></div>
         <div><p><span lang="es">Uso varias suscripciones de IA para programar y quería ver todos sus límites de uso en un solo sitio. Esta app de escritorio local lee los mismos paneles de uso que ya ves en cada servicio (Claude, Codex, Gemini, OpenCode Go) y muestra cuentas atrás de reinicio y niveles de riesgo: normal por debajo del 60 %, vigilar desde el 60 %, alto desde el 80 %.</span><span lang="en">I use several AI subscriptions for coding and wanted all their usage limits in one place. This local desktop app reads the same usage pages you already see on each service (Claude, Codex, Gemini, OpenCode Go) and shows reset countdowns and risk levels: normal under 60%, watch from 60%, high from 80%.</span></p><p><span lang="es">Arquitectura por capas, persistencia detrás de un puerto de repositorio y un token de generación que descarta respuestas lentas que llegan tarde. Un colaborador rediseñó la interfaz en un PR que revisé y fusioné.</span><span lang="en">Layered architecture, persistence behind a repository port and a generation token that discards slow responses arriving late. A collaborator redesigned the UI in a PR that I reviewed and merged.</span></p></div>
-        <figure class="tool__media"><img src="assets/img/iahub.webp" alt="Ventana de IA Hub en modo oscuro con cuatro proveedores y sus medidores de uso." loading="lazy" width="1600" height="886"><figcaption><span lang="es">Captura real, dentro de una ventana de Hyprland.</span><span lang="en">Real screenshot, inside a Hyprland window.</span></figcaption></figure>
+        <figure class="tool__media"><img src="assets/img/iahub.webp" alt="Ventana de IA Hub en modo oscuro con cuatro proveedores y sus medidores de uso." data-alt-en="IA Hub window in dark mode with four providers and their usage meters." loading="lazy" width="1600" height="886"><figcaption><span lang="es">Captura real, dentro de una ventana de Hyprland.</span><span lang="en">Real screenshot, inside a Hyprland window.</span></figcaption></figure>
       </li>
       <li class="tool" data-hb="tool · Omarchy plugins">
         <div><h3>Omarchy plugins</h3><p class="label">QML · Quickshell · Python · 2026 · MIT</p><div class="tool__links"><a href="https://github.com/NicoRuedaA/omarchy-plugins" target="_blank" rel="noopener">GitHub ↗</a></div></div>
         <div><p><span lang="es">Widgets para la barra de mi escritorio (Arch Linux + Hyprland). Git Projects muestra los últimos commits y el estado de CI de mis repos en GitHub y GitLab, con consultas en paralelo y un fichero de estado que se escribe de forma atómica para que el widget nunca lea algo a medias. El segundo es una versión personalizada del widget de agentes de Omarchy.</span><span lang="en">Widgets for my desktop bar (Arch Linux + Hyprland). Git Projects shows the latest commits and CI status of my GitHub and GitLab repos, with parallel queries and a status file written atomically so the widget never reads a half-written file. The second one is a customised version of Omarchy's agents widget.</span></p></div>
-        <div class="tool__media"><div class="ci" role="img" aria-label="Maqueta del widget con tres repos: uno correcto, uno ejecutándose y uno fallando.">
+        <div class="tool__media"><div class="ci" role="img" aria-label="Maqueta del widget con tres repos: uno correcto, uno ejecutándose y uno fallando." data-aria-en="Widget mock-up with three repos: one passing, one running and one failing.">
           <div><span>Voxelizer · main</span><span class="pill ok">success</span></div>
           <div><span>tactical-prototype · feat/map</span><span class="pill run">running</span></div>
           <div><span>face-generator · main</span><span class="pill ko">failed</span></div>
@@ -723,7 +723,7 @@
         <div><p><span lang="es">¿Se puede predecir el precio de una carta de Magic: The Gathering por sus estadísticas? Con 112.632 cartas de Scryfall filtradas a 19.952 criaturas, un Random Forest sobre todo el mercado no sirve: los precios de coleccionista lo rompen. Recortar a cartas de hasta 30 $ lo vuelve útil, aunque modesto. El precio depende de la escasez, el arte y la moda más que de las estadísticas.</span><span lang="en">Can you predict a Magic: The Gathering card's price from its stats? With 112,632 Scryfall cards filtered to 19,952 creatures, a Random Forest over the whole market fails: collector prices break it. Clipping to cards up to $30 makes it useful, if modest. Price depends on scarcity, art and hype more than on stats.</span></p></div>
         <div class="tool__media">
           <div class="mtg" data-mtg>
-            <div class="seg" role="group" aria-label="Datos del modelo">
+            <div class="seg" role="group" aria-label="Datos del modelo" data-aria-en="Model data">
               <button type="button" data-mtg-set="all" aria-pressed="false"><span lang="es">Todo el mercado</span><span lang="en">Whole market</span></button>
               <button type="button" data-mtg-set="clip" aria-pressed="true">≤ 30 $</button>
             </div>
@@ -738,7 +738,7 @@
       <li class="tool" data-hb="tool · Spawn">
         <div><h3>Spawn</h3><p class="label">Node 24 · Express 5 · React 19 · SQLite · 2026</p><div class="tool__links"><span class="chip"><span lang="es">Código privado</span><span lang="en">Private code</span></span></div></div>
         <div><p><span lang="es">Una plataforma gratuita donde equipos pequeños publican juegos y herramientas hechos con ayuda de IA, importándolos desde GitHub. La hice con la seguridad por delante: contraseñas con scrypt y comparación en tiempo constante, OAuth con PKCE que descarta el token tras identificar al usuario, límites por ruta y un contenedor Docker de solo lectura sin privilegios. Las portadas de ejemplo se generan con fórmulas.</span><span lang="en">A free platform where small teams publish games and tools made with AI help, importing them from GitHub. I built it security-first: scrypt passwords with constant-time comparison, PKCE OAuth that discards the token after identifying the user, per-route rate limits and a read-only, unprivileged Docker container. The sample covers are generated from formulas.</span></p></div>
-        <figure class="tool__media"><img src="assets/img/spawn-covers.webp" alt="Seis portadas procedurales: montañas, forja, bosque, ciudad de neón, hábitat espacial." loading="lazy" width="1200" height="480"><figcaption><span lang="es">Portadas procedurales en SVG, deterministas.</span><span lang="en">Deterministic procedural SVG covers.</span></figcaption></figure>
+        <figure class="tool__media"><img src="assets/img/spawn-covers.webp" alt="Seis portadas procedurales: montañas, forja, bosque, ciudad de neón, hábitat espacial." data-alt-en="Six procedural covers: mountains, forge, forest, neon city, space habitat." loading="lazy" width="1200" height="480"><figcaption><span lang="es">Portadas procedurales en SVG, deterministas.</span><span lang="en">Deterministic procedural SVG covers.</span></figcaption></figure>
       </li>
       <li class="tool" data-hb="tool · otros">
         <div><h3><span lang="es">Y además</span><span lang="en">Also</span></h3><p class="label">Python · Django · OpenCV</p></div>
@@ -814,9 +814,9 @@
         </ul>
       </div>
       <div class="boss__art">
-        <div class="hand hand--lvl2" role="img" aria-label="Texto manuscrito: LVL2 - BOSS"><i class="ink"></i></div>
-        <img src="assets/img/reymosca.webp" alt="El Rey Mosca, jefe de Sapo Mafioso: un enjambre de moscas azules con ojos verdes. Dibujado por Nico." loading="lazy" width="500" height="500">
-        <div class="hand hand--cerrado" role="img" aria-label="Nota manuscrita: cerrado hasta matar a todos"><i class="ink"></i></div>
+        <div class="hand hand--lvl2" role="img" aria-label="Texto manuscrito: LVL2 - BOSS" data-aria-en="Handwritten text: LVL2 - BOSS"><i class="ink"></i></div>
+        <img src="assets/img/reymosca.webp" alt="El Rey Mosca, jefe de Sapo Mafioso: un enjambre de moscas azules con ojos verdes. Dibujado por Nico." data-alt-en="The Fly King, Sapo Mafioso&#x27;s boss: a swarm of blue flies with green eyes. Drawn by Nico." loading="lazy" width="500" height="500">
+        <div class="hand hand--cerrado" role="img" aria-label="Nota manuscrita: cerrado hasta matar a todos" data-aria-en="Handwritten note: closed until you kill everyone"><i class="ink"></i></div>
         <p class="note"><span lang="es">Notas del boceto original: el Rey Mosca y «[cerrado hasta matar a todos]». Aquí no hace falta matar a nadie.</span><span lang="en">Notes from the original sketch: the Fly King and “[closed until you kill everyone]”. No need to kill anyone here.</span></p>
       </div>
     </div>
@@ -839,7 +839,7 @@
       <div class="swatches" aria-hidden="true">
         <span><i style="background:#e3e7ec"></i>papel</span><span><i style="background:#2437a0"></i>boli</span><span><i style="background:#d9481c"></i>rotulador</span><span><i style="background:#0a0c10"></i>vacío</span><span><i style="background:#5cc8ff"></i>traza</span><span><i style="background:#ff6b8a"></i>rival</span>
       </div>
-      <div class="hand hand--legend" role="img" aria-label="Leyenda manuscrita del boceto: enemigos, enemigos móviles, romper, enemigo interior."><i class="ink"></i><i class="mark"></i></div>
+      <div class="hand hand--legend" role="img" aria-label="Leyenda manuscrita del boceto: enemigos, enemigos móviles, romper, enemigo interior." data-aria-en="Handwritten legend from the sketch: enemies, moving enemies, breakable, enemy inside."><i class="ink"></i><i class="mark"></i></div>
     </div>
     <div class="colo__col">
       <span class="label"><span lang="es">Créditos y licencias</span><span lang="en">Credits and licences</span></span>

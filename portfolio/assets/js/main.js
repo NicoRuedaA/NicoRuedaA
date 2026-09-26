@@ -31,8 +31,16 @@ function syncLang() {
   $$('[data-num]').forEach((el) => {
     el.textContent = (el.dataset.approx ? '≈' : '') + fmt(Number(el.dataset.num));
   });
-  // attributes that can't hold two <span lang> children
-  $$('[data-aria-es]').forEach((el) => el.setAttribute('aria-label', cur === 'en' ? el.dataset.ariaEn : el.dataset.ariaEs));
+  // attributes can't hold two <span lang> children: the Spanish lives in the
+  // attribute itself, the English in data-*-en; keep a copy of the Spanish
+  const attrs = [['aria-label', 'ariaEn', 'ariaEs'], ['alt', 'altEn', 'altEs'], ['title', 'titleEn', 'titleEs']];
+  $$('[data-aria-en], [data-alt-en], [data-title-en]').forEach((el) => {
+    for (const [attr, en, es] of attrs) {
+      if (el.dataset[en] == null) continue;
+      if (el.dataset[es] == null) el.dataset[es] = el.getAttribute(attr) || '';
+      el.setAttribute(attr, cur === 'en' ? el.dataset[en] : el.dataset[es]);
+    }
+  });
   document.title = 'Nico Rueda';
 }
 $$('[data-set-lang]').forEach((b) => b.addEventListener('click', () => {
