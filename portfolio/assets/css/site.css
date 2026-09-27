@@ -1372,3 +1372,22 @@ main > section + section { margin-top: var(--page-gap); }
 .scan--controles .scan__img > i { -webkit-mask-image: url(../cuaderno/p2/controles.webp); mask-image: url(../cuaderno/p2/controles.webp); }
 .scan--controles figcaption { font-size: .82rem; color: var(--ink-3); margin-top: 8px; }
 .doodle--gato { --d: url(../cuaderno/p2/gato.webp); width: 40px; aspect-ratio: 160 / 276; background: var(--ink); margin-top: 18px; }
+
+/* ------------------------------------------------------------------------
+   Titles in his hand (Spanish; the English titles stay typeset). Each word
+   is its own mask, so a title wraps like text; the real words stay in the
+   page for screen readers, search and copy. Words written on one line
+   share a scale, so his own size changes survive; each sits on its baseline.
+   ------------------------------------------------------------------------ */
+.hwt { --k: .8em; word-spacing: .34em; letter-spacing: 0; }
+.hwt i {
+  display: inline-block; vertical-align: calc(var(--d) / var(--c) * var(--k) * -1);
+  height: calc(var(--h) / var(--c) * var(--k)); aspect-ratio: var(--w) / var(--h);
+  background: currentColor;
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+}
+#h-name .hwt { --k: .74em; }
+h1:has(.hwt), h2:has(.hwt), .boss__text .big { filter: none; }
+h2:has(.hwt) [lang="en"], .boss__text .big [lang="en"] { filter: url(#ink); }
+@media (forced-colors: active) { .hwt i { forced-color-adjust: none; background: CanvasText; } }
+.sheet__title h2 .hwt { --k: .74em; }
