@@ -1391,3 +1391,35 @@ h1:has(.hwt), h2:has(.hwt), .boss__text .big { filter: none; }
 h2:has(.hwt) [lang="en"], .boss__text .big [lang="en"] { filter: url(#ink); }
 @media (forced-colors: active) { .hwt i { forced-color-adjust: none; background: CanvasText; } }
 .sheet__title h2 .hwt { --k: .74em; }
+
+/* ------------------------------------------------------------------------
+   Icons he drew for the site (parte 4): play, pause, outbound arrow, tick,
+   and a block of ink. «Papel» is an empty box: his «consola» box, small.
+   ------------------------------------------------------------------------ */
+.ico { display: inline-block; flex: none; background: currentColor; -webkit-mask: var(--i) center / contain no-repeat; mask: var(--i) center / contain no-repeat; }
+.ico--play { --i: url(../cuaderno/iconos/play.webp); width: .8em; height: .9em; }
+.ico--play.ico--pause, .ico--pause { --i: url(../cuaderno/iconos/pause.webp); }
+.ico--tinta { --i: url(../cuaderno/iconos/tinta.webp); width: 18px; height: 9px; }
+.ico--papel {
+  width: 14px; height: 13px; --k: 5px;
+  -webkit-mask:
+    var(--hbs-tl) 0 0 / var(--k) var(--k) no-repeat, var(--hbs-tr) 100% 0 / var(--k) var(--k) no-repeat,
+    var(--hbs-bl) 0 100% / var(--k) var(--k) no-repeat, var(--hbs-br) 100% 100% / var(--k) var(--k) no-repeat,
+    var(--hbs-t) var(--k) 0 / calc(100% - 2 * var(--k)) var(--k) no-repeat, var(--hbs-b) var(--k) 100% / calc(100% - 2 * var(--k)) var(--k) no-repeat,
+    var(--hbs-l) 0 var(--k) / var(--k) calc(100% - 2 * var(--k)) no-repeat, var(--hbs-r) 100% var(--k) / var(--k) calc(100% - 2 * var(--k)) no-repeat;
+  mask:
+    var(--hbs-tl) 0 0 / var(--k) var(--k) no-repeat, var(--hbs-tr) 100% 0 / var(--k) var(--k) no-repeat,
+    var(--hbs-bl) 0 100% / var(--k) var(--k) no-repeat, var(--hbs-br) 100% 100% / var(--k) var(--k) no-repeat,
+    var(--hbs-t) var(--k) 0 / calc(100% - 2 * var(--k)) var(--k) no-repeat, var(--hbs-b) var(--k) 100% / calc(100% - 2 * var(--k)) var(--k) no-repeat,
+    var(--hbs-l) 0 var(--k) / var(--k) calc(100% - 2 * var(--k)) no-repeat, var(--hbs-r) 100% var(--k) / var(--k) calc(100% - 2 * var(--k)) no-repeat;
+}
+.vid__play .ico { color: var(--red); }
+/* outbound links: his ↗, drawn as one arrow instead of a turned → */
+.ext { -webkit-mask-image: url(../cuaderno/iconos/ext.webp); mask-image: url(../cuaderno/iconos/ext.webp); width: .95em; height: .85em; transform: none; vertical-align: -.02em; }
+/* the replay's play/pause */
+.tgl[data-play] { display: inline-flex; align-items: center; gap: .45em; }
+.tgl[data-play]::after { content: ""; order: -1; width: .75em; height: .85em; background: currentColor; -webkit-mask: url(../cuaderno/iconos/play.webp) center / contain no-repeat; mask: url(../cuaderno/iconos/play.webp) center / contain no-repeat; }
+.tgl[data-play][data-state="pause"]::after { -webkit-mask-image: url(../cuaderno/iconos/pause.webp); mask-image: url(../cuaderno/iconos/pause.webp); }
+/* copied: his tick */
+.copy.is-done::after { content: ""; display: inline-block; width: .7em; height: 1em; margin-left: .4em; vertical-align: -.15em; background: currentColor; -webkit-mask: url(../cuaderno/iconos/ok.webp) center / contain no-repeat; mask: url(../cuaderno/iconos/ok.webp) center / contain no-repeat; }
+@media (forced-colors: active) { .ico, .tgl[data-play]::after, .copy.is-done::after { forced-color-adjust: none; background: ButtonText; } }

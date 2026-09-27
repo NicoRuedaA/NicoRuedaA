@@ -58,11 +58,11 @@
       </div>
       <div class="seg" role="group" id="theme-group" aria-label="Tema: papel (claro) o tinta (oscuro)" data-aria-en="Theme: paper (light) or ink (dark)">
         <button type="button" data-set-theme="light" aria-pressed="false" title="Papel · tema claro" data-title-en="Paper · light theme">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2.6l10.4-.3M13 1.6l.3 12.6M13.8 13.6l-10.9.3M3.4 14.6L3.1 1.8" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+          <i class="ico ico--papel" aria-hidden="true"></i>
           <span class="seg__txt-long"><span lang="es">papel</span><span lang="en">paper</span></span>
         </button>
         <button type="button" data-set-theme="dark" aria-pressed="false" title="Tinta · tema oscuro" data-title-en="Ink · dark theme">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2.4h10.2v11.4H3z" fill="currentColor"/><path d="M5 5.5l6.4-.2M5 8l5-.1M5 10.5l6-.1" stroke="var(--paper)" stroke-width="1.1" stroke-linecap="round"/></svg>
+          <i class="ico ico--tinta" aria-hidden="true"></i>
           <span class="seg__txt-long"><span lang="es">tinta</span><span lang="en">ink</span></span>
         </button>
       </div>
@@ -365,7 +365,7 @@
         <figure class="plate" data-hb="figure · assets/image.gif">
           <div class="vid" style="--ar: 800 / 520">
             <img src="assets/img/voxelizer-poster.webp" alt="Interfaz de Voxelizer con un mago de pixel art convertido en vóxeles." data-alt-en="Voxelizer&#x27;s interface with a pixel-art wizard turned into voxels." loading="lazy" width="800" height="520">
-            <button type="button" class="vid__play" data-video="assets/video/voxelizer.webm"><span aria-hidden="true">▶</span> <span lang="es">Ver demo · 15 s · 1 MB</span><span lang="en">Watch demo · 15 s · 1 MB</span></button>
+            <button type="button" class="vid__play" data-video="assets/video/voxelizer.webm"><i class="ico ico--play" aria-hidden="true"></i> <span lang="es">Ver demo · 15 s · 1 MB</span><span lang="en">Watch demo · 15 s · 1 MB</span></button>
           </div>
           <figcaption class="plate__cap">
             <span class="label">FIG. 3</span>
@@ -607,7 +607,7 @@
         <div class="game__media">
           <div class="vid" style="--ar:594/332">
             <img src="assets/img/catpire-poster.webp" alt="Partida de Catpire Survivors: el mago rodeado de enemigos, con corazones y experiencia en el HUD." data-alt-en="Catpire Survivors gameplay: the wizard surrounded by enemies, with hearts and experience in the HUD." loading="lazy" width="594" height="332">
-            <button type="button" class="vid__play" data-video="assets/video/catpire.webm"><span aria-hidden="true">▶</span> <span lang="es">Ver partida</span><span lang="en">Watch gameplay</span></button>
+            <button type="button" class="vid__play" data-video="assets/video/catpire.webm"><i class="ico ico--play" aria-hidden="true"></i> <span lang="es">Ver partida</span><span lang="en">Watch gameplay</span></button>
           </div>
         </div>
         <div class="game__body">
@@ -622,7 +622,7 @@
         <div class="game__media">
           <div class="vid" style="--ar:800/450">
             <img src="assets/img/iso-poster.webp" alt="Tablero isométrico de 8×8 rodeado de lava con dos ejércitos de pixel art." data-alt-en="An 8×8 isometric board ringed by lava with two pixel-art armies." loading="lazy" width="800" height="450">
-            <button type="button" class="vid__play" data-video="assets/video/iso.webm"><span aria-hidden="true">▶</span> <span lang="es">Ver</span><span lang="en">Watch</span></button>
+            <button type="button" class="vid__play" data-video="assets/video/iso.webm"><i class="ico ico--play" aria-hidden="true"></i> <span lang="es">Ver</span><span lang="en">Watch</span></button>
           </div>
         </div>
         <div class="game__body">
@@ -637,7 +637,7 @@
         <div class="game__media">
           <div class="vid" style="--ar:800/450">
             <img src="assets/img/scb-poster.webp" alt="Plataformas con el campus del colegio CIDE como fondo en parallax." data-alt-en="Platformer with the CIDE school campus as parallax background." loading="lazy" width="800" height="450">
-            <button type="button" class="vid__play" data-video="assets/video/scb.webm"><span aria-hidden="true">▶</span> <span lang="es">Ver</span><span lang="en">Watch</span></button>
+            <button type="button" class="vid__play" data-video="assets/video/scb.webm"><i class="ico ico--play" aria-hidden="true"></i> <span lang="es">Ver</span><span lang="en">Watch</span></button>
           </div>
         </div>
         <div class="game__body">
@@ -895,7 +895,7 @@
   <div class="wrap grid colo__grid">
     <div class="colo__col">
       <span class="label"><span lang="es">Esta web</span><span lang="en">This site</span></span>
-      <p><span lang="es">Escrita en HTML, CSS y JavaScript, sin frameworks ni build, con ayuda de agentes de programación. Las figuras interactivas ejecutan código o reglas de mis proyectos. Todo lo escrito o dibujado a mano son fotos de mis cuadernos y de mi boceto de 2022, recortadas y recoloreadas según el tema: las cifras de los números salen de unos apuntes de árboles AVL, el fluorescente rosa de un diagrama entidad-relación y las rayas entre filas son trazos de lápiz, boli y rotulador. Los botones llevan el recuadro que dibujé alrededor de «consola» en unos apuntes; las capturas, una viñeta de un storyboard; lo elegido va rodeado con el círculo de mis árboles AVL, y el papel tiene el grano de una hoja fotografiada. Los marcos de las figuras interactivas y sus dibujos los traza el código imitando cómo dibujo: una línea por lado, con presión, que se pasa de la esquina, y sombreado a 60°. Los títulos en español y mi nombre los escribí a mano para esta web; el resto del texto va en letra de imprenta.</span><span lang="en">Written in HTML, CSS and JavaScript, with no framework or build step, with help from coding agents. The interactive figures run code or rules from my projects. Everything handwritten or hand-drawn is a photo of my notebooks and of my 2022 sketch, cropped and recoloured per theme: the digits in the numbers come from some AVL tree notes, the pink highlighter from an entity-relationship diagram, and the rules between rows are pencil, ballpoint and marker strokes. Buttons carry the box I drew around “consola” in some notes; screenshots, a storyboard panel; whatever is selected gets the ring from my AVL trees, and the paper has the grain of a photographed page. The frames of the interactive figures and the drawings inside them are drawn by code imitating how I draw: one line per side, with pressure, running past the corner, and 60° hatching. The Spanish titles and my name were handwritten for this site; the rest of the text is typeset.</span></p>
+      <p><span lang="es">Escrita en HTML, CSS y JavaScript, sin frameworks ni build, con ayuda de agentes de programación. Las figuras interactivas ejecutan código o reglas de mis proyectos. Todo lo escrito o dibujado a mano son fotos de mis cuadernos y de mi boceto de 2022, recortadas y recoloreadas según el tema: las cifras de los números salen de unos apuntes de árboles AVL, el fluorescente rosa de un diagrama entidad-relación y las rayas entre filas son trazos de lápiz, boli y rotulador. Los botones llevan el recuadro que dibujé alrededor de «consola» en unos apuntes; las capturas, una viñeta de un storyboard; lo elegido va rodeado con el círculo de mis árboles AVL; reproducir, pausa, la flecha de los enlaces, el visto bueno y la mancha de tinta del tema oscuro los dibujé para la web, y el papel tiene el grano de una hoja en blanco fotografiada. Los marcos de las figuras interactivas y sus dibujos los traza el código imitando cómo dibujo: una línea por lado, con presión, que se pasa de la esquina, y sombreado a 60°. Los títulos en español y mi nombre los escribí a mano para esta web; el resto del texto va en letra de imprenta.</span><span lang="en">Written in HTML, CSS and JavaScript, with no framework or build step, with help from coding agents. The interactive figures run code or rules from my projects. Everything handwritten or hand-drawn is a photo of my notebooks and of my 2022 sketch, cropped and recoloured per theme: the digits in the numbers come from some AVL tree notes, the pink highlighter from an entity-relationship diagram, and the rules between rows are pencil, ballpoint and marker strokes. Buttons carry the box I drew around “consola” in some notes; screenshots, a storyboard panel; whatever is selected gets the ring from my AVL trees; play, pause, the link arrow, the tick and the ink blot for the dark theme I drew for the site, and the paper has the grain of a photographed blank sheet. The frames of the interactive figures and the drawings inside them are drawn by code imitating how I draw: one line per side, with pressure, running past the corner, and 60° hatching. The Spanish titles and my name were handwritten for this site; the rest of the text is typeset.</span></p>
       <p class="mono" style="font-size:.7rem;color:var(--ink-3)" data-weight></p>
       <p><button type="button" class="tgl" id="hitbox" aria-pressed="false"><span lang="es">Ver hitboxes</span><span lang="en">Show hitboxes</span></button> <span class="plate__hint"><span lang="es">como la tecla H de Catpire Survivors</span><span lang="en">like the H key in Catpire Survivors</span></span></p>
     </div>

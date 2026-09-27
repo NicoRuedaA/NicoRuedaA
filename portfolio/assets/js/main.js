@@ -146,12 +146,12 @@ const vidIO = new IntersectionObserver((entries) => {
 });
 $$('[data-video]').forEach((btn) => {
   const box = btn.closest('.vid');
-  const glyph = btn.querySelector('[aria-hidden]');
+  const glyph = btn.querySelector('.ico');
   const labels = [...btn.querySelectorAll('[lang]')].map((el) => [el, el.textContent]);
   btn.setAttribute('aria-pressed', 'false');
   const show = (playing) => {
     box.classList.toggle('is-playing', playing);
-    glyph.textContent = playing ? '❚❚' : '▶';
+    glyph.classList.toggle('ico--pause', playing);
     btn.setAttribute('aria-pressed', String(playing));
   };
   const fail = () => {
@@ -173,7 +173,7 @@ $$('[data-video]').forEach((btn) => {
     }
     if (v.paused) {
       videos.forEach((o) => { if (o !== v && !o.paused) o.pause(); });
-      $$('.vid.is-playing').forEach((b) => { if (b !== box) { b.classList.remove('is-playing'); const g = b.querySelector('.vid__play [aria-hidden]'); if (g) g.textContent = '▶'; b.querySelector('.vid__play')?.setAttribute('aria-pressed', 'false'); } });
+      $$('.vid.is-playing').forEach((b) => { if (b !== box) { b.classList.remove('is-playing'); const g = b.querySelector('.vid__play .ico'); if (g) g.classList.remove('ico--pause'); b.querySelector('.vid__play')?.setAttribute('aria-pressed', 'false'); } });
       labels.forEach(([el, txt]) => { el.textContent = txt; });
       v.play().then(() => show(true)).catch(fail);
     } else {

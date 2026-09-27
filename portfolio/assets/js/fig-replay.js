@@ -191,6 +191,7 @@ export async function mount(fig) {
     playing = v;
     if (playing && tick >= LAST) tick = 0;
     playBtn.textContent = playing ? t('Pausa', 'Pause') : tick >= LAST ? t('Repetir', 'Replay') : t('Reproducir', 'Play');
+    playBtn.dataset.state = playing ? 'pause' : 'play';
     loop.kick();
   }
   playBtn.addEventListener('click', () => setPlaying(!playing));
