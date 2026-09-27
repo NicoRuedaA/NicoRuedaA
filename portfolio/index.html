@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="es" data-lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nico Rueda</title>
+<meta name="description" content="Nico Rueda, diseñador de juegos y desarrollador multiplataforma en Manacor (Mallorca). Simulaciones deterministas en Rust/WASM, herramientas web, juegos y servidores en producción.">
+<meta name="author" content="Nicolás Rueda Araque">
+<meta property="og:title" content="Nico Rueda · diseñador de juegos y desarrollador multiplataforma">
+<meta property="og:description" content="Diseño antes de programar, a boli o en especificaciones, y luego escribo los sistemas: simulaciones deterministas en Rust, herramientas para el navegador y servidores en producción.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nicorueda.dev/">
+<meta name="theme-color" content="#f6f6f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1326" media="(prefers-color-scheme: dark)">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAANFElEQVR42tVbe3Bc5XX/nfN99+5Kq9XDtmTZYDtgYxNB7BSXNDQDMjMlIVMGGJd1+KPvlpJMh8lMG1KYSSOJjJuhTZMwJB06hWSSQDvVtknapi0BWrwJzZCWlFctYiP8wpIlWS9L2te933dO/7grW2Cbl1e29M1otFrtvXvO77wfF1hWR6ned7SLROk8oVqXu+X6DQAgTz4BgXSZSCxn6oclsGXL3dnFklRdT8uGW1pPTB8gnHh5Cj3K6COtaQMBPbXvHCDkcme4Og/kuxQYIKBfVqz4pWymfcddHDatD4KWW1009eOxkX+5qzT+s2M1+peQNvT0MABz0WV33btp+4MH13Xde+e5Yr3hyr6/2XL1w7r5Fx/SzVc/pJd8YHdxRed17699IS8hDehhoE86N93ZlWna9F8maGkVX0GldHj30bF/+nNMDs6u3PK7TQ3pzmbjXLMi20bWhizsFUJQIVUhZvGIy6PCbgacvSeV7vi0+NgpvDKH1sXTh0cHH7umVBoYAcAAZIkAkDintWt/Y2W6Y9tB5lQjIExkyfviIYifIQ7aQbYFkBRzYEAMqC7Q5OS3SBwBiIxJN4lE8/8Q5pBdPP3KgRfv3QrA10P9uY7uRNGjPDz8nUnv5/7OmLRRVa/qxNim99mwbSubhjXEppHIGlVRFSeqXlRir+K8qhNVESITMtsmkcifFJKqggxU5VUAHrn+utDOdfUBfb0AoK547Euxm5tlDhhQUolFfEVUY4V6XSB2BpTJhIZMaOb/BlRVvQI4FUWIABUAaAVgkN+r9dDg+gKAPkGu3wwd+OtXXXXqXmLLUAgABhEnXBAtzBOILMQV94srHQYxTtkC0ekqpkqgtpPfteQ0AADyu3wu12+ODNz39Wpl7Ids0waq/nSXAUdk4eO5/5k6/pPfqpSP/YDeKqqpCnOKnC//HwCHHuUl5gNOnbGxvQQA6mcfPqXtC2VJYJuyqo7IpK9qbf/lfw3C1o+Lj+KEJNU3cw+y7N3cJKl8G1CqmRuWJACFQq8HQD6afNa74hTYmIQpVSKGipuJKiNPJliwMaZxRRC2Xco2HSRvBbQQNFUIs+WofOz+wwO7H8/l8rx0TaBmrrlcPw8NPnxUJPoRmxRUKTEDMgB0Mq5O/zclr0XVqWqsceX4IVUfuerUsIqLa2FRidiILwNafgro4XziALGEAQDyyAMAvJt+VHzFU80JqsQgMhvSmfX3qApUVdk0UKV87FtDBx65zcUzh7xUZ0/3gYB4svWS/KIDgHxeAGBi4vkfiSuP1qSt806AyBpAQSCCeljb1Nm++mNtRGRSDZ1biExQCwg0n7OJiKk3mYsHAKDd3T22OPrkmEr1ETZpVoVfGAZqfLFIhCC16sbGtiufDMKVG1XcAgevSkRQSASLyeUEAAoFCFSpFI1/IyqPvGBM2kL1jCqsScoL1VjfFC6FOAUR99Twvgf2JQVX/cxgUQEA+gTUS6P7HjhUOnFwp/jyFLGl08McFqo6vfltVQdfmfhGUkVfQctGAxZmh6NHHj4ovvwfxCHVssN3UbExKAhagB7OLScTOJUZJYmRi2d++m6TN1UokQGbzA1An8wnWUu6I3SmPsG6LX+4Nmzc+L/MYYeqA84U584GARkFtFwuHdw19Erz40u7FjiN/14A3daEnQ8a27Raxek7Zz5xAipejMlkLGV2An2Sy9XPDywuAN09Fn0kl3TtuDVMr94pruySqvBdqinBeF8Wm1p14/rL79mez+/ytfbbEgdgR68AILINd9RqgfcoOSKIUxtkLzJBdjfQbYHepa4BPYw+ktXrfrMLbK8XX8V7kf5CEESqqhqv7uhoXok+LMWGyEL1T+6dbt5wgw2ygapIHQgmVZjYuE318t+LB0AhifU2aL6pHuFGoUpkoJAn3dzQ8aamD65asg2RNx4b1q3pCoahsDQ7+9L+MAyryyQR0rrU7gQlQKHgy4Eensw2RMsDAKr3INMnxVCmQ4A1jcshFa7PBJrAKpGybbyufePvbcLAmACOlywA89maSPUIQNBzHmmTirhqELauas5efgdQcM3tGzvPlYdFA+BkZzguvVgPP0Js2diGtEoMVXdzdtXWza46fWlb2/bsudQ1iwZAoRYGS9FwwbuiUtITe4/Mh+Rd+bW4cvxB8ZUSc8P6VMOW2zItH9yujWs31BIvugD22cPd3W8EsdBxhSKfBzCA7u4eWyjsea5p26ZnTGrltRIXPd4VEKpEAbwrHZ2ee37H5OBjRzd0fe5w2Lj2L1pWXfNZ7+Yqxcnn/+0COqg+mZf0WbQAACDRNXeryRRAJkiGuvRO2fdsAivRxNcmBx87uunGB1LFV1/eY1NtYkymRSWO1WDsAgCQ1PiXbtv9ERG5XsRVmEMWXy0S05BzMyMs3jIy4xEmxivlIyMUtLxmg9bNIt4TwbwT86uNhUGQOQAYfPzT1XWX33Mlcciq4lX9ofEj3xs9l72h9wRAdze4UICwye5saFrzR87NJppd63eKr9R6eQLrVzvKsmUKQGxBbKHqoBJJMvJ+C5MgNSpVZdv2xUuuvG+bKmZN2PT7UPImaLRx6diTAKS7u9cWCnDnDYCOjisUALzMvVYpD+0XVz4OokaohgQUlagFQAyVcYBayeOEFz8MwpBC08zBR03QvJnIQHxVoKKgk00SfkMWpQpmzpp0xx06n/qrR3nuwKORL34ZUCoUyF+olpgBEACo1MBkABGAEImxn5mw1VszG9pv+agx2TuNbfwYcZB0y1WQtMtOcwae2BiiAKLRCedmvnjoxc/dv4R6ggvH2gtf9zBwnwBCyOW5u5YbFAp9J7m8aMvd1wdB9mZmez2Z9Eoic9Eb6VIQBRBfGfG+8s1o9vVvDR96aF+yfQY9151BWmQQ9azX5PoZ+U/4BR8JVm/94zAtmU+m0p1fEolFVdWYBuPc9J7SyHO7Rkbyx2t5pgHyvh6iq0cipG/xc/Zr8rtqW585g1y/QY/60Zf+suirsz9O9ikIRARVL1Kd++rISP74pk0PpBKtqg/z56sYOl363T321BZpXpDfq135vAUADhtvJw4AFQXAqk69jyYApcHBZ9zymQ6fWe0NAEWhz9WkWLPhPhkY2BWte/+f3BKmVt8lPpakf6jCJm1MmFkLkJ55s3RJOMF37iVXrPhQc/aim3YiKh6aKj7/0szRJ2bWX/ap9SZ98e0cZD7PZMNTgxMSgFAqHrx2eN+Xf5JskJEsMwCSrHHNmpsaU6s+dBeb9J3GZi9RiaASj4jG40zBRhM0N4hUaqqfZFFsUuzi6X0HioVtGPz3aDG2xO3iMq8EkLRs6G5NNX/4kXTj2p3iI4AIZFJQsp2GmjpVY4greRBqq3SqICMiEaqV4U9h8PEq0FuXrbDzCEAPAySdnTe2N7Zcv8eGzV0uLjrVaFIl/kcAXWwarlOJJRn/zqfEqgB7E2Rsee61Px3a9+DTyPWbJGrU/5jFs/kd1N7VkclkP/y9IL3qau/LkeEw8H5u//iB7/6Od8Vnw4aOj7BpaFcVX7tIiQMmYo7Kw185vPcLnweUMHClLKZzqv/p7rEo9Ln1Wz7za+nmzf+QzATVqELYpEyyKEUgCpBsh9aGPOohvjJWjY7f/freP/v2+Xg6ZHFMICmWmIPsbVCIQogpJDbWuGj6mEJLUB0FdOxUvmsUPvpuZeKnPzx27AfjCx60wPICoGavG664d2eQ7rjdS9kxWyNSHfHVib+anH7m6zNHnygCqL7lPfrI4zycRXOCKvYEVIQUADFVikc+O7T/q99ZuCeNXP70RCyfk+ThqPNz6g9APicAMFv9+XMmbJ6wtrFdfNWplKaR6zcY20so9HmAFHmcN0YXEwA6LdXvftoWCjtmWj6w+wXilhtIIyPKrQDQdRw8kOs/3bbzeQD9AvQS0Pd2xdRSiQJv7aXXbfnMb6ezGx8WV5qaPPy326emfnbkHZcNub83+ZPg7JLFAqQeYZBrXSEFQG1tv5IOm953sWm0zlWKK7IrrnoGRC4uD39FBQfZmFkRDZgNJ50S74isd/HcWKV84OcAMPH6Pw+fGezeGr29WiNdLwgAuVy/yed3+Uu33v9JEH9B4DzBhIAoKQzbhhbxFajKBDGXoGhSkCEVVSAiIquq4wQECs3YoKk9jk9USWmSTdip6l5Wdc+K+j0aFd34xH8+U3tOcGn4gK6uZF1dIUOGw++76uwLzLwKhIr31dfUzTSRRkc1cseiub3HvV3VMj70xEhb2y/w1NRTVeBiAo6Wk0x0ZePayz6xUaonIpvuzJhU668ykCaiq6xt+XUKWrkjdesLWHPzoHOlMYlPPB1XS68EfmZ6ePj7E8ulHH6bPuKZz5rtf9CYMdfaNJmGkptNAWXEc0PO00jVT2lldPTR4gUGIBmNFWptcoztJcy/zucBdGliryc9+9nuc5KO+VFbYUevoI9kiUeBxT5nWqujt2u4vqvz/4Zlm7J93Fp7AAAAAElFTkSuQmCC">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..800&family=Martian+Mono:wdth,wght@87.5,400..600&display=swap">
+<link rel="stylesheet" href="assets/css/site.css">
+<script>
+  /* Theme + language before first paint. Storage may be unavailable: that's fine. */
+  (function () {
+    var d = document.documentElement, t = null, l = null;
+    try { t = localStorage.getItem('nr-theme'); l = localStorage.getItem('nr-lang'); } catch (e) {}
+    if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
+    if (l !== 'es' && l !== 'en') {
+      var n = (navigator.language || 'es').toLowerCase();
+      l = (n.indexOf('es') === 0 || n.indexOf('ca') === 0 || n.indexOf('gl') === 0 || n.indexOf('eu') === 0) ? 'es' : 'en';
+    }
+    d.setAttribute('data-lang', l); d.setAttribute('lang', l);
+    d.className += ' js';
+    /* if main.js never runs, show everything it would have revealed */
+    addEventListener('load', function () { if (!d.classList.contains('js-ok')) d.classList.remove('js'); });
+  })();
+</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="ink" x="-2%" y="-10%" width="104%" height="120%"><feTurbulence type="fractalNoise" baseFrequency=".75" numOctaves="2" seed="4" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="1.8" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
+<a class="skip" href="#main"><span lang="es">Saltar al contenido</span><span lang="en">Skip to content</span></a>
+
+<header class="bar" data-hb="header.bar">
+  <div class="wrap bar__in">
+    <a class="brand" href="#top" aria-label="Nico Rueda, inicio" data-aria-en="Nico Rueda, home">
+      <b>Nico Rueda</b><span>nicorueda.dev</span>
+    </a>
+    <nav class="nav" aria-label="Secciones" data-aria-en="Sections">
+      <a href="#trabajo"><span lang="es">Trabajo</span><span lang="en">Work</span></a>
+      <a href="#juegos"><span lang="es">Juegos</span><span lang="en">Games</span></a>
+      <a href="#cuaderno"><span lang="es">Cuaderno</span><span lang="en">Notebook</span></a>
+      <a href="#herramientas"><span lang="es">Herramientas</span><span lang="en">Tools</span></a>
+      <a href="#metodo"><span lang="es">Método</span><span lang="en">Method</span></a>
+      <a href="#contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
+    </nav>
+    <div class="controls">
+      <div class="seg" role="group" aria-label="Idioma" data-aria-en="Language">
+        <button type="button" data-set-lang="es" aria-pressed="true" title="Español" data-title-en="Spanish">es</button>
+        <button type="button" data-set-lang="en" aria-pressed="false" title="Inglés" data-title-en="English">en</button>
+      </div>
+      <div class="seg" role="group" id="theme-group" aria-label="Tema: papel (claro) o tinta (oscuro)" data-aria-en="Theme: paper (light) or ink (dark)">
+        <button type="button" data-set-theme="light" aria-pressed="false" title="Papel · tema claro" data-title-en="Paper · light theme">
+          <i class="ico ico--papel" aria-hidden="true"></i>
+          <span class="seg__txt-long"><span lang="es">papel</span><span lang="en">paper</span></span>
+        </button>
+        <button type="button" data-set-theme="dark" aria-pressed="false" title="Tinta · tema oscuro" data-title-en="Ink · dark theme">
+          <i class="ico ico--tinta" aria-hidden="true"></i>
+          <span class="seg__txt-long"><span lang="es">tinta</span><span lang="en">ink</span></span>
+        </button>
+      </div>
+      <a class="btn btn--sm btn--go bar__mail" href="mailto:nico99rueda@gmail.com?subject=Hola%20Nico"><span lang="es">Escríbeme</span><span lang="en">Email me</span></a>
+      <button type="button" class="btn btn--sm btn--ghost menu-btn" id="menu-open" aria-haspopup="dialog" aria-controls="menu" aria-expanded="false"><span lang="es">Índice</span><span lang="en">Index</span></button>
+    </div>
+  </div>
+</header>
+
+<div class="sheet-menu" id="menu" role="dialog" aria-modal="true" aria-label="Índice" data-aria-en="Index" hidden>
+  <div class="sheet-menu__head">
+    <span class="label"><span lang="es">Índice</span><span lang="en">Index</span></span>
+    <button type="button" class="btn btn--sm btn--ghost" id="menu-close"><i class="mk mk--x" aria-hidden="true"></i> <span lang="es">Cerrar</span><span lang="en">Close</span></button>
+  </div>
+  <a class="sheet-menu__link" href="#top"><span class="label">1.1</span><span lang="es">Inicio</span><span lang="en">Start</span></a>
+  <a class="sheet-menu__link" href="#trabajo"><span class="label">1.2</span><span lang="es">Trabajo</span><span lang="en">Work</span></a>
+  <a class="sheet-menu__link" href="#juegos"><span class="label">1.3</span><span lang="es">Juegos</span><span lang="en">Games</span></a>
+  <a class="sheet-menu__link" href="#cuaderno"><span class="label">1.4</span><span lang="es">Del cuaderno</span><span lang="en">From the notebook</span></a>
+  <a class="sheet-menu__link" href="#herramientas"><span class="label">1.5</span><span lang="es">Herramientas</span><span lang="en">Tools</span></a>
+  <a class="sheet-menu__link" href="#metodo"><span class="label">1.6</span><span lang="es">Método</span><span lang="en">Method</span></a>
+  <a class="sheet-menu__link" href="#trayectoria"><span class="label">1.7</span><span lang="es">Trayectoria</span><span lang="en">Path</span></a>
+  <a class="sheet-menu__link" href="#contacto"><span class="label">lvl2</span><span lang="es">Contacto</span><span lang="en">Contact</span></a>
+  <a class="btn btn--go" href="mailto:nico99rueda@gmail.com?subject=Hola%20Nico">nico99rueda@gmail.com</a>
+</div>
+
+<main id="main">
+
+<!-- ============================ 1.1 · HERO ============================ -->
+<section class="hero" id="top" aria-labelledby="h-name" data-hb="section#top · 1.1">
+  <div class="wrap">
+    <div class="grid hero__grid">
+      <div class="hero__text">
+        <p class="kicker mono">
+          <span class="kicker__row"><span class="num">1.1</span> · Manacor, Mallorca</span>
+          <span class="kicker__row"><span lang="es">Abierto a estudios, equipos pequeños y proyectos raros</span><span lang="en">Open to studios, small teams and odd projects</span></span>
+        </p>
+        <h1 id="h-name"><span class="sr-only">Nico Rueda</span><span class="hwt" aria-hidden="true"><i style="-webkit-mask-image:url(assets/cuaderno/titulos/nico.webp);mask-image:url(assets/cuaderno/titulos/nico.webp);--w:408;--h:146;--c:117.5;--d:16.0"></i> <span class="u"><i style="-webkit-mask-image:url(assets/cuaderno/titulos/rueda.webp);mask-image:url(assets/cuaderno/titulos/rueda.webp);--w:499;--h:172;--c:117.5;--d:22.0"></i></span></span></h1>
+        <p class="role"><span lang="es"><span class="hl">Diseñador de juegos</span> y desarrollador multiplataforma.</span><span lang="en"><span class="hl">Game designer</span> and multiplatform developer.</span></p>
+        <p class="lead">
+          <span lang="es">Diseño antes de programar, a boli o en especificaciones, y luego escribo los sistemas: simulaciones deterministas en Rust, herramientas para el navegador y servidores en producción.</span>
+          <span lang="en">I design before I code, in ballpoint or in specs, then I write the systems: deterministic simulations in Rust, browser tools and production servers.</span>
+        </p>
+        <ul class="proof" aria-label="En cifras" data-aria-en="In numbers">
+          <li><b data-num="181000" data-approx="1">≈181.000</b><span lang="es">líneas de Rust en Manager of Legends</span><span lang="en">lines of Rust in Manager of Legends</span></li>
+          <li><b data-num="253">253</b><span lang="es">tests en verde en Voxelizer</span><span lang="en">passing tests in Voxelizer</span></li>
+          <li><b>2</b><span lang="es">juegos jugables en el navegador</span><span lang="en">games you can play in the browser</span></li>
+          <li><b>1</b><span lang="es">web local en producción: viumanacor.cat</span><span lang="en">local website in production: viumanacor.cat</span></li>
+        </ul>
+        <div class="cta">
+          <a class="btn btn--down" href="#trabajo"><span lang="es">Ver el trabajo</span><span lang="en">See the work</span></a>
+          <a class="btn btn--ghost" href="#contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
+        </div>
+        <p class="play">
+          <span class="label"><span lang="es">Jugar ya</span><span lang="en">Play now</span></span>
+          <a href="https://nicorueda.dev/juegos/catpire/" target="_blank" rel="noopener">Catpire Survivors <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a>
+          <a href="https://nicorueda.dev/juegos/sapoGuvasto/" target="_blank" rel="noopener">Sapo Mafioso <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a>
+          <span class="play__size"><span lang="es">≈58 MB y ≈32 MB</span><span lang="en">≈58 MB and ≈32 MB</span></span>
+        </p>
+        <p class="mailline">
+          <a href="mailto:nico99rueda@gmail.com">nico99rueda@gmail.com</a>
+          <button type="button" class="copy" data-copy="nico99rueda@gmail.com"><span lang="es">Copiar</span><span lang="en">Copy</span></button>
+        </p>
+      </div>
+
+      <figure class="plate fig0 hero__fig" id="fig-0" data-fig="voxel" data-hb="figure#fig-0 · voxel.js">
+        <div class="hero__sketch" aria-hidden="true"><div class="scan__img"><i class="black"></i></div><i class="mk mk--arrow"></i></div>
+        <div class="plate__stage is-grab" tabindex="0" role="application" aria-label="Figura 0: la cabeza del sapo mafioso dibujada por Nico, convertida en un modelo 3D de vóxeles con el código de Voxelizer. Arrastra o usa las flechas para girarla." data-aria-en="Figure 0: the mafia frog&#x27;s head drawn by Nico, turned into a 3D voxel model by Voxelizer&#x27;s code. Drag or use the arrow keys to rotate it.">
+          <img class="rest" src="assets/img/sapo-head.webp" width="300" height="296" alt="">
+          <canvas></canvas>
+          <span class="axes" aria-hidden="true">FIG. 0 · voxel.js</span>
+        </div>
+        <div class="plate__bar">
+          <span class="readout" data-readout><span lang="es">Cargando voxel.js…</span><span lang="en">Loading voxel.js…</span></span>
+          <div class="seg" role="group" aria-label="Malla" data-aria-en="Mesh">
+            <button type="button" data-mesh="greedy" aria-pressed="true">Greedy</button>
+            <button type="button" data-mesh="naive" aria-pressed="false"><span lang="es">Por vóxel</span><span lang="en">Per voxel</span></button>
+          </div>
+        </div>
+        <figcaption class="plate__cap">
+          <span class="label">FIG. 0</span>
+          <span lang="es">El sapo mafioso que dibujé en 2022 para un plataformas en Godot, convertido en vóxeles por Voxelizer, la herramienta que escribí en 2026. Arriba, el mismo sapo en otra página de mi cuaderno, a rotulador. No es un vídeo: es su código real ejecutándose ahora en tu navegador. Arrástralo o usa las flechas para girarlo.</span>
+          <span lang="en">The mafia frog I drew in 2022 for a Godot platformer, turned into voxels by Voxelizer, the tool I wrote in 2026. Above, the same frog on another page of my notebook, in marker. It is not a video: it is the real code running in your browser right now. Drag it or use the arrow keys to rotate it.</span>
+          <span class="src"><span lang="es">fuente</span><span lang="en">source</span> · Platform_Godot/Sprites/UI/sapo.png → Voxelizer/voxelizer/voxel.js (MPL-2.0), <span lang="es">sin cambios</span><span lang="en">unchanged</span></span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <figure class="hero__level wrap" aria-label="Boceto original del nivel 1.1" data-aria-en="Original sketch of level 1.1">
+    <div class="hand hand--level" role="img" aria-label="Escaneo del boceto a boli del nivel 1.1 del juego Sapo Mafioso, 2022: plataformas, cajas, enemigos y flechas hacia las salas siguientes." data-aria-en="Scan of the 2022 ballpoint sketch of Sapo Mafioso&#x27;s level 1.1: platforms, crates, enemies and arrows to the next rooms."><i class="ink"></i><i class="mark"></i></div>
+    <figcaption>
+      <span class="label"><span lang="es">Nivel 1.1 · boceto a boli y rotulador, junio de 2022</span><span lang="en">Level 1.1 · ballpoint and marker sketch, June 2022</span></span>
+      <span class="label"><span lang="es">Las secciones de esta web siguen su numeración</span><span lang="en">This site's sections follow its numbering</span></span>
+    </figcaption>
+  </figure>
+</section>
+
+<!-- ============================ FICHA ============================ -->
+<section class="ficha" id="ficha" aria-labelledby="h-ficha" data-hb="section#ficha">
+  <div class="wrap grid ficha__grid">
+    <div class="ficha__who">
+      <h2 class="label" id="h-ficha"><span lang="es">Ficha</span><span lang="en">Quick facts</span></h2>
+      <div class="hand hand--frame" role="img" aria-label="El jugador dentro de un recuadro de rotulador, dibujado a mano en el boceto de 2022" data-aria-en="The player inside a marker frame, hand-drawn in the 2022 sketch"><i class="ink"></i><i class="mark"></i></div>
+      <p><span lang="es">Yo, según mi propio boceto de 2022: el muñeco del recuadro.</span><span lang="en">Me, according to my own 2022 sketch: the stick figure in the frame.</span></p>
+    </div>
+    <dl class="facts">
+      <div>
+        <dt class="label"><span lang="es">Ahora</span><span lang="en">Now</span></dt>
+        <dd><span lang="es">Desarrollador fullstack en Corsoft (software de gestión): Django y PostgreSQL, migraciones de PHP a Python, sistemas Linux y trato directo con clientes.</span><span lang="en">Fullstack developer at Corsoft (business software): Django and PostgreSQL, PHP-to-Python migrations, Linux systems and direct client work.</span></dd>
+      </div>
+      <div>
+        <dt class="label"><span lang="es">Estudios</span><span lang="en">Studies</span></dt>
+        <dd><span lang="es">DAM (Desarrollo de Aplicaciones Multiplataforma) en modalidad dual, CIDE, Palma. Antes estudié Diseño y Desarrollo de Videojuegos en la Universitat de Girona y un año de Ingeniería Informática en la UIB.</span><span lang="en">Multiplatform Application Development (DAM, a Spanish vocational diploma), work-study track, CIDE, Palma. Before that I studied Video Game Design and Development at the University of Girona and one year of Computer Engineering at the University of the Balearic Islands (UIB).</span></dd>
+      </div>
+      <div>
+        <dt class="label"><span lang="es">Motores y lenguajes</span><span lang="en">Engines and languages</span></dt>
+        <dd class="stack">
+          <span class="chip">Rust · WASM</span><span class="chip">C# · Unity</span><span class="chip">GDScript · Godot</span><span class="chip">Java · libGDX</span><span class="chip">JS · TS · React</span><span class="chip">Python · Django</span><span class="chip">C++</span><span class="chip">Phaser</span>
+        </dd>
+      </div>
+      <div>
+        <dt class="label"><span lang="es">Además</span><span lang="en">Also</span></dt>
+        <dd><span lang="es">Blender (modelado y rigging), Photoshop, Docker, GitHub Actions, Linux (Arch + Hyprland en casa).</span><span lang="en">Blender (modelling and rigging), Photoshop, Docker, GitHub Actions, Linux (Arch + Hyprland at home).</span></dd>
+      </div>
+      <div>
+        <dt class="label"><span lang="es">Idiomas</span><span lang="en">Languages</span></dt>
+        <dd><span lang="es">Español y catalán nativos, inglés fluido, alemán y ruso básicos.</span><span lang="en">Native Spanish and Catalan, fluent English, basic German and Russian.</span></dd>
+      </div>
+      <div>
+        <dt class="label"><span lang="es">Busco</span><span lang="en">Looking for</span></dt>
+        <dd><span lang="es">Estudios y equipos pequeños que necesiten a alguien que diseñe y programe los sistemas de un juego. También encargos web con sentido.</span><span lang="en">Studios and small teams that need someone to design and program a game's systems. Web projects that need to work, too.</span></dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============================ 1.2 · TRABAJO ============================ -->
+<section class="sheet" id="trabajo" aria-labelledby="h-work" data-hb="section#trabajo · 1.2">
+  <div class="wrap">
+    <div class="grid sheet__head">
+      <div class="sheet__no"><span class="num" data-hw>1.2</span><span class="label"><span lang="es">6 casos</span><span lang="en">6 case studies</span></span><span class="doodle doodle--b" aria-hidden="true"></span></div>
+      <div class="sheet__title">
+        <h2 id="h-work"><span class="u"><span lang="es"><span class="sr-only">Trabajo</span><span class="hwt" aria-hidden="true"><i style="-webkit-mask-image:url(assets/cuaderno/titulos/trabajo.webp);mask-image:url(assets/cuaderno/titulos/trabajo.webp);--w:545;--h:132;--c:88.0;--d:24.0"></i></span></span><span lang="en">Work</span></span></h2>
+        <p><span lang="es">Cada caso tiene una figura que funciona con <span class="hl">las reglas o los datos reales</span> del proyecto. Donde es el código original lo digo; donde lo he portado a JavaScript, también.</span><span lang="en">Each case has a figure that runs on the project's <span class="hl">real rules or data</span>. Where it is the original code I say so, and where I ported it to JavaScript, I say that too.</span></p>
+      </div>
+    </div>
+
+    <ol class="index" aria-label="Índice de casos" data-aria-en="Case index">
+      <li><a href="#mol"><span class="label" data-hw>01</span><span class="index__name">Manager of Legends</span><span class="index__desc"><span lang="es">Simulador de gestión de esports para MOBAs</span><span lang="en">Esports management sim for MOBAs</span></span><span class="index__tags">RUST · WASM · REACT · 2026</span></a></li>
+      <li><a href="#motor"><span class="label" data-hw>02</span><span class="index__name"><span lang="es">Motor de partida</span><span lang="en">Match engine</span></span><span class="index__desc"><span lang="es">Simulación MOBA determinista a 30 Hz</span><span lang="en">Deterministic 30 Hz MOBA simulation</span></span><span class="index__tags">RUST · WASM · THREE.JS · 2026</span></a></li>
+      <li><a href="#voxelizer"><span class="label" data-hw>03</span><span class="index__name">Voxelizer</span><span class="index__desc"><span lang="es">De pixel art a vóxeles, en el navegador</span><span lang="en">Pixel art to voxels, in the browser</span></span><span class="index__tags">JS · THREE.JS · MPL-2.0 · 2026</span></a></li>
+      <li><a href="#caras"><span class="label" data-hw>04</span><span class="index__name">Sports Face</span><span class="index__desc"><span lang="es">Caras procedurales y deterministas</span><span lang="en">Procedural, deterministic faces</span></span><span class="index__tags">CANVAS · WEBGL2 · 2026</span></a></li>
+      <li><a href="#tactical"><span class="label" data-hw>05</span><span class="index__name">Tactical Prototype</span><span class="index__desc"><span lang="es">Roguelite táctico con piezas de ajedrez</span><span lang="en">Tactical roguelite with chess pieces</span></span><span class="index__tags">UNITY 6 · C# · 2024–2026</span></a></li>
+      <li><a href="#viu"><span class="label" data-hw>06</span><span class="index__name">Viu Manacor</span><span class="index__desc"><span lang="es">El portal local de mi pueblo, en producción</span><span lang="en">My town's local portal, in production</span></span><span class="index__tags">DJANGO · POSTGRES · DOCKER · 2026</span></a></li>
+    </ol>
+
+    <!-- 01 · Manager of Legends -->
+    <article class="grid case" id="mol" aria-labelledby="h-mol" data-hb="article#mol">
+      <header class="case__head">
+        <p class="case__no" data-hw>01</p>
+        <p class="label">2026&nbsp;· <span lang="es">beta v0.5.1, en desarrollo activo</span><span lang="en">beta v0.5.1, in active development</span>&nbsp;· <span lang="es">con un colaborador</span><span lang="en">with a collaborator</span></p>
+        <h3 id="h-mol">Manager of Legends</h3>
+        <div class="case__links">
+          <a class="btn btn--sm" href="https://manageroflegends.com" target="_blank" rel="noopener">manageroflegends.com <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a>
+          <span class="chip chip--state"><span lang="es">Código privado</span><span lang="en">Private code</span></span>
+        </div>
+        <p class="desc"><span lang="es">Un Football Manager para equipos de MOBA, que se juega en el navegador.</span><span lang="en">A Football Manager for MOBA teams, played in the browser.</span></p>
+      </header>
+
+      <p class="standfirst"><span lang="es">Ligas, fichajes, draft y partidas simuladas en directo. Todo el juego vive en un motor en Rust compilado a WebAssembly; la interfaz en React solo dibuja lo que el motor decide.</span><span lang="en">Leagues, transfers, drafts and matches simulated live. The whole game lives in a Rust engine compiled to WebAssembly; the React interface only draws what the engine decides.</span></p>
+      <div class="case__fig">
+        <figure class="plate fig-scout" data-fig="scout" data-hb="figure · scouting_knowledge.rs">
+          <div class="plate__stage" style="background:var(--sheet)">
+            <div class="scout" data-scout>
+              <div class="scout__head">
+                <span class="scout__player">Vanta <span class="scout__tag"><span lang="es">Jugador ficticio · rival</span><span lang="en">Fictional player · rival</span></span></span>
+                <span class="scout__margin"><span lang="es">margen</span><span lang="en">margin</span> <b data-margin>±18</b> · <span data-days>0</span> <span lang="es">días de ojeo</span><span lang="en">scouting days</span></span>
+              </div>
+              <div class="scout__axis" aria-hidden="true"><span></span><div><span>1</span><span>25</span><span>50</span><span>75</span><span>99</span></div><span></span></div>
+              <div data-rows></div>
+            </div>
+          </div>
+          <div class="plate__bar">
+            <label class="range"><span lang="es">Días</span><span lang="en">Days</span> <input type="range" id="scout-days" min="0" max="70" step="1" value="0"></label>
+            <span class="range"><span lang="es">Ojeador (ojo / criterio)</span><span lang="en">Scout (eye / judgement)</span>
+              <span class="seg" role="group" aria-label="Calidad del ojeador" data-aria-en="Scout quality" data-scout-q>
+                <button type="button" data-q="45,55" aria-pressed="false">C · 45/55</button>
+                <button type="button" data-q="65,75" aria-pressed="true">B · 65/75</button>
+                <button type="button" data-q="85,90" aria-pressed="false">A · 85/90</button>
+              </span>
+            </span>
+            <button type="button" class="tgl" id="scout-real" aria-pressed="false"><span lang="es">Mostrar valor real</span><span lang="en">Show real value</span></button>
+          </div>
+          <figcaption class="plate__cap">
+            <span class="label">FIG. 1</span>
+            <span lang="es">Lo que tu club sabe de un jugador que no es tuyo: una banda que siempre contiene el valor real. Sin ojear es de ±18; con un ojeador baja a su primera lectura (±14, ±11 u ±8 según su ojo), se reduce a la mitad cada 14 días y se detiene en el mínimo que permite su criterio. Nunca se ensancha. El valor real no está en el centro: su desplazamiento sale de un hash FNV-1a del jugador y del atributo, así que la misma partida se lee siempre igual.</span>
+            <span lang="en">What your club knows about a player it does not own: a band that always contains the real value. Unscouted it is ±18; with a scout it drops to their first read (±14, ±11 or ±8 depending on their eye), halves every 14 days and stops at the floor their judgement allows. It never widens. The real value is not in the middle: its offset comes from an FNV-1a hash of player and attribute, so the same save always reads the same.</span>
+            <span class="src"><span lang="es">fuente</span><span lang="en">source</span> · engine/mobamanager_core/src/scouting_knowledge.rs · margin_after(), offset(), attribute_range() <span lang="es">portados a JS línea a línea</span><span lang="en">ported to JS line by line</span></span>
+          </figcaption>
+        </figure>
+        <div class="case__under">
+
+        <p class="more"><span lang="es">Debajo hay más sistemas: A* en 8 direcciones sobre una rejilla de 196×196, simulación en directo en un Web Worker con paso fijo de 0,05 s, una IA de draft que puntúa counters y sinergias y un parche de equilibrio cada 14 días (4 campeones mejorados y 4 empeorados).</span><span lang="en">Other systems underneath: 8-direction A* on a 196×196 grid, a live simulation in a Web Worker at a fixed 0.05 s step, a draft AI that scores counters and synergies, and a balance patch every 14 days (4 champions buffed and 4 nerfed).</span></p>
+        <div class="score" role="group" aria-label="Marcador" data-aria-en="Scoreboard">
+          <div><b>≈181k</b><span lang="es">líneas de Rust</span><span lang="en">lines of Rust</span></div>
+          <div><b>≈127k</b><span lang="es">líneas de TS</span><span lang="en">lines of TS</span></div>
+          <div><b>1.069</b><span lang="es">tests de Rust (núcleo)</span><span lang="en">Rust tests (core)</span></div>
+          <div><b>30</b><span lang="es">ligas</span><span lang="en">leagues</span></div>
+          <div><b>9</b><span lang="es">idiomas</span><span lang="en">languages</span></div>
+          <div><b>21</b><span>ADR</span></div>
+        </div>
+
+        <ol class="evo" aria-label="Evolución" data-aria-en="Evolution">
+          <li><span class="mono"><span lang="es">origen</span><span lang="en">origin</span></span><span lang="es">Fork parcial de OpenFootManager (simulador de fútbol, GPL).</span><span lang="en">Partial fork of OpenFootManager (a GPL football sim).</span></li>
+          <li><span class="mono">v0.3.6</span><span lang="es">App de escritorio con Tauri y un SQLite por partida.</span><span lang="en">Desktop app with Tauri and one SQLite file per save.</span></li>
+          <li><span class="mono">v0.4.0</span><span lang="es">Migración a web: Rust → WASM, IndexedDB y guardado en la nube (junio de 2026).</span><span lang="en">Move to the web: Rust → WASM, IndexedDB and cloud saves (June 2026).</span></li>
+          <li><span class="mono">v0.5.1</span><span lang="es">Beta publicada el 20 de septiembre de 2026.</span><span lang="en">Beta released on 20 September 2026.</span></li>
+        </ol>
+        </div>
+      </div>
+
+      <div class="case__body">
+        <div class="pdr">
+          <div><span class="label"><span lang="es">Problema</span><span lang="en">Problem</span></span><p><span lang="es">Al principio, ojear a un rival devolvía un número con ruido aleatorio y sin semilla. Al recargar la partida, el mismo ojeador daba otro número. Y un número se lee como un hecho aunque sea una suposición.</span><span lang="en">At first, scouting a rival returned a number with unseeded random noise. Reloading the save made the same scout report a different number. And a number reads as a fact even when it is a guess.</span></p></div>
+          <div><span class="label"><span lang="es">Decisión</span><span lang="en">Decision</span></span><p><span lang="es">Cambié el número por una banda (FIG. 1). La calidad del ojeador marca desde dónde empieza y hasta dónde puede cerrarla: un mal ojeador nunca llega a la certeza, por mucho tiempo que mire.</span><span lang="en">I replaced the number with a band (FIG. 1). The scout's quality sets where it starts and how far it can close: a poor scout never reaches certainty, however long they watch.</span></p></div>
+          <div><span class="label"><span lang="es">Resultado</span><span lang="en">Result</span></span><p><span lang="es">Con ±18, las bandas de un jugador de 60 y de uno de 90 se solapan, así que no se puede fichar a ciegas: <span class="hl">hay que mandar a un ojeador</span>.</span><span lang="en">At ±18 the bands of a 60-rated and a 90-rated player overlap, so you cannot sign players blind: <span class="hl">you have to send a scout</span>.</span></p></div>
+        </div>
+        <p class="notyet"><span class="label"><span lang="es">lo que aún no hace</span><span lang="en">what it doesn't do yet</span></span><span lang="es">La profundidad del combate en directo (objetos y tipos de daño) sigue abierta; el backlog vive en un único documento de pendientes. Manager of Legends no está afiliado a Riot Games.</span><span lang="en">Live-combat depth (items and damage types) is still open; the backlog lives in a single to-do document. Manager of Legends is not affiliated with Riot Games.</span></p>
+      </div>
+    </article>
+
+    <!-- 02 · Motor de partida -->
+    <article class="grid case" id="motor" aria-labelledby="h-motor" data-hb="article#motor">
+      <header class="case__head">
+        <p class="case__no" data-hw>02</p>
+        <p class="label">2026&nbsp;· <span lang="es">en desarrollo</span><span lang="en">in development</span>&nbsp;· Rust/WASM&nbsp;· React + Three.js</p>
+        <h3 id="h-motor"><span lang="es">Motor de partida</span><span lang="en">Match engine</span></h3>
+        <div class="case__links"><span class="chip chip--state"><span lang="es">Código privado</span><span lang="en">Private code</span></span></div>
+        <p class="desc"><span lang="es">Un simulador de entrenador MOBA: los héroes juegan solos y tú das las órdenes.</span><span lang="en">A MOBA coach simulator: the heroes play on their own and you give the orders.</span></p>
+      </header>
+      <p class="standfirst"><span lang="es">Porté a Rust Shotcaller, un MOBA hecho en Godot por el equipo Spicy Lobster y publicado con licencia no comercial, y lo convertí en un simulador de entrenador. Tú das órdenes de macro; un rival controlado por IA juega con la misma información que tú.</span><span lang="en">I ported Shotcaller, a MOBA made in Godot by the Spicy Lobster team and published under a non-commercial licence, to Rust and turned it into a coach simulator. You give macro orders; an AI rival plays with the same information you have.</span></p>
+      <div class="case__fig">
+        <figure class="plate fig-replay" data-fig="replay" data-hb="figure · match-20026.json">
+          <div class="plate__stage" role="img" aria-label="Figura 2: repetición de una partida real del motor, inteligencia artificial contra inteligencia artificial, semilla 20026. Las trazas azules son los líderes de un equipo y las rojas los del otro." data-aria-en="Figure 2: replay of a real engine match, AI versus AI, seed 20026. Blue traces are one team&#x27;s leaders and red traces the other&#x27;s.">
+            <canvas></canvas>
+          </div>
+          <div class="plate__bar">
+            <button type="button" class="tgl" data-play><span lang="es">Pausa</span><span lang="en">Pause</span></button>
+            <label class="range"><span class="sr-only">Tick</span><input type="range" min="0" max="9000" step="30" value="0" data-scrub aria-label="Tick de la partida" data-aria-en="Match tick"></label>
+            <span class="readout" data-readout>tick 0 / 9000</span>
+          </div>
+          <div class="plate__bar">
+            <span class="legend-row">
+              <span><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M1 8.5C7 6 14 9 21 5.5" stroke="var(--pen)" stroke-width="1.5"/></svg><span lang="es">líderes azules</span><span lang="en">blue leaders</span></span>
+              <span><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M1 8.5C7 6 14 9 21 5.5" stroke="var(--red)" stroke-width="1.5" stroke-dasharray="5 3"/></svg><span lang="es">líderes rojos</span><span lang="en">red leaders</span></span>
+              <span><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M6 2.5l9.6-.2M15 1.8l.3 10M15.8 11.6l-9.8.2M6.4 12.5L6.2 1.8" stroke="var(--pen)" stroke-width="1.4"/><path d="M7 11l7-8M9 11.2l5-6M7 8l4-5" stroke="var(--pen)" stroke-width=".7"/></svg><span lang="es">edificio azul</span><span lang="en">blue building</span></span>
+              <span><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M11 1.2l5.8 11M17.5 11.6L4.8 11.8M5.3 12.4L11.4 1" stroke="var(--red)" stroke-width="1.4"/></svg><span lang="es">edificio rojo</span><span lang="en">red building</span></span>
+              <span><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M6.5 2.5l9 9.2M15.6 2.4l-9.3 9.4" stroke="var(--ink)" stroke-width="1.6"/></svg><span lang="es">caído</span><span lang="en">down</span></span>
+            </span>
+          </div>
+          <figcaption class="plate__cap">
+            <span class="label">FIG. 2</span>
+            <span lang="es">Una partida real grabada desde el motor: IA contra IA, semilla 20026, 9.000 ticks (5 minutos de juego a 30 Hz). En tinta, las trazas se desvanecen al envejecer; en papel ves el registro completo con marcas de minuto. Los tramos sin movimiento pasan en avance rápido.</span>
+            <span lang="en">A real match recorded from the engine: AI versus AI, seed 20026, 9,000 ticks (5 minutes of play at 30 Hz). In ink mode the trails fade as they age; in paper mode you see the full record with minute marks. Stretches without movement fast-forward.</span>
+            <span class="src"><span lang="es">fuente</span><span lang="en">source</span> · crates/engine · MatchConfig::three_lane(20026) · <span lang="es">muestreado cada 30 ticks · port de Shotcaller</span><span lang="en">sampled every 30 ticks · port of Shotcaller</span> (Spicy Lobster team, PolyForm Noncommercial)</span>
+          </figcaption>
+        </figure>
+        <div class="case__under">
+
+        <div class="score">
+          <div><b>35k</b><span lang="es">líneas de Rust</span><span lang="en">lines of Rust</span></div>
+          <div><b>513</b><span lang="es">tests</span><span lang="en">tests</span></div>
+          <div><b>30 Hz</b><span lang="es">tick fijo</span><span lang="en">fixed tick</span></div>
+          <div><b>10</b><span lang="es">tipos de orden</span><span lang="en">order types</span></div>
+        </div>
+        <figure class="scan scan--screens"><div class="scan__img" aria-hidden="true"><i class="ink"></i></div><figcaption><span class="label"><span lang="es">del cuaderno · boli</span><span lang="en">from the notebook · ballpoint</span></span><span lang="es">La foto estaba del revés. Un plano dentro de un rectángulo de pantalla, «0,0» en una esquina y otra vez sobre el plano, y dos nombres de Godot: «global_position» y «get_local_mouse_position()», con «global» debajo.</span><span lang="en">The photo was upside down. A plane inside a screen rectangle, “0,0” at one corner and again above the plane, and two Godot names: “global_position” and “get_local_mouse_position()”, with “global” underneath.</span></figcaption></figure>
+        </div>
+      </div>
+      <div class="case__body">
+        <div class="pdr">
+          <div><span class="label"><span lang="es">Problema</span><span lang="en">Problem</span></span><p><span lang="es">El original, en GDScript, se apoyaba en corrutinas de Godot y en llamadas aleatorias repartidas por varios scripts, así que una partida no se podía reproducir tick a tick.</span><span lang="en">The original GDScript relied on Godot coroutines and random calls spread across several scripts, so a match could not be replayed tick by tick.</span></p></div>
+          <div><span class="label"><span lang="es">Decisión</span><span lang="en">Decision</span></span><p><span lang="es">Un tick fijo de 30 Hz con un orden de fases estricto (entradas, plan GOAP, cola de eventos, movimiento, colisión, impacto, resolución), una sola RNG con semilla, un planificador GOAP con profundidad máxima 32 y búsqueda de caminos JPS con desempates estables. El rival solo ve lo que ve su equipo.</span><span lang="en">A fixed 30 Hz tick with a strict phase order (inputs, GOAP plan, event queue, move, collide, hit, resolve), a single seeded RNG, a GOAP planner bounded at depth 32 and JPS pathfinding with stable tie-breaking. The rival only sees what its team sees.</span></p></div>
+          <div><span class="label"><span lang="es">Resultado</span><span lang="en">Result</span></span><p><span lang="es"><span class="hl">Misma semilla, misma partida.</span> 206 commits míos en unas cuatro semanas, 513 tests en Rust, órdenes tipadas con ciclo de vida propio y un HUD de entrenador en React y Three.js.</span><span lang="en"><span class="hl">Same seed, same match.</span> 206 of my commits in about four weeks, 513 Rust tests, typed orders with their own lifecycle and a coach HUD in React and Three.js.</span></p></div>
+        </div>
+        <p class="notyet"><span class="label"><span lang="es">lo que aún no hace</span><span lang="en">what it doesn't do yet</span></span><span lang="es">La jungla y la parte de producto siguen pendientes. El diseño original y todo el arte son de Shotcaller; mi parte es el port a Rust/WASM, la web y la capa de entrenador.</span><span lang="en">The jungle and the product layer are still pending. The original design and all art belong to Shotcaller; my part is the Rust/WASM port, the web shell and the coaching layer.</span></p>
+      </div>
+    </article>
+
+    <!-- 03 · Voxelizer -->
+    <article class="grid case" id="voxelizer" aria-labelledby="h-vox" data-hb="article#voxelizer">
+      <header class="case__head">
+        <p class="case__no" data-hw>03</p>
+        <p class="label">2026&nbsp;· v0.6&nbsp;· JavaScript&nbsp;· three.js&nbsp;· Web Workers&nbsp;· MPL-2.0</p>
+        <h3 id="h-vox">Voxelizer</h3>
+        <div class="case__links"><a class="btn btn--sm" href="https://github.com/NicoRuedaA/Voxelizer" target="_blank" rel="noopener">GitHub <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></div>
+        <p class="desc"><span lang="es">Sueltas un sprite de pixel art y sale un modelo 3D de vóxeles optimizado.</span><span lang="en">Drop in a pixel-art sprite and get an optimised 3D voxel model.</span></p>
+      </header>
+      <p class="standfirst"><span lang="es">Una herramienta sin instalación para quien hace juegos: exporta a MagicaVoxel, Blender o cualquier motor. Sin IA generativa, solo geometría determinista.</span><span lang="en">A no-install tool for people who make games: it exports to MagicaVoxel, Blender or any engine. No generative AI, just deterministic geometry.</span></p>
+      <div class="case__fig">
+        <figure class="plate" data-hb="figure · assets/image.gif">
+          <div class="vid" style="--ar: 800 / 520">
+            <img src="assets/img/voxelizer-poster.webp" alt="Interfaz de Voxelizer con un mago de pixel art convertido en vóxeles." data-alt-en="Voxelizer&#x27;s interface with a pixel-art wizard turned into voxels." loading="lazy" width="800" height="520">
+            <button type="button" class="vid__play" data-video="assets/video/voxelizer.webm"><i class="ico ico--play" aria-hidden="true"></i> <span lang="es">Ver demo · 15 s · 1 MB</span><span lang="en">Watch demo · 15 s · 1 MB</span></button>
+          </div>
+          <figcaption class="plate__cap">
+            <span class="label">FIG. 3</span>
+            <span lang="es">La demo oficial: un sprite de 64×64 se convierte en 10.674 vóxeles y su malla pasa de 4.514 a 741 caras (−84 %) en 11 ms. En la FIG. 0 tienes el mismo motor funcionando con mi sapo.</span>
+            <span lang="en">The official demo: a 64×64 sprite becomes 10,674 voxels and its mesh goes from 4,514 to 741 faces (−84%) in 11 ms. FIG. 0 runs the same engine on my frog.</span>
+          </figcaption>
+        </figure>
+        <div class="case__under">
+
+        <div class="score">
+          <div><b>253</b><span lang="es">tests en verde</span><span lang="en">passing tests</span></div>
+          <div><b>−84 %</b><span lang="es">caras (demo)</span><span lang="en">faces (demo)</span></div>
+          <div><b>6</b><span lang="es">perfiles de volumen</span><span lang="en">depth profiles</span></div>
+          <div><b>4</b><span lang="es">formatos</span><span lang="en">formats</span></div>
+        </div>
+        </div>
+      </div>
+      <div class="case__body">
+        <div class="pdr">
+          <div><span class="label"><span lang="es">Problema</span><span lang="en">Problem</span></span><p><span lang="es">Pasar pixel art a 3D a mano es lento, y las herramientas con IA inventan volumen y no respetan los píxeles.</span><span lang="en">Turning pixel art into 3D by hand is slow, and AI tools invent volume and ignore the pixels.</span></p></div>
+          <div><span class="label"><span lang="es">Decisión</span><span lang="en">Decision</span></span><p><span lang="es">Todo es matemática: transformada de distancia de Felzenszwalb–Huttenlocher para el volumen, casco visual cuando hay vistas laterales, greedy meshing para fusionar caras y oclusión ambiental por esquina. Lo pesado va en Web Workers.</span><span lang="en">It is all maths: a Felzenszwalb–Huttenlocher distance transform for volume, a visual hull when side views exist, greedy meshing to merge faces and per-corner ambient occlusion. The heavy work runs in Web Workers.</span></p></div>
+          <div><span class="label"><span lang="es">Resultado</span><span lang="en">Result</span></span><p><span lang="es">Exporta VOX, OBJ, GLB y FBX, con CI en GitHub Actions. Un colaborador externo añadió niveles de detalle en un PR que revisé y fusioné. Empezó como un script en Python (sprite2voxel.py) para el Tactical Prototype.</span><span lang="en">It exports VOX, OBJ, GLB and FBX, with CI on GitHub Actions. An outside contributor added levels of detail in a PR that I reviewed and merged. It started as a Python script (sprite2voxel.py) for the Tactical Prototype.</span></p></div>
+        </div>
+        <p class="notyet"><span class="label"><span lang="es">lo que aún no hace</span><span lang="en">what it doesn't do yet</span></span><span lang="es">Con sprites reales llenos de accesorios finos (bastones, espadas) la reconstrucción aún no es del todo predecible; el mapa de confianza y la separación del código están en el roadmap.</span><span lang="en">With real sprites full of thin props (staffs, swords) reconstruction is not fully predictable yet; the confidence map and a code split are on the roadmap.</span></p>
+      </div>
+    </article>
+
+    <!-- 04 · Sports Face -->
+    <article class="grid case" id="caras" aria-labelledby="h-face" data-hb="article#caras">
+      <header class="case__head">
+        <p class="case__no" data-hw>04</p>
+        <p class="label">2026&nbsp;· <span lang="es">prototipo técnico</span><span lang="en">technical prototype</span> v0.4&nbsp;· JavaScript&nbsp;· Canvas 2D&nbsp;· SVG&nbsp;· WebGL2</p>
+        <h3 id="h-face">Sports Face</h3>
+        <div class="case__links"><a class="btn btn--sm" href="https://github.com/NicoRuedaA/face-generator" target="_blank" rel="noopener">GitHub <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></div>
+        <p class="desc"><span lang="es">Un código de texto es una cara: siempre la misma, en 2D o en 3D.</span><span lang="en">A text code is a face: always the same one, in 2D or in 3D.</span></p>
+      </header>
+      <p class="standfirst"><span lang="es">Retratos procedurales para un juego de gestión deportiva: el mismo código dibuja siempre al mismo jugador, con renderizadores intercambiables en Canvas 2D, SVG y WebGL2.</span><span lang="en">Procedural portraits for a sports-management game: the same code always draws the same player, with interchangeable Canvas 2D, SVG and WebGL2 renderers.</span></p>
+      <div class="case__fig">
+        <figure class="plate fig-face" data-fig="face" data-hb="figure · face-model.js + renderer.js">
+          <div class="plate__stage">
+            <canvas width="512" height="512" role="img" aria-label="Retrato generado a partir del nombre escrito" data-aria-en="Portrait generated from the typed name"></canvas>
+            <div class="face-form">
+              <label for="face-name"><span lang="es">Escribe un nombre</span><span lang="en">Type a name</span></label>
+              <input id="face-name" type="text" value="Nico Rueda" maxlength="64" autocomplete="off" spellcheck="false">
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <button type="button" class="tgl" data-age="-5">−5 <span lang="es">años</span><span lang="en">yrs</span></button>
+                <button type="button" class="tgl" data-age="5">+5 <span lang="es">años</span><span lang="en">yrs</span></button>
+              </div>
+              <span class="label" style="margin-top:4px">FaceDNA</span>
+              <div class="code" data-code>SF2~…</div>
+              <span class="sr-only" aria-live="polite" data-face-say></span>
+              <div class="bits" data-bits aria-hidden="true"></div>
+              <div class="bits-legend" data-bits-legend aria-hidden="true"></div>
+            </div>
+          </div>
+          <figcaption class="plate__cap">
+            <span class="label">FIG. 4</span>
+            <span lang="es">El nombre pasa por un hash FNV-1a y un generador Mulberry32 por rasgo. La edad cambia la apariencia, nunca la identidad: sube o baja años y sigue siendo la misma persona. Es el código original del proyecto, sin tocar.</span>
+            <span lang="en">The name goes through an FNV-1a hash and a Mulberry32 generator per feature. Age changes appearance, never identity: add or remove years and it is still the same person. This is the project's original code, untouched.</span>
+            <span class="src"><span lang="es">fuente</span><span lang="en">source</span> · face-generator/src/face-model.js + renderer.js (GPL-2.0), <span lang="es">sin cambios</span><span lang="en">unchanged</span></span>
+          </figcaption>
+        </figure>
+        <div class="case__under">
+
+        <figure class="aside-img">
+          <span class="shot"><img src="assets/img/faces.webp" alt="Diez retratos de la línea base, cada uno con su edad y su código SF2." data-alt-en="Ten baseline portraits, each with its age and SF2 code." loading="lazy" width="1600" height="700"></span>
+          <figcaption><span lang="es">Diez de las 100 identidades de la línea base congelada (renderizador Canvas 2D, arte propio).</span><span lang="en">Ten of the 100 identities in the frozen baseline (Canvas 2D renderer, my own art).</span></figcaption>
+        </figure>
+        </div>
+      </div>
+      <div class="case__body">
+        <div class="pdr">
+          <div><span class="label"><span lang="es">Problema</span><span lang="en">Problem</span></span><p><span lang="es">Un juego de gestión necesita miles de caras distintas y estables: un jugador tiene que ser reconocible temporada tras temporada, también cuando envejece.</span><span lang="en">A management game needs thousands of distinct, stable faces: a player must stay recognisable season after season, including as they age.</span></p></div>
+          <div><span class="label"><span lang="es">Decisión</span><span lang="en">Decision</span></span><p><span lang="es">Identidad y apariencia empaquetadas en campos de bits (FaceDNA) con un código portable y suma de verificación. Un enrutador elige entre Canvas 2D, SVG toon, dos laboratorios de morphing y un renderizador WebGL2.</span><span lang="en">Identity and appearance packed into bit fields (FaceDNA) with a portable code and a checksum. A router picks between Canvas 2D, SVG toon, two morph labs and a WebGL2 renderer.</span></p></div>
+          <div><span class="label"><span lang="es">Resultado</span><span lang="en">Result</span></span><p><span lang="es">100 identidades congeladas como línea base visual, un renderizador WebGL2 escrito desde cero con su propio lector GLB y un pipeline offline en Python que reduce 200 cabezas a 16 morph targets con PCA (95,26 % de la varianza).</span><span lang="en">100 identities frozen as a visual baseline, a WebGL2 renderer written from scratch with its own GLB parser, and an offline Python pipeline that reduces 200 heads to 16 morph targets with PCA (95.26% of the variance).</span></p></div>
+        </div>
+        <p class="notyet"><span class="label"><span lang="es">lo que aún no hace</span><span lang="en">what it doesn't do yet</span></span><span lang="es">Es un prototipo técnico, no un producto. El estilo toon parte de ToonHead (Johan Melin, CC BY 4.0) y la cabeza 3D base (GNM, de Google) solo admite uso no comercial.</span><span lang="en">It is a technical prototype, not a product. The toon style builds on ToonHead (Johan Melin, CC BY 4.0) and the base 3D head (Google's GNM) is non-commercial only.</span></p>
+      </div>
+    </article>
+
+    <!-- 05 · Tactical Prototype -->
+    <article class="grid case" id="tactical" aria-labelledby="h-tac" data-hb="article#tactical">
+      <header class="case__head">
+        <p class="case__no" data-hw>05</p>
+        <p class="label">2024–2026&nbsp;· Unity 6&nbsp;· C#&nbsp;· UI Toolkit&nbsp;· <span lang="es">en desarrollo</span><span lang="en">in development</span></p>
+        <h3 id="h-tac">Tactical Prototype</h3>
+        <div class="case__links">
+          <a class="btn btn--sm" href="https://github.com/NicoRuedaA/tactical-prototype" target="_blank" rel="noopener">GitHub <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a>
+          <a class="btn btn--sm btn--ghost" href="https://github.com/NicoRuedaA/DnDHexCombat" target="_blank" rel="noopener">DnD Hex Combat <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a>
+        </div>
+        <p class="desc"><span lang="es">Roguelite táctico: piezas de ajedrez sobre un tablero de lógica hexagonal.</span><span lang="en">A tactical roguelite: chess pieces on a hex-logic board.</span></p>
+      </header>
+      <p class="standfirst"><span lang="es">En 2024 hice un prototipo de combate por hexágonos al estilo D&amp;D, con iniciativa a 1d20. En 2026 llevé esa idea a un núcleo de reglas sin dependencias de Unity, con más líneas de test que de código.</span><span lang="en">In 2024 I built a D&amp;D-style hex combat prototype with 1d20 initiative. In 2026 I took that idea into a rules core with no Unity dependencies and more lines of tests than code.</span></p>
+      <div class="case__fig">
+        <figure class="plate fig-hex" data-fig="hex" data-hb="figure · Pathfinding.cs ← GraphSearch.cs">
+          <div class="plate__stage" tabindex="0" role="application" aria-label="Figura 5: tablero hexagonal interactivo. Haz clic en una casilla alcanzable para ver el camino y otra vez para mover; elige un pincel para pintar terreno. Las flechas mueven el cursor y Enter actúa." data-aria-en="Figure 5: interactive hex board. Click a reachable tile to see the path, click it again to move; pick a brush to paint terrain. Arrow keys move the cursor, Enter acts.">
+            <canvas></canvas>
+          </div>
+          <div class="plate__bar">
+            <div class="seg" role="group" aria-label="Pincel de terreno" data-aria-en="Terrain brush" data-brushes>
+              <button type="button" data-brush="path" aria-pressed="true"><span lang="es">Camino</span><span lang="en">Path</span></button>
+              <button type="button" data-brush="road" aria-pressed="false"><span lang="es">Carretera 5</span><span lang="en">Road 5</span></button>
+              <button type="button" data-brush="default" aria-pressed="false"><span lang="es">Normal 10</span><span lang="en">Default 10</span></button>
+              <button type="button" data-brush="difficult" aria-pressed="false"><span lang="es">Difícil 15</span><span lang="en">Rough 15</span></button>
+              <button type="button" data-brush="obstacle" aria-pressed="false"><span lang="es">Muro</span><span lang="en">Wall</span></button>
+            </div>
+            <label class="range"><span lang="es">Puntos</span><span lang="en">Points</span> <input type="range" min="10" max="60" step="5" value="20" data-budget></label>
+            <span class="readout" data-readout aria-live="polite"><span lang="es">19 casillas alcanzables con 20 puntos</span><span lang="en">19 tiles reachable with 20 points</span></span>
+          </div>
+          <div class="plate__bar"><span class="legend-row">
+            <span><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M1 10h20" stroke="var(--ink-3)" stroke-width="1.5" stroke-dasharray="3 3"/></svg><span lang="es">carretera</span><span lang="en">road</span></span>
+            <span><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M2 13l6-12M7 13l6-12M12 13l6-12M17 13l4-8" stroke="var(--pencil)" stroke-width=".9"/></svg><span lang="es">difícil</span><span lang="en">rough</span></span>
+            <span><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M2 13l6-12M5 13l6-12M8 13l6-12M11 13l6-12M14 13l6-12M2 1l6 12M5 1l6 12M8 1l6 12M11 1l6 12M14 1l6 12" stroke="var(--ink)" stroke-width=".8"/></svg><span lang="es">muro</span><span lang="en">wall</span></span>
+            <span><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M5 2.5l12-.3M16.6 1.8l.3 10.4M17.4 12l-12.2.2M5.6 12.8L5.4 1.8" stroke="var(--pen)" stroke-width="1.3"/></svg><span lang="es">alcanzable, con su coste</span><span lang="en">reachable, with its cost</span></span>
+            <span><svg viewBox="0 0 22 14" aria-hidden="true"><path d="M1 11C7 10 12 6 20 4M15.5 2.2L20 4l-3.4 3.6" stroke="var(--red)" stroke-width="1.8"/></svg><span lang="es">camino</span><span lang="en">path</span></span>
+          </span></div>
+          <figcaption class="plate__cap">
+            <span class="label">FIG. 5</span>
+            <span lang="es">El BFS con costes de terreno que escribí en 2024 para DnD Hex Combat (carretera 5, normal 10, difícil 15, 20 puntos de movimiento) sobre las coordenadas axiales del núcleo de 2026, que lo cita en un comentario: «adapted from DnDHexCombat's GraphSearch». Haz clic (o Enter) en una casilla para ver el camino y otra vez para mover; flechas para el cursor. El port corrige un detalle del original: si encuentra un camino más barato a una casilla ya visitada, la vuelve a propagar.</span>
+            <span lang="en">The terrain-cost BFS I wrote in 2024 for DnD Hex Combat (road 5, default 10, rough 15, 20 movement points) on the axial coordinates of the 2026 core, which credits it in a comment: “adapted from DnDHexCombat's GraphSearch”. Click (or press Enter on) a tile to see the path and again to move; arrow keys move the cursor. The port fixes one detail of the original: when it finds a cheaper path to an already visited tile, it propagates it again.</span>
+            <span class="src"><span lang="es">fuente</span><span lang="en">source</span> · GraphSearch.cs (2024) + Game.Core/Pathfinding.cs, Axial.cs (2026), <span lang="es">portados a JS con una corrección</span><span lang="en">ported to JS with one fix</span></span>
+          </figcaption>
+        </figure>
+        <div class="case__under">
+
+        <div class="score">
+          <div><b>5.273</b><span lang="es">líneas de test</span><span lang="en">lines of tests</span></div>
+          <div><b>2.406</b><span lang="es">líneas de núcleo</span><span lang="en">lines of core</span></div>
+          <div><b>14</b><span lang="es">personajes</span><span lang="en">characters</span></div>
+        </div>
+
+        <figure class="aside-img">
+          <span class="shot"><img src="assets/img/vox-lineup.webp" alt="Siete personajes de pixel art del proyecto extruidos a vóxeles." data-alt-en="Seven of the project&#x27;s pixel-art characters extruded into voxels." loading="lazy" width="2100" height="300"></span>
+          <figcaption><span lang="es">Sprites del proyecto extruidos con sprite2voxel.py, el antecesor en Python de Voxelizer.</span><span lang="en">Project sprites extruded with sprite2voxel.py, Voxelizer's Python ancestor.</span></figcaption>
+        </figure>
+        <div class="case__note"><figure class="scan scan--hexes"><div class="scan__img" aria-hidden="true"><i class="black"></i></div><figcaption><span class="label"><span lang="es">del cuaderno · boli</span><span lang="en">from the notebook · ballpoint</span></span><span lang="es">Un racimo de hexágonos numerados (3, 6, 12) y notas: «ficha / plane / efecto aleatorio → toda la mesa», «… → bufo / carta gratis, ej: contrahechizo».</span><span lang="en">A cluster of numbered hexes (3, 6, 12) and notes: “piece / plane / random effect → the whole table”, “… → buff / free card, e.g. counterspell”.</span></figcaption></figure><figure class="scan scan--story"><div class="scan__img" aria-hidden="true"><i class="ink"></i></div><figcaption><span class="label"><span lang="es">del cuaderno · boli</span><span lang="en">from the notebook · ballpoint</span></span><span lang="es">Dos viñetas de un turno: «click», «área por donde te puedes mover», «click, se mueve», y, bajo «movimiento», dos flechas: una corta a la viñeta siguiente y otra larga marcada «habilidad».</span><span lang="en">Two panels of a turn: “click”, “area where you can move”, “click, it moves”, and, under “movement”, two arrows: a short one to the next panel and a long one marked “ability”.</span></figcaption></figure></div>
+        </div>
+      </div>
+      <div class="case__body">
+        <div class="pdr">
+          <div><span class="label"><span lang="es">Problema</span><span lang="en">Problem</span></span><p><span lang="es">En el prototipo de 2024 las reglas vivían dentro de managers singleton de Unity (CombatManager, UnitManager) y no había tests: para comprobar una regla había que darle al Play.</span><span lang="en">In the 2024 prototype the rules lived inside Unity singleton managers (CombatManager, UnitManager) and there were no tests: checking a rule meant pressing Play.</span></p></div>
+          <div><span class="label"><span lang="es">Decisión</span><span lang="en">Decision</span></span><p><span lang="es">Un núcleo (Game.Core) sin referencias al motor, con coordenadas axiales, una sola fuente de verdad para la ocupación y un contrato de legalidad que comparten el HUD, los resaltados y la ejecución. Cada partida se reproduce con su semilla.</span><span lang="en">A core (Game.Core) with no engine references, axial coordinates, a single source of truth for occupancy and one legality contract shared by the HUD, the highlights and execution. Every run replays from its seed.</span></p></div>
+          <div><span class="label"><span lang="es">Resultado</span><span lang="en">Result</span></span><p><span lang="es">230/230 tests EditMode y 31/31 PlayMode. Mapa de ruta con semilla al estilo Slay the Spire, recompensas de una entre tres, un jefe por fases y una build de Linux con prueba de humo automática.</span><span lang="en">230/230 EditMode and 31/31 PlayMode tests. A seeded Slay-the-Spire-style route map, pick-one-of-three rewards, a phased boss and a Linux build with an automatic smoke test.</span></p></div>
+        </div>
+        <p class="notyet"><span class="label"><span lang="es">lo que aún no hace</span><span lang="en">what it doesn't do yet</span></span><span lang="es">El tablero razona en hexágonos pero todavía se dibuja con casillas cuadradas, y los modelos en partida son provisionales.</span><span lang="en">The board reasons in hexes but is still drawn with square tiles, and the in-game models are placeholders.</span></p>
+      </div>
+    </article>
+
+    <!-- 06 · Viu Manacor -->
+    <article class="grid case" id="viu" aria-labelledby="h-viu" data-hb="article#viu">
+      <header class="case__head">
+        <p class="case__no" data-hw>06</p>
+        <p class="label">2026&nbsp;· <span lang="es">en producción</span><span lang="en">in production</span>&nbsp;· Django 6&nbsp;· PostgreSQL&nbsp;· Docker&nbsp;· Caddy</p>
+        <h3 id="h-viu">Viu Manacor</h3>
+        <div class="case__links">
+          <a class="btn btn--sm" href="https://viumanacor.cat" target="_blank" rel="noopener">viumanacor.cat <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a>
+          <span class="chip chip--state"><span lang="es">Código privado</span><span lang="en">Private code</span></span>
+        </div>
+        <p class="desc"><span lang="es">Directorio de comercios y noticias de Manacor, en catalán.</span><span lang="en">A business directory and news portal for Manacor, in Catalan.</span></p>
+      </header>
+      <p class="standfirst"><span lang="es">El portal local de mi pueblo, hecho de principio a fin por mí: datos, backend, diseño, SEO y el servidor donde corre.</span><span lang="en">My town's local portal, built end to end by me: data, backend, design, SEO and the server it runs on.</span></p>
+      <div class="case__fig">
+        <figure class="plate fig-bytes" data-fig="bytes" data-hb="figure · fetch_photos.py">
+          <div class="plate__stage" style="background:var(--sheet)">
+            <div class="bytes">
+              <div class="bytes__files" role="group" aria-label="Archivos de ejemplo" data-aria-en="Sample files">
+                <button type="button" class="tgl" data-sample="jpg">cafe-sa-placa.jpg</button>
+                <button type="button" class="tgl" data-sample="png">forn-logo.png</button>
+                <button type="button" class="tgl" data-sample="svg">botiga.jpg</button>
+              </div>
+              <div class="bytes__drop" data-drop>
+                <span lang="es">…o prueba con una imagen tuya; no sale de tu navegador.</span><span lang="en">…or try an image of your own; it never leaves your browser.</span>
+                <label class="tgl bytes__pick"><input type="file" accept="image/*,.svg" data-file class="sr-only"><span lang="es">Elegir archivo</span><span lang="en">Choose file</span></label>
+              </div>
+              <div class="bytes__out">
+                <div class="hex" data-hex>— — — — — — — —</div>
+                <span class="stamp" data-stamp hidden></span>
+                <p class="bytes__why" data-why></p>
+                <span class="sr-only" role="status" data-bytes-say></span>
+              </div>
+            </div>
+          </div>
+          <figcaption class="plate__cap">
+            <span class="label">FIG. 6</span>
+            <span lang="es">La extensión de una URL miente. Así se rompieron doce fotos: bytes de SVG guardados como .jpg, que el servidor entregaba como image/jpeg y ningún navegador podía abrir. Desde entonces solo se guarda lo que empieza por la firma de un JPEG o de un PNG.</span>
+            <span lang="en">A URL's extension lies. Twelve photos broke this way: SVG bytes saved as .jpg, served as image/jpeg and impossible for any browser to decode. Since then only files that start with a JPEG or PNG signature get saved.</span>
+            <span class="src"><span lang="es">fuente</span><span lang="en">source</span> · comptes/management/commands/fetch_photos.py · SIGNATURES = (FF D8 FF → jpg, 89 50 4E 47 0D 0A 1A 0A → png)</span>
+          </figcaption>
+        </figure>
+        <div class="case__under">
+
+        <div class="case__note">
+        <blockquote class="quote"><span lang="es">«Un backup que nunca se restauró no es un backup, es una esperanza.»</span><span lang="en">“A backup that was never restored is not a backup, it is a hope.”</span><cite>docs/estado.md · Viu Manacor</cite></blockquote>
+        <figure class="scan scan--binary"><div class="scan__img" aria-hidden="true"><i class="ink"></i></div><figcaption><span class="label"><span lang="es">del cuaderno · boli</span><span lang="en">from the notebook · ballpoint</span></span><span lang="es">En la misma hoja que las pantallas: parejas de filas de ceros y unos con una raya y otra fila debajo; la primera pareja, tachada.</span><span lang="en">On the same page as the screens: pairs of rows of ones and zeros with a line and another row underneath; the first pair crossed out.</span></figcaption></figure>
+        </div>
+        </div>
+      </div>
+      <div class="case__body">
+        <div class="pdr">
+          <div><span class="label"><span lang="es">Problema</span><span lang="en">Problem</span></span><p><span lang="es">Un directorio local solo sirve si Google lo encuentra y si los datos son buenos. Partía de unas 4.070 filas de comercios sin limpiar.</span><span lang="en">A local directory is only useful if Google finds it and the data is good. I started from about 4,070 uncleaned rows of businesses.</span></p></div>
+          <div><span class="label"><span lang="es">Decisión</span><span lang="en">Decision</span></span><p><span lang="es">Páginas renderizadas en servidor con URLs limpias y JSON-LD de LocalBusiness; formularios GET normales en vez de HTMX para que todo se indexe; analítica propia sin cookies (Umami); y una restricción en Postgres para que ningún comercio se publique sin foto.</span><span lang="en">Server-rendered pages with clean URLs and LocalBusiness JSON-LD; plain GET forms instead of HTMX so everything gets indexed; self-hosted cookie-free analytics (Umami); and a Postgres constraint so no business goes live without a photo.</span></p></div>
+          <div><span class="label"><span lang="es">Resultado</span><span lang="en">Result</span></span><p><span lang="es">En producción, con despliegue automático en cada push a main: GitHub Actions construye la imagen, la publica en GHCR y el servidor la levanta detrás de Caddy. Tras un susto con un servidor anterior, el actual nació endurecido, y el backup diario se ha probado restaurándolo de verdad.</span><span lang="en">In production, with automatic deploys on every push to main: GitHub Actions builds the image, pushes it to GHCR and the server runs it behind Caddy. After a scare with a previous server, the current one was hardened from day one, and the daily backup has been tested with a real restore.</span></p></div>
+        </div>
+        <p class="notyet"><span class="label"><span lang="es">lo que aún no hace</span><span lang="en">what it doesn't do yet</span></span><span lang="es">Está en fase de carga de contenido: 67 comercios reales publicados por ahora, de los 100 preparados para el lanzamiento.</span><span lang="en">It is in the content-loading phase: 67 real businesses published so far, out of the 100 prepared for launch.</span></p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ============================ 1.3 · JUEGOS ============================ -->
+<section class="sheet" id="juegos" aria-labelledby="h-games" data-hb="section#juegos · 1.3">
+  <div class="wrap">
+    <div class="grid sheet__head">
+      <div class="sheet__no"><span class="num" data-hw>1.3</span><span class="label">2022–2026</span></div>
+      <div class="sheet__title">
+        <h2 id="h-games"><span class="u"><span lang="es"><span class="sr-only">Juegos y prototipos</span><span class="hwt" aria-hidden="true"><i style="-webkit-mask-image:url(assets/cuaderno/titulos/juegos.webp);mask-image:url(assets/cuaderno/titulos/juegos.webp);--w:554;--h:126;--c:98.0;--d:15.0"></i> <i style="-webkit-mask-image:url(assets/cuaderno/titulos/y.webp);mask-image:url(assets/cuaderno/titulos/y.webp);--w:80;--h:126;--c:98.0;--d:23.0"></i> <i style="-webkit-mask-image:url(assets/cuaderno/titulos/prototipos.webp);mask-image:url(assets/cuaderno/titulos/prototipos.webp);--w:803;--h:125;--c:98.0;--d:10.0"></i></span></span><span lang="en">Games and prototypes</span></span></h2>
+        <p><span lang="es">Plataformas, survivors, tácticos y MOBAs, a distintos niveles: Java sin motor (Java2D, terminal), frameworks (libGDX, Phaser) y motores (Godot, Unity). En cada uno digo qué hice yo y qué hizo el equipo.</span><span lang="en">Platformers, survivors, tactics and MOBAs, at different levels: engine-less Java (Java2D, terminal), frameworks (libGDX, Phaser) and engines (Godot, Unity). For each one I say what I did and what the team did.</span></p>
+        <figure class="scan scan--controles"><div class="scan__img" aria-hidden="true"><i class="black"></i></div><figcaption><span class="label"><span lang="es">del cuaderno · rotulador</span><span lang="en">from the notebook · marker</span></span><span lang="es">Controles apuntados en la misma página que «LVL 2»: «↑ SALTAR», «BAJAR», «← IZ.», «→ DER», «2↑ DOBLE SALTO» y «Doble salto o si mantienes salt… más (Hollow Knight)».</span><span lang="en">Controls noted on the same page as “LVL 2”: “↑ SALTAR” (jump), “BAJAR” (down), “← IZ.” (left), “→ DER” (right), “2↑ DOBLE SALTO” (double jump) and “Doble salto o si mantienes salt… más (Hollow Knight)” (double jump, or hold jump… for more).</span></figcaption></figure>
+      </div>
+      <div class="sheet__side"><figure class="scan scan--croc"><div class="scan__img" aria-hidden="true"><i class="pencil"></i></div><figcaption><span class="label"><span lang="es">del cuaderno · lápiz</span><span lang="en">from the notebook · pencil</span></span><span lang="es">Un cocodrilo con traje, sombrerito y la lengua fuera. Al lado, «ARQU…» con una flecha que apunta al cocodrilo.</span><span lang="en">A crocodile in a suit and a tiny hat, sticking its tongue out. Beside it, “ARQU…” with an arrow pointing at the crocodile.</span></figcaption></figure></div>
+    </div>
+
+    <div class="shelf">
+      <article class="game game--wide" data-hb="game · Sapo Mafioso">
+        <div class="game__media">
+          <div class="stage-sapo" role="img" aria-label="El sapo mafioso, con sombrero y puro, en el puerto de grúas del juego. Arte dibujado por Nico." data-aria-en="The mafia frog, with fedora and cigar, in the game&#x27;s crane harbour. Art drawn by Nico.">
+            <div class="sapo" data-sprite="4" data-ms="400"></div>
+          </div>
+        </div>
+        <div class="game__body">
+          <div class="game__meta"><span class="chip">Godot 3</span><span class="chip">2022–2026</span><span class="chip"><span lang="es">Solo · arte propio</span><span lang="en">Solo · my own art</span></span></div>
+          <h3>Sapo Mafioso</h3>
+          <p><span lang="es">Un sapo con sombrero y puro caza moscas a lengüetazos en un puerto de grúas hasta llegar al Rey Mosca, un jefe hecho de moscas. Dibujé todo el arte en Photoshop. Doble salto, salto variable, gravedad ×1,5 al caer y una máquina de estados de animación con 6 estados.</span><span lang="en">A frog in a fedora with a cigar lashes flies with his tongue across a harbour of cranes until he reaches the Fly King, a boss made of flies. I drew all the art in Photoshop. Double jump, variable jump, ×1.5 fall gravity and a 6-state animation state machine.</span></p>
+          <div class="game__links"><a href="https://nicorueda.dev/juegos/sapoGuvasto/" target="_blank" rel="noopener"><span lang="es">Jugar</span><span lang="en">Play</span> <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a><a href="https://github.com/NicoRuedaA/Platform_Godot" target="_blank" rel="noopener">GitHub <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></div>
+        </div>
+      </article>
+
+      <article class="game game--wide" data-hb="game · Catpire Survivors">
+        <div class="game__media">
+          <div class="vid" style="--ar:594/332">
+            <img src="assets/img/catpire-poster.webp" alt="Partida de Catpire Survivors: el mago rodeado de enemigos, con corazones y experiencia en el HUD." data-alt-en="Catpire Survivors gameplay: the wizard surrounded by enemies, with hearts and experience in the HUD." loading="lazy" width="594" height="332">
+            <button type="button" class="vid__play" data-video="assets/video/catpire.webm"><i class="ico ico--play" aria-hidden="true"></i> <span lang="es">Ver partida</span><span lang="en">Watch gameplay</span></button>
+          </div>
+        </div>
+        <div class="game__body">
+          <div class="game__meta"><span class="chip">Java 17 · libGDX</span><span class="chip">2025–2026</span><span class="chip">Solo</span></div>
+          <h3>Catpire Survivors</h3>
+          <p><span lang="es">Un roguelike al estilo Vampire Survivors con build de escritorio y web (GWT). En cada subida de nivel el juego se pausa y reparte tres mejoras al azar de un registro de efectos con patrón Strategy: disparo en abanico, bola eléctrica orbital, velocidad, vida.</span><span lang="en">A Vampire Survivors-style roguelike with desktop and web (GWT) builds. Each level-up pauses the game and deals three random upgrades from a Strategy-pattern effect registry: fan shot, orbiting electro-ball, speed, health.</span></p>
+          <div class="game__links"><a href="https://nicorueda.dev/juegos/catpire/" target="_blank" rel="noopener"><span lang="es">Jugar</span><span lang="en">Play</span> <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a><a href="https://github.com/NicoRuedaA/Catpire_Survivors" target="_blank" rel="noopener">GitHub <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></div>
+        </div>
+      </article>
+
+      <article class="game" data-hb="game · Isometric Tactics">
+        <div class="game__media">
+          <div class="vid" style="--ar:800/450">
+            <img src="assets/img/iso-poster.webp" alt="Tablero isométrico de 8×8 rodeado de lava con dos ejércitos de pixel art." data-alt-en="An 8×8 isometric board ringed by lava with two pixel-art armies." loading="lazy" width="800" height="450">
+            <button type="button" class="vid__play" data-video="assets/video/iso.webm"><i class="ico ico--play" aria-hidden="true"></i> <span lang="es">Ver</span><span lang="en">Watch</span></button>
+          </div>
+        </div>
+        <div class="game__body">
+          <div class="game__meta"><span class="chip">Godot 3</span><span class="chip">2022–2026</span><span class="chip"><span lang="es">Equipo 4Bits</span><span lang="en">Team 4Bits</span></span></div>
+          <h3>Isometric Tactics</h3>
+          <p><span lang="es">Táctico por turnos para dos jugadores en un tablero isométrico de 8×8 rodeado de lava. En el repositorio, mi parte es el núcleo de juego (rejilla, AStar2D, actores, habilidades como datos, turnos) y su refactorización en 2026.</span><span lang="en">Two-player turn-based tactics on an 8×8 isometric board ringed by lava. In the repository, my part is the gameplay core (grid, AStar2D, actors, data-driven abilities, turns) and its 2026 refactor.</span></p>
+          <div class="game__links"><a href="https://github.com/NicoRuedaA/Isometric_Godot" target="_blank" rel="noopener">GitHub <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></div>
+        </div>
+      </article>
+
+      <article class="game" data-hb="game · Super Cide Bros">
+        <div class="game__media">
+          <div class="vid" style="--ar:800/450">
+            <img src="assets/img/scb-poster.webp" alt="Plataformas con el campus del colegio CIDE como fondo en parallax." data-alt-en="Platformer with the CIDE school campus as parallax background." loading="lazy" width="800" height="450">
+            <button type="button" class="vid__play" data-video="assets/video/scb.webm"><i class="ico ico--play" aria-hidden="true"></i> <span lang="es">Ver</span><span lang="en">Watch</span></button>
+          </div>
+        </div>
+        <div class="game__body">
+          <div class="game__meta"><span class="chip">Java2D</span><span class="chip">2026</span><span class="chip">Solo</span></div>
+          <h3>Super Cide Bros</h3>
+          <p><span lang="es">Para la fiesta del CIDE 2026. Sobre la base de «My Super Mario Java 2D Game», de Mohamed Talaat (TETOSOFT), separé sistemas y afiné el tacto: gravedad asimétrica (0,002 al subir, 0,005 al caer), salto variable, 4 niveles escritos en ASCII y el campus en parallax de 4 capas.</span><span lang="en">For the CIDE 2026 school party. Building on “My Super Mario Java 2D Game” by Mohamed Talaat (TETOSOFT), I split the systems and tuned the feel: asymmetric gravity (0.002 rising, 0.005 falling), variable jump, 4 levels written in ASCII and the campus as 4-layer parallax.</span></p>
+          <div class="game__links"><a href="https://github.com/NicoRuedaA/SuperCideBros" target="_blank" rel="noopener">GitHub <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></div>
+        </div>
+      </article>
+
+      <article class="game" data-hb="game · U.Roguelike">
+        <div class="game__media" style="display:grid;place-items:center;background:#16323a">
+          <img class="pix" src="assets/img/templar.png" alt="Sprite de un templario atacando con la espada." data-alt-en="Sprite of a templar attacking with a sword." width="64" height="64" style="width:38%;height:auto">
+        </div>
+        <div class="game__body">
+          <div class="game__meta"><span class="chip">Unity 2022</span><span class="chip">2024</span><span class="chip"><span lang="es">Equipo</span><span lang="en">Team</span></span></div>
+          <h3>U.Roguelike</h3>
+          <p><span lang="es">Dungeon crawler en pixel art hecho en equipo. Programé los enemigos y el jefe: cada enemigo se compone de cerebro, puños y cara (IA, ataque, animación), con seis arquetipos de IA y un jefe de 13 estados y 2 fases que decide con tiradas ponderadas. El arte y la música no son míos.</span><span lang="en">A team-made pixel-art dungeon crawler. I programmed the enemies and the boss: each enemy is built from a brain, fists and a face (AI, attack, animation), with six AI archetypes and a 13-state, 2-phase boss that decides with weighted rolls. The art and music are not mine.</span></p>
+          <div class="game__links"><a href="https://github.com/NicoRuedaA/Roguelike-Unity" target="_blank" rel="noopener">GitHub <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></div>
+        </div>
+      </article>
+
+      <article class="game" data-hb="game · Mobalike">
+        <div class="game__media">
+          <div class="formula" data-armor>
+            <code>daño = bruto × 100 / (100 + armadura)</code>
+            <svg viewBox="0 0 300 110" role="img" aria-label="Curva de reducción de daño: con 100 de armadura se recibe la mitad." data-aria-en="Damage reduction curve: with 100 armour you take half."></svg>
+          </div>
+        </div>
+        <div class="game__body">
+          <div class="game__meta"><span class="chip">Unity 6 · C#</span><span class="chip">2026</span><span class="chip">Solo</span></div>
+          <h3>Mobalike</h3>
+          <p><span lang="es">Sandbox de combate MOBA: habilidades definidas como datos (ScriptableObject + fábrica), IA enemiga de 6 estados, daño físico, mágico y verdadero, y disparos cargados. 93 tests unitarios. Arte provisional.</span><span lang="en">A MOBA combat sandbox: data-driven abilities (ScriptableObject + factory), a 6-state enemy AI, physical, magic and true damage, and charged shots. 93 unit tests. Placeholder art.</span></p>
+          <div class="game__links"><a href="https://github.com/NicoRuedaA/Mobalike" target="_blank" rel="noopener">GitHub <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></div>
+        </div>
+      </article>
+
+      <article class="game" data-hb="game · PlayableRaces">
+        <div class="game__media">
+          <div class="races" role="img" aria-label="Modificadores frente al humano: Elfo +50 de maná, +20 % de velocidad; Bestia −30 de maná, +25 % de velocidad, +15 % de daño; Monstruo +40 de vida, +5 de armadura, −20 % de velocidad; Primigenio −20 de vida, +20 de maná." data-aria-en="Modifiers against the human baseline: Elf +50 mana, +20% speed; Beast −30 mana, +25% speed, +15% damage; Monster +40 HP, +5 armour, −20% speed; Eldritch −20 HP, +20 mana.">
+            <div class="hd"><span></span><span><span lang="es">maná</span><span lang="en">mana</span></span><span><span lang="es">vida</span><span lang="en">HP</span></span><span><abbr lang="es" title="armadura">arm.</abbr><abbr lang="en" title="armour">arm.</abbr></span><span><abbr lang="es" title="velocidad">vel.</abbr><abbr lang="en" title="speed">spd</abbr></span><span><span lang="es">daño</span><span lang="en">dmg</span></span></div>
+            <div><span><span lang="es">Elfo</span><span lang="en">Elf</span></span><i data-v="+50"></i><i></i><i></i><i data-v="+20%"></i><i></i></div>
+            <div><span><span lang="es">Bestia</span><span lang="en">Beast</span></span><i class="neg" data-v="−30"></i><i></i><i></i><i data-v="+25%"></i><i data-v="+15%"></i></div>
+            <div><span><span lang="es">Monstruo</span><span lang="en">Monster</span></span><i></i><i data-v="+40"></i><i data-v="+5"></i><i class="neg" data-v="−20%"></i><i></i></div>
+            <div><span><span lang="es">Primigenio</span><span lang="en">Eldritch</span></span><i data-v="+20"></i><i class="neg" data-v="−20"></i><i></i><i></i><i></i></div>
+            <p class="races__note"><span lang="es">Maná, vida y armadura en puntos; velocidad y daño en %.</span><span lang="en">Mana, HP and armour in points; speed and damage in %.</span></p>
+          </div>
+        </div>
+        <div class="game__body">
+          <div class="game__meta"><span class="chip">Java · Hytale</span><span class="chip">2026</span><span class="chip"><span lang="es">Solo · mod privado</span><span lang="en">Solo · private mod</span></span></div>
+          <h3>PlayableRaces</h3>
+          <p><span lang="es">Mod de servidor para Hytale con razas de fantasía jugables y compensaciones (el elfo gana maná y velocidad; el monstruo, vida y armadura a cambio de velocidad), un selector dentro del juego y curación invertida para los no muertos: el veneno cura y las pociones hacen daño.</span><span lang="en">A Hytale server mod with playable fantasy races and trade-offs (elves gain mana and speed; monsters gain health and armour at the cost of speed), an in-game picker and inverted healing for the undead: poison heals and potions hurt.</span></p>
+        </div>
+      </article>
+
+      <article class="game" data-hb="game · Animal Expirement">
+        <div class="game__media" style="background:#2c2140">
+          <img src="assets/img/animal-key.webp" alt="Portada de Animal Expirement: un cerdo, un ratón y un conejo sobre un fondo morado estrellado." data-alt-en="Animal Expirement cover: a pig, a mouse and a rabbit on a starry purple background." loading="lazy" width="500" height="500" style="object-fit:contain">
+        </div>
+        <div class="game__body">
+          <div class="game__meta"><span class="chip">Phaser 3</span><span class="chip">2022</span><span class="chip"><span lang="es">Equipo de 2</span><span lang="en">Team of 2</span></span></div>
+          <h3>Animal Expirement</h3>
+          <p><span lang="es">Tres animales de laboratorio escapan de un científico loco. Programé las tres escenas de juego: una persecución que se acelera con cada poción, un matamarcianos con queso y una subida por plataformas móviles.</span><span lang="en">Three lab animals escape a mad scientist. I programmed all three game scenes: a chase that speeds up with every potion, a cheese-firing shooter and a climb across moving platforms.</span></p>
+          <div class="game__links"><a href="https://github.com/Animal-Expirement/Animal-Expirement" target="_blank" rel="noopener">GitHub <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></div>
+        </div>
+      </article>
+
+      <article class="game game--row" data-hb="game · Duelo de insultos">
+        <div class="game__media">
+          <div class="term" data-duel role="group" aria-label="Minijuego: duelo de insultos" data-aria-en="Mini-game: insult duel">
+            <div class="term__bar"><span lang="es">PIRATA</span><span lang="en">PIRATE</span> <span data-hp></span></div>
+            <div class="term__log" data-log role="log" aria-live="polite"></div>
+            <div class="term__opts" data-opts></div>
+          </div>
+        </div>
+        <div class="game__body">
+          <div class="game__meta"><span class="chip"><span lang="es">Java · terminal</span><span lang="en">Java · terminal</span></span><span class="chip">2025–2026</span><span class="chip"><span lang="es">Práctica de clase</span><span lang="en">Coursework</span></span></div>
+          <h3><span lang="es">Duelo de insultos</span><span lang="en">Insult duel</span></h3>
+          <p><span lang="es">Homenaje a Monkey Island para la clase de programación: sprites de bloques ANSI en color, texto a máquina de escribir, sonido y una isla aleatoria de 3 a 7 piratas. Aquí tienes una versión con insultos nuevos, sobre programar.</span><span lang="en">A Monkey Island tribute for programming class: colour ANSI block sprites, typewriter text, sound and a random island of 3 to 7 pirates. Here is a version with new insults, about programming.</span></p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 1.4 · DEL CUADERNO ============================ -->
+<section class="sheet cuaderno" id="cuaderno" aria-labelledby="h-book" data-hb="section#cuaderno · 1.4">
+  <div class="wrap">
+    <div class="grid sheet__head">
+      <div class="sheet__no"><span class="num" data-hw>1.4</span><span class="label"><span lang="es">fuera de clase y en clase</span><span lang="en">in and out of class</span></span></div>
+      <div class="sheet__title">
+        <h2 id="h-book"><span class="u"><span lang="es"><span class="sr-only">Del cuaderno</span><span class="hwt" aria-hidden="true"><i style="-webkit-mask-image:url(assets/cuaderno/titulos/del.webp);mask-image:url(assets/cuaderno/titulos/del.webp);--w:234;--h:110;--c:88.5;--d:11.0"></i> <i style="-webkit-mask-image:url(assets/cuaderno/titulos/cuaderno.webp);mask-image:url(assets/cuaderno/titulos/cuaderno.webp);--w:702;--h:138;--c:88.5;--d:15.0"></i></span></span><span lang="en">From the notebook</span></span></h2>
+        <p><span lang="es">Robots, criaturas, personajes, estudios de anatomía, apuntes de clase e ideas de juego. Son fotos de mis cuadernos, recortadas y recoloreadas según el tema; no he retocado ningún trazo.</span><span lang="en">Robots, creatures, characters, anatomy studies, class notes and game ideas. They are photos of my notebooks, cropped and recoloured for the theme; no stroke has been retouched.</span></p>
+      </div>
+    </div>
+    <div class="spread">
+      <div class="spread__page spread__page--l">
+        <figure class="scan bk bk--robots"><div class="scan__img" aria-hidden="true"><i class="black"></i><i class="col"></i></div><figcaption><span class="label"><span lang="es">rotulador</span><span lang="en">marker</span></span><span lang="es">Robots a rotulador negro y rojo: de lado, de frente con una cúpula roja y una placa con signos, desde arriba y en perspectiva sobre dos cilindros.</span><span lang="en">Robots in black and red marker: from the side, from the front with a red dome and a plate of glyphs, from above, and in perspective on two cylinders.</span></figcaption></figure><figure class="scan bk bk--cangrejo"><div class="scan__img" aria-hidden="true"><i class="black"></i></div><figcaption><span class="label"><span lang="es">lápiz</span><span lang="en">pencil</span></span><span lang="es">Arriba, «dia 7» y «tu signo zodiaco»; debajo, un cangrejo mecánico con ojos de prismáticos y patas por segmentos.</span><span lang="en">At the top, “dia 7” and “tu signo zodiaco” (day 7, your star sign); below, a mechanical crab with binocular eyes and segmented legs.</span></figcaption></figure><figure class="scan bk bk--cajas"><div class="scan__img" aria-hidden="true"><i class="black"></i></div><figcaption><span class="label"><span lang="es">rotulador</span><span lang="en">marker</span></span><span lang="es">Robots de caja con piernas y manos, de una página llena de ellos: son los que andan por los márgenes de esta web.</span><span lang="en">Box robots with legs and hands, from a page full of them: they are the ones walking around this site’s margins.</span></figcaption></figure><figure class="scan bk bk--cocina"><div class="scan__img" aria-hidden="true"><i class="ink"></i></div><figcaption><span class="label"><span lang="es">boli</span><span lang="en">ballpoint</span></span><span lang="es">Un robot con gorra junto a una encimera, con algo en la mano; al fondo, una ventana con un gato negro en el alféizar, el mismo que se sienta al pie de esta web.</span><span lang="en">A robot in a cap by a counter, holding something; behind it, a window with a black cat on the sill, the same one that sits at the foot of this site.</span></figcaption></figure>
+      </div>
+      <div class="spread__page spread__page--r">
+        <figure class="scan bk bk--cebolla"><div class="scan__img" aria-hidden="true"><i class="pencil"></i></div><figcaption><span class="label"><span lang="es">lápiz</span><span lang="en">pencil</span></span><span lang="es">Una criatura dentro de una flor abierta; debajo, un capullo tumbado con púas, dos ojos y un zarcillo en espiral.</span><span lang="en">A creature inside an open flower; below, a bud lying on its side with spines, two eyes and a spiral tendril.</span></figcaption></figure><figure class="scan bk bk--huevo"><div class="scan__img" aria-hidden="true"><i class="pencil"></i></div><figcaption><span class="label"><span lang="es">lápiz</span><span lang="en">pencil</span></span><span lang="es">Un huevo con alas, el cascarón cuarteado en celdas y una esfera sombreada dentro; arriba, un aro unido con trazos finos.</span><span lang="en">A winged egg, its shell cracked into cells with a shaded sphere inside; above it, a ring joined by thin strokes.</span></figcaption></figure><figure class="scan bk bk--flores"><div class="scan__img" aria-hidden="true"><i class="pencil"></i></div><figcaption><span class="label"><span lang="es">lápiz</span><span lang="en">pencil</span></span><span lang="es">Criaturas-flor: un capullo cerrado, una flor de tres pétalos con pico y ojos, y una flor con cabeza de pájaro sobre un tallo largo.</span><span lang="en">Flower creatures: a closed bud, a three-petal flower with a beak and eyes, and a flower with a bird’s head on a long stem.</span></figcaption></figure><figure class="scan bk bk--cactus"><div class="scan__img" aria-hidden="true"><i class="pencil"></i></div><figcaption><span class="label"><span lang="es">lápiz</span><span lang="en">pencil</span></span><span lang="es">Dos más: un capullo tumbado con tallos de espinas y una cabeza redonda con cara entre cuatro hojas espinosas en X.</span><span lang="en">Two more: a bud lying on its side with thorny stems, and a round head with a face between four spiny leaves in an X.</span></figcaption></figure><figure class="scan bk bk--ala"><div class="scan__img" aria-hidden="true"><i class="black"></i><i class="col"></i></div><figcaption><span class="label"><span lang="es">rotuladores</span><span lang="en">markers</span></span><span lang="es">Un ala coloreada con rotuladores rojo, magenta, violeta y verde azulado.</span><span lang="en">A wing coloured with red, magenta, violet and teal markers.</span></figcaption></figure><figure class="scan bk bk--coche"><div class="scan__img" aria-hidden="true"><i class="ink"></i></div><figcaption><span class="label"><span lang="es">boli</span><span lang="en">ballpoint</span></span><span lang="es">Una ranchera de lado y, pegado al morro, un vehículo pequeño y redondeado con una figura con gorra encima.</span><span lang="en">An estate car from the side and, pressed against its front, a small rounded vehicle with a figure in a cap on top.</span></figcaption></figure>
+      </div>
+    </div>
+    <div class="chars">
+      <figure class="scan bk bk--lanza"><div class="scan__img" aria-hidden="true"><i class="pencil"></i><i class="ink"></i></div><figcaption><span class="label"><span lang="es">rotulador fino y lápiz</span><span lang="en">fineliner and pencil</span></span><span lang="es">Un personaje mío: una figura encapuchada con el torso al aire, un cinturón con un medallón y una lanza larga cruzada; sobre su mano abierta flotan unas gotas y el cuerpo acaba en una cola larga que se enrosca. El contorno está pasado a rotulador; la cara, el torso y la lanza siguen a lápiz.</span><span lang="en">One of my characters: a hooded figure with a bare torso, a belt with a medallion and a long spear held across; drops float above the open hand and the body ends in a long curling tail. The outline is inked in fineliner; the face, torso and spear are still in pencil.</span></figcaption></figure><figure class="scan bk bk--cabezas"><div class="scan__img" aria-hidden="true"><i class="pencil"></i></div><figcaption><span class="label"><span lang="es">lápiz</span><span lang="en">pencil</span></span><span lang="es">Cabezas construidas a partir de una esfera, con el plano lateral en círculo y los trazos del cuello.</span><span lang="en">Heads built from a sphere, with the side plane drawn as a circle and the neck strokes.</span></figcaption></figure>
+    </div>
+    <div class="spread spread--studies">
+      <figure class="scan bk bk--anatomia"><div class="scan__img" aria-hidden="true"><i class="pencil"></i></div><figcaption><span class="label"><span lang="es">lápiz</span><span lang="en">pencil</span></span><span lang="es">Estudio de anatomía: una figura de frente, una espalda y dos brazos.</span><span lang="en">Anatomy study: a figure from the front, a back and two arms.</span></figcaption></figure><figure class="scan bk bk--musculos"><div class="scan__img" aria-hidden="true"><i class="ink"></i></div><figcaption><span class="label"><span lang="es">boli</span><span lang="en">ballpoint</span></span><span lang="es">Dos figuras musculosas, una de frente y otra girada.</span><span lang="en">Two muscular figures, one from the front and one turned.</span></figcaption></figure><figure class="scan bk bk--avl"><div class="scan__img" aria-hidden="true"><i class="black"></i></div><figcaption><span class="label"><span lang="es">rotulador, boli y lápiz</span><span lang="en">marker, ballpoint and pencil</span></span><span lang="es">Apuntes de clase, un ejercicio de árboles AVL: el mismo árbol dibujado cinco veces entre flechas, con lazos alrededor de las ramas que se mueven, uno tachado con una X y, a lápiz, «unico elemento». Las cifras de los números de esta web salen de esta página.</span><span lang="en">Class notes, an AVL tree exercise: the same tree drawn five times between arrows, with loops around the branches that move, one crossed out with an X and, in pencil, “unico elemento” (single element). The digits in this site’s numbers come from this page.</span></figcaption></figure>
+    </div>
+    <div class="ideas">
+      <p class="ideas__head"><span class="label"><span lang="es">ideas de juego · dibujadas a mano en el ordenador · archivos de 2021</span><span lang="en">game ideas · drawn by hand on the computer · 2021 files</span></span></p>
+      <figure class="scan bk bk--tasio bk--screen"><div class="scan__img" aria-hidden="true"><i class="black"></i><i class="col"></i></div><figcaption><span lang="es">«TasioGame»: «rol -> gestión», «comienzas como esbirro», «proteger dungeon», «llegar a boss -> gestionar».</span><span lang="en">“TasioGame”: “rol -> gestión” (role-playing -> management), “comienzas como esbirro” (you start as a minion), “proteger dungeon”, “llegar a boss -> gestionar” (reach boss -> manage).</span></figcaption></figure><figure class="scan bk bk--badrole bk--screen"><div class="scan__img" aria-hidden="true"><i class="black"></i><i class="col"></i></div><figcaption><span lang="es">«BAD ROLE»: «minion -> jefe», una «(mazmorra)» de la que «salir», un mundo de fantasía medieval y «por turnos» subrayado en rojo.</span><span lang="en">“BAD ROLE”: “minion -> jefe” (minion -> boss), a “(mazmorra)” (dungeon) to “salir” (get out of), a medieval fantasy world and “por turnos” (turn-based) underlined in red.</span></figcaption></figure><figure class="scan bk bk--dungeon bk--screen"><div class="scan__img" aria-hidden="true"><i class="black"></i><i class="col"></i></div><figcaption><span lang="es">La mazmorra por niveles y lo que se hace en cada sala: «explorar -> atacar -> saquear», «compra-venta», «ranking reputación», «victoria pacifista».</span><span lang="en">The dungeon floor by floor and what you do in each room: “explorar -> atacar -> saquear” (explore -> attack -> loot), “compra-venta” (trading), “ranking reputación”, “victoria pacifista” (pacifist victory).</span></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ 1.5 · HERRAMIENTAS ============================ -->
+<section class="sheet" id="herramientas" aria-labelledby="h-tools" data-hb="section#herramientas · 1.5">
+  <div class="wrap">
+    <div class="grid sheet__head">
+      <div class="sheet__no"><span class="num" data-hw>1.5</span><span class="label"><span lang="es">Herramientas, datos, web</span><span lang="en">Tools, data, web</span></span></div>
+      <div class="sheet__title">
+        <h2 id="h-tools"><span class="u"><span lang="es"><span class="sr-only">Herramientas y datos</span><span class="hwt" aria-hidden="true"><i style="-webkit-mask-image:url(assets/cuaderno/titulos/herramientas.webp);mask-image:url(assets/cuaderno/titulos/herramientas.webp);--w:908;--h:133;--c:89.0;--d:24.0"></i> <i style="-webkit-mask-image:url(assets/cuaderno/titulos/y-2.webp);mask-image:url(assets/cuaderno/titulos/y-2.webp);--w:65;--h:135;--c:89.0;--d:54.0"></i> <i style="-webkit-mask-image:url(assets/cuaderno/titulos/datos.webp);mask-image:url(assets/cuaderno/titulos/datos.webp);--w:397;--h:116;--c:79.0;--d:21.0"></i></span></span><span lang="en">Tools and data</span></span></h2>
+        <p><span lang="es">Herramientas que hice para mí, análisis de datos y plataformas web.</span><span lang="en">Tools I built for myself, data analyses and web platforms.</span></p>
+      </div>
+      <div class="sheet__side"><figure class="scan scan--pipe"><div class="scan__img" aria-hidden="true"><i class="ink"></i></div><figcaption><span class="label"><span lang="es">del cuaderno · boli</span><span lang="en">from the notebook · ballpoint</span></span><span lang="es">Apuntes de Sistemas Operativos: una tubería con «pid, redirecciona», la tabla de descriptores 0, 1, 2 («standard error») y la palabra «consola» en una caja.</span><span lang="en">Operating Systems notes: a pipe with “pid, redirects”, the file descriptor table 0, 1, 2 (“standard error”) and the word “console” in a box.</span></figcaption></figure></div>
+    </div>
+    <ul class="tools">
+      <li class="tool" data-hb="tool · IA Hub">
+        <div><h3>IA Hub</h3><p class="label">Electron&nbsp;· React 19&nbsp;· TypeScript&nbsp;· 2026</p><div class="tool__links"><a href="https://github.com/NicoRuedaA/ia-hub" target="_blank" rel="noopener">GitHub <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></div></div>
+        <div><p><span lang="es">Uso varias suscripciones de IA para programar y quería ver todos sus límites de uso en un solo sitio. Esta app de escritorio local lee los mismos paneles de uso que ya ves en cada servicio (Claude, Codex, Gemini, OpenCode Go) y muestra cuentas atrás de reinicio y niveles de riesgo: normal por debajo del 60 %, vigilar desde el 60 %, alto desde el 80 %.</span><span lang="en">I use several AI subscriptions for coding and wanted all their usage limits in one place. This local desktop app reads the same usage pages you already see on each service (Claude, Codex, Gemini, OpenCode Go) and shows reset countdowns and risk levels: normal under 60%, watch from 60%, high from 80%.</span></p><p><span lang="es">Arquitectura por capas, persistencia detrás de un puerto de repositorio y un token de generación que descarta las respuestas obsoletas que llegan tarde. Un colaborador rediseñó la interfaz en un PR que revisé y fusioné.</span><span lang="en">Layered architecture, persistence behind a repository port and a generation token that discards stale responses arriving out of order. A collaborator redesigned the UI in a PR that I reviewed and merged.</span></p></div>
+        <figure class="tool__media"><span class="shot"><img src="assets/img/iahub.webp" alt="Ventana de IA Hub en modo oscuro con cuatro proveedores y sus medidores de uso." data-alt-en="IA Hub window in dark mode with four providers and their usage meters." loading="lazy" width="1600" height="886"></span><figcaption><span lang="es">Captura real, dentro de una ventana de Hyprland.</span><span lang="en">Real screenshot, inside a Hyprland window.</span></figcaption></figure>
+      </li>
+      <li class="tool" data-hb="tool · Omarchy plugins">
+        <div><h3>Omarchy plugins</h3><p class="label">QML&nbsp;· Quickshell&nbsp;· Python&nbsp;· 2026&nbsp;· MIT</p><div class="tool__links"><a href="https://github.com/NicoRuedaA/omarchy-plugins" target="_blank" rel="noopener">GitHub <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></div></div>
+        <div><p><span lang="es">Widgets para la barra de mi escritorio (Arch Linux + Hyprland). Git Projects muestra los últimos commits y el estado de CI de mis repos en GitHub y GitLab, con consultas en paralelo y un fichero de estado que se escribe de forma atómica para que el widget nunca lea algo a medias. El segundo es una versión personalizada del widget de agentes de Omarchy.</span><span lang="en">Widgets for my desktop bar (Arch Linux + Hyprland). Git Projects shows the latest commits and CI status of my GitHub and GitLab repos, with parallel queries and a status file written atomically so the widget never reads a half-written file. The second one is a customised version of Omarchy's agents widget.</span></p></div>
+        <div class="tool__media"><div class="ci" role="img" aria-label="Maqueta del widget con tres repos: uno correcto, uno ejecutándose y uno fallando." data-aria-en="Widget mock-up with three repos: one passing, one running and one failing.">
+          <div><span>Voxelizer · main</span><span class="pill ok">success</span></div>
+          <div><span>tactical-prototype · feat/map</span><span class="pill run">running</span></div>
+          <div><span>face-generator · main</span><span class="pill ko">failed</span></div>
+          <div style="color:#8a93a5"><span><span lang="es">hace 3 min · ayer · hace 2 días</span><span lang="en">3 min ago · yesterday · 2 days ago</span></span></div>
+        </div><p class="plate__hint"><span lang="es">Maqueta con la paleta real del plugin.</span><span lang="en">Mock-up using the plugin's real palette.</span></p></div>
+      </li>
+      <li class="tool" data-hb="tool · MTG price prediction">
+        <div><h3>MTG Price Prediction</h3><p class="label">Python&nbsp;· pandas&nbsp;· scikit-learn&nbsp;· 2026</p><div class="tool__links"><a href="https://github.com/NicoRuedaA/MTG-price-prediction" target="_blank" rel="noopener">GitHub <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></div></div>
+        <div><p><span lang="es">¿Se puede predecir el precio de una carta de Magic: The Gathering por sus estadísticas? Con 112.632 cartas de Scryfall filtradas a 19.952 criaturas, un Random Forest sobre todo el mercado no sirve: los precios de coleccionista lo rompen. Recortar a cartas de hasta 30 $ baja el error medio de 3,65 $ a 1,11 $, pero el modelo sigue explicando poco del precio (R² 0,22): depende más de la escasez, el arte y la moda que de las estadísticas.</span><span lang="en">Can you predict a Magic: The Gathering card's price from its stats? With 112,632 Scryfall cards filtered to 19,952 creatures, a Random Forest over the whole market fails: collector prices break it. Clipping to cards up to $30 cuts the mean error from $3.65 to $1.11, but the model still explains little of the price (R² 0.22): it depends on scarcity, art and hype more than on stats.</span></p></div>
+        <div class="tool__media">
+          <div class="mtg" data-mtg>
+            <div class="seg" role="group" aria-label="Datos del modelo" data-aria-en="Model data">
+              <button type="button" data-mtg-set="all" aria-pressed="false"><span lang="es">Todo el mercado</span><span lang="en">Whole market</span></button>
+              <button type="button" data-mtg-set="clip" aria-pressed="true"><span lang="es">≤ 30 $</span><span lang="en">≤ $30</span></button>
+            </div>
+            <div class="mtg__bars">
+              <div class="mtg__bar"><span>MAE</span><span class="t"><i data-mae></i></span><b data-mae-v>1,11 $</b></div>
+              <div class="mtg__bar"><span>R²</span><span class="t"><span class="zero" style="left:33.3%"></span><i data-r2></i></span><b data-r2-v>0,22</b></div>
+            </div>
+            <div class="mtg__card"><span><span lang="es">Carta inventada: 4 de maná, 5/5, rara</span><span lang="en">Made-up card: 4 mana, 5/5, rare</span></span><b data-price>2,56 $</b></div>
+          </div>
+        </div>
+      </li>
+      <li class="tool" data-hb="tool · Spawn">
+        <div><h3>Spawn</h3><p class="label">MVP&nbsp;· Node 24&nbsp;· Express 5&nbsp;· React 19&nbsp;· SQLite&nbsp;· 2026</p><div class="tool__links"><span class="chip chip--state"><span lang="es">Código privado</span><span lang="en">Private code</span></span></div></div>
+        <div><p><span lang="es">Un MVP, aún sin abrir al público, de una plataforma gratuita para que equipos pequeños publiquen juegos y herramientas hechos con ayuda de IA importándolos desde GitHub. La diseñé con la seguridad por delante: contraseñas con scrypt y comparación en tiempo constante, OAuth con PKCE que descarta el token tras identificar al usuario, límites por ruta y un contenedor Docker de solo lectura sin privilegios. Las portadas de ejemplo se generan con fórmulas.</span><span lang="en">An MVP, not yet open to the public, of a free platform where small teams publish games and tools made with AI help, imported from GitHub. I designed it security-first: scrypt passwords with constant-time comparison, PKCE OAuth that discards the token after identifying the user, per-route rate limits and a read-only, unprivileged Docker container. The sample covers are generated from formulas.</span></p></div>
+        <figure class="tool__media"><span class="shot"><img src="assets/img/spawn-covers.webp" alt="Seis portadas procedurales: montañas, forja, bosque, ciudad de neón, hábitat espacial." data-alt-en="Six procedural covers: mountains, forge, forest, neon city, space habitat." loading="lazy" width="1200" height="480"></span><figcaption><span lang="es">Portadas procedurales en SVG, deterministas.</span><span lang="en">Deterministic procedural SVG covers.</span></figcaption></figure>
+      </li>
+      <li class="tool tool--more" data-hb="tool · otros">
+        <div><h3><span lang="es">Y además</span><span lang="en">Also</span></h3><p class="label">Python&nbsp;· Django&nbsp;· OpenCV</p></div>
+        <div>
+          <p><b>Portraits AI</b> · <span lang="es">pipeline en Python que descarga retratos históricos de 131 monarcas de 11 dinastías, detecta la cara con varios clasificadores Haar y recorta a 512×768 para mods de Crusader Kings III y Europa Universalis. 89 tests.</span><span lang="en">a Python pipeline that downloads historical portraits of 131 monarchs from 11 dynasties, finds the face with several Haar classifiers and crops to 512×768 for Crusader Kings III and Europa Universalis mods. 89 tests.</span> <a href="https://github.com/NicoRuedaA/Portraits-AI" target="_blank" rel="noopener">GitHub <span class="ext" aria-hidden="true">↗</span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></p>
+          <p><b>ProjectLite</b> · <span lang="es">gestor de obras multiempresa en Django para constructoras: clientes, obras, partes de trabajo con importes calculados solos e informes imprimibles.</span><span lang="en">a multi-company Django works manager for builders: clients, sites, time sheets with automatic totals and printable reports.</span></p>
+          <p><b><span lang="es">Automatización de un ERP heredado</span><span lang="en">Legacy ERP automation</span></b> · <span lang="es">investigación profesional para automatizar con agentes un ERP antiguo de Windows (UI Automation, OCR y lectura de ficheros binarios).</span><span lang="en">professional research into automating an old Windows ERP with agents (UI Automation, OCR and binary file parsing).</span></p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================ 1.6 · MÉTODO ============================ -->
+<section class="sheet" id="metodo" aria-labelledby="h-method" data-hb="section#metodo · 1.6">
+  <div class="wrap">
+    <div class="grid sheet__head">
+      <div class="sheet__no"><span class="num" data-hw>1.6</span><span class="label"><span lang="es">Reglas de la casa</span><span lang="en">House rules</span></span></div>
+      <div class="sheet__title">
+        <h2 id="h-method"><span class="u"><span lang="es"><span class="sr-only">Cómo trabajo</span><span class="hwt" aria-hidden="true"><i style="-webkit-mask-image:url(assets/cuaderno/titulos/como.webp);mask-image:url(assets/cuaderno/titulos/como.webp);--w:379;--h:125;--c:81.5;--d:17.0"></i> <i style="-webkit-mask-image:url(assets/cuaderno/titulos/trabajo-2.webp);mask-image:url(assets/cuaderno/titulos/trabajo-2.webp);--w:621;--h:119;--c:81.5;--d:22.0"></i></span></span><span lang="en">How I work</span></span></h2>
+        <p><span lang="es">Seis costumbres y dónde se ven.</span><span lang="en">Six habits and where to see them.</span></p>
+      </div>
+      <div class="sheet__side"><figure class="scan scan--controls"><div class="scan__img" aria-hidden="true"><i class="black"></i></div><figcaption><span class="label"><span lang="es">del cuaderno · boli</span><span lang="en">from the notebook · ballpoint</span></span><span lang="es">Controles de dos personajes: «Flamenco → crashlike» y «Tortuga → ratchetlike + lento?», con ×, □, ○ y △ para salto, doble salto, planear o disparo en el aire.</span><span lang="en">Controls for two characters: “Flamingo → Crash-like” and “Turtle → Ratchet-like + slow?”, with ×, □, ○ and △ for jump, double jump, glide or mid-air shot.</span></figcaption></figure></div>
+    </div>
+    <div class="rules">
+      <div class="rule rule--paper"><span class="label" data-hw>01</span><h3><span lang="es">Primero el papel</span><span lang="en">Paper first</span></h3><p><span lang="es">Un nivel a boli (Sapo Mafioso, 2022), mapas y turnos en el cuaderno, especificaciones antes del código (OpenSpec) y decisiones escritas: 21 ADR en Manager of Legends. Lo dibujado a mano en esta web sale de ese cuaderno y de ese nivel; lo demás lo traza el código.</span><span lang="en">A level in ballpoint (Sapo Mafioso, 2022), maps and turns in the notebook, specs before code (OpenSpec) and written decisions: 21 ADRs in Manager of Legends. What is hand-drawn on this site comes from that notebook and that level; the rest is drawn by code.</span></p><figure class="scan scan--rooms"><div class="scan__img" aria-hidden="true"><i class="black"></i><i class="red"></i><i class="green"></i></div><figcaption><span class="label"><span lang="es">del cuaderno · boli negro y granate</span><span lang="en">from the notebook · black and garnet ballpoint</span></span><span lang="es">Un mapa de salas con puertas y, en granate, la lógica de selección: «puerta 1», «bool esprimera», «seleccionado 2 └> desactivar resto». Hay cruces verdes sobre algunos huecos de las paredes.</span><span lang="en">A map of rooms with doors and, in garnet, the selection logic: “puerta 1” (door 1), “bool esprimera” (is first), “seleccionado 2 └> desactivar resto” (selected 2 └> disable the rest). Green crosses sit on some of the gaps in the walls.</span></figcaption></figure></div>
+      <div class="rule"><span class="label" data-hw>02</span><h3><span lang="es">Misma semilla, misma partida</span><span lang="en">Same seed, same match</span></h3><p><span lang="es">Mis simulaciones usan una sola RNG con semilla y paso fijo. Si algo falla, se puede repetir; si se puede repetir, se puede testear.</span><span lang="en">My simulations use a single seeded RNG and a fixed step. If something breaks it can be replayed; if it can be replayed it can be tested.</span></p><blockquote><span lang="es">«Un número se lee como un hecho cuando es una suposición.»</span><span lang="en">“A number reads as a fact when it is a guess.”</span><cite>scouting_knowledge.rs</cite></blockquote></div>
+      <div class="rule"><span class="label" data-hw>03</span><h3><span lang="es">Los tests son el contrato</span><span lang="en">Tests are the contract</span></h3><p><span lang="es">En el Tactical Prototype hay más líneas de test (5.273) que de núcleo (2.406). En Voxelizer, 253 tests; en el motor de partida, 513.</span><span lang="en">The Tactical Prototype has more lines of tests (5,273) than of core (2,406). Voxelizer has 253 tests; the match engine, 513.</span></p></div>
+      <div class="rule"><span class="label" data-hw>04</span><h3><span lang="es">La IA, como herramienta</span><span lang="en">AI as a tool</span></h3><p><span lang="es">Trabajo con agentes de programación, con reglas escritas (AGENTS.md), tests como barrera y revisión humana. Los algoritmos de mis herramientas no usan IA generativa: en Voxelizer lo dice el README.</span><span lang="en">I work with coding agents, with written rules (AGENTS.md), tests as a gate and human review. The algorithms in my tools use no generative AI: Voxelizer’s README says so.</span></p><blockquote>“No generative AI. No hallucinations. Only mathematics and advanced algorithms.”<cite>Voxelizer/README.md</cite></blockquote></div>
+      <div class="rule"><span class="label" data-hw>05</span><h3><span lang="es">Decir lo que aún no hace</span><span lang="en">Say what it doesn't do yet</span></h3><p><span lang="es">Roadmaps con criterios de salida, listas honestas de deuda técnica y un único documento de pendientes. Por eso cada caso de esta web termina con su interrogante: lo que aún no hace.</span><span lang="en">Roadmaps with exit criteria, honest tech-debt lists and a single backlog document. That is why every case on this site ends with its question mark: what it doesn’t do yet.</span></p></div>
+      <div class="rule"><span class="label" data-hw>06</span><h3><span lang="es">Producción de verdad</span><span lang="en">Real production</span></h3><p><span lang="es">Despliegue continuo, backups probados restaurándolos y lecciones apuntadas cuando algo sale mal.</span><span lang="en">Continuous deployment, backups tested with a real restore and lessons written down when something goes wrong.</span></p><blockquote><span lang="es">«"Deploy verde" ≠ "es lo que corre" si el tag no está pinneado.»</span><span lang="en">“A green deploy ≠ what is running if the tag isn’t pinned.”</span><cite>docs/estado.md · Viu Manacor</cite></blockquote></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TRAYECTORIA ============================ -->
+<section class="sheet" id="trayectoria" aria-labelledby="h-path" data-hb="section#trayectoria">
+  <div class="wrap">
+    <div class="grid sheet__head">
+      <div class="sheet__no"><span class="num" data-hw>1.7</span><span class="label"><span lang="es">hasta 2026</span><span lang="en">to 2026</span></span></div>
+      <div class="sheet__title"><h2 id="h-path"><span class="u"><span lang="es"><span class="sr-only">Trayectoria</span><span class="hwt" aria-hidden="true"><i style="-webkit-mask-image:url(assets/cuaderno/titulos/trayectoria.webp);mask-image:url(assets/cuaderno/titulos/trayectoria.webp);--w:1050;--h:162;--c:116.0;--d:32.0"></i></span></span><span lang="en">Path</span></span></h2></div>
+      <div class="sheet__side"><span class="doodle doodle--c" aria-hidden="true"></span></div>
+    </div>
+    <ol class="tl">
+      <li class="is-now"><span class="when"><span lang="es">Ahora</span><span lang="en">Now</span></span><span class="what"><b><span lang="es">Fullstack en Corsoft</span><span lang="en">Fullstack at Corsoft</span></b> · <span lang="es">DAM dual en el CIDE (Palma). Manager of Legends en beta.</span><span lang="en">DAM work-study diploma at CIDE (Palma). Manager of Legends in beta.</span></span></li>
+      <li><span class="when">2026</span><span class="what"><b><span lang="es">El año de publicar</span><span lang="en">The shipping year</span></b> · <span lang="es">Viu Manacor en producción, Voxelizer, Tactical Prototype, Sports Face, IA Hub, el motor de partida, Spawn, mods de Hytale y Super Cide Bros para la fiesta del colegio.</span><span lang="en">Viu Manacor in production, Voxelizer, Tactical Prototype, Sports Face, IA Hub, the match engine, Spawn, Hytale mods and Super Cide Bros for the school party.</span></span></li>
+      <li><span class="when">2025</span><span class="what"><b><span lang="es">Empiezo DAM en el CIDE</span><span lang="en">I start DAM at CIDE</span></b> · <span lang="es">Java, SQL y PL/SQL, Django. Catpire Survivors en libGDX.</span><span lang="en">Java, SQL and PL/SQL, Django. Catpire Survivors in libGDX.</span></span><div class="aside"><figure class="scan bk bk--er"><div class="scan__img" aria-hidden="true"><i class="black"></i><i class="col"></i></div><figcaption><span class="label"><span lang="es">del cuaderno · boli y subrayadores</span><span lang="en">from the notebook · ballpoint and highlighters</span></span><span lang="es">Un diagrama entidad-relación de clase: «circuito», «gran premio» y «temporada», marcados con subrayador.</span><span lang="en">An entity-relationship diagram from class: “circuito”, “gran premio” and “temporada” (circuit, grand prix, season), highlighted.</span></figcaption></figure></div></li>
+      <li><span class="when">2024</span><span class="what"><b>DnD Hex Combat</b> · <span lang="es">el BFS de la FIG. 5 y U.Roguelike en equipo.</span><span lang="en">the BFS in FIG. 5, plus U.Roguelike with a team.</span></span></li>
+      <li><span class="when">2020 – 2022</span><span class="what"><b><span lang="es">Diseño y Desarrollo de Videojuegos, UdG</span><span lang="en">Video Game Design and Development, University of Girona</span></b> · <span lang="es">Godot, Unity, Phaser, C++ (un motor del juego de mesa Jaipur) y física en C#. Sapo Mafioso, Isometric Tactics, Animal Expirement.</span><span lang="en">Godot, Unity, Phaser, C++ (an engine for the Jaipur board game) and physics in C#. Sapo Mafioso, Isometric Tactics, Animal Expirement.</span></span><div class="aside"><figure class="scan scan--so"><div class="scan__img" aria-hidden="true"><i class="ink"></i></div><figcaption><span class="label"><span lang="es">del cuaderno · boli</span><span lang="en">from the notebook · ballpoint</span></span><span lang="es">Cabecera de unos apuntes: «S.O.» y «1er examen 2022», subrayados.</span><span lang="en">The header of some notes: “S.O.” (operating systems) and “1st exam 2022”, underlined.</span></figcaption></figure></div></li>
+      <li><span class="when"><span lang="es">Antes y durante los estudios</span><span lang="en">Before and during my studies</span></span><span class="what"><b><span lang="es">Otra vida: hostelería</span><span lang="en">Another life: hospitality</span></b> · <span lang="es">camarero en Mallorca, Ibiza y Girona. Aprendí a trabajar bajo presión y a hablar con quien tengo delante.</span><span lang="en">waiter in Mallorca, Ibiza and Girona. I learned to work under pressure and to talk to whoever is in front of me.</span></span></li>
+      <li><span class="when">2018 – 2019</span><span class="what"><b><span lang="es">Ingeniería Informática, UIB</span><span lang="en">Computer Engineering, UIB</span></b> · Palma.</span></li>
+      <li><span class="when"><span lang="es">antes de 2018</span><span lang="en">before 2018</span></span><span class="what"><b><span lang="es">Bachillerato científico-tecnológico</span><span lang="en">Spanish Bachillerato, science and technology track</span></b> · Mossèn Alcover, Manacor.</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============================ LVL2 · BOSS · CONTACTO ============================ -->
+<section class="sheet boss" id="contacto" aria-labelledby="h-contact" data-hb="section#contacto · LVL2 BOSS">
+  <div class="wrap">
+    <div class="grid boss__grid">
+      <div class="boss__text">
+        <span class="sheet__no"><span class="num" data-hw>lvl2</span></span>
+        <h2 class="big" id="h-contact"><span lang="es"><span class="s"><span class="sr-only">Aquí no hay jefe final.</span><span class="hwt" aria-hidden="true"><i style="-webkit-mask-image:url(assets/cuaderno/titulos/aqui.webp);mask-image:url(assets/cuaderno/titulos/aqui.webp);--w:358;--h:144;--c:79.0;--d:25.0"></i> <i style="-webkit-mask-image:url(assets/cuaderno/titulos/no.webp);mask-image:url(assets/cuaderno/titulos/no.webp);--w:140;--h:94;--c:79.0;--d:17.0"></i> <i style="-webkit-mask-image:url(assets/cuaderno/titulos/hay.webp);mask-image:url(assets/cuaderno/titulos/hay.webp);--w:192;--h:123;--c:79.0;--d:24.0"></i> <i style="-webkit-mask-image:url(assets/cuaderno/titulos/jefe.webp);mask-image:url(assets/cuaderno/titulos/jefe.webp);--w:328;--h:110;--c:79.0;--d:7.0"></i> <i style="-webkit-mask-image:url(assets/cuaderno/titulos/final.webp);mask-image:url(assets/cuaderno/titulos/final.webp);--w:328;--h:101;--c:79.0;--d:8.0"></i></span></span> <span class="s"><span class="sr-only">Hay un correo.</span><span class="hwt" aria-hidden="true"><i style="-webkit-mask-image:url(assets/cuaderno/titulos/hay-2.webp);mask-image:url(assets/cuaderno/titulos/hay-2.webp);--w:268;--h:128;--c:82.7;--d:23.0"></i> <i style="-webkit-mask-image:url(assets/cuaderno/titulos/un.webp);mask-image:url(assets/cuaderno/titulos/un.webp);--w:164;--h:109;--c:82.7;--d:17.9"></i> <i style="-webkit-mask-image:url(assets/cuaderno/titulos/correo.webp);mask-image:url(assets/cuaderno/titulos/correo.webp);--w:531;--h:124;--c:82.7;--d:15.0"></i></span></span></span><span lang="en"><span class="s">No final boss here.</span> <span class="s">Just an email.</span></span></h2>
+        <p class="lead"><span lang="es">Abierto a colaborar en cualquier cosa rara e interesante: sistemas de juego, simulaciones, herramientas o una web que tenga que funcionar de verdad.</span><span lang="en">Open to collaborating on anything weird and interesting: game systems, simulations, tools or a website that has to actually work.</span></p>
+        <div class="boss__mail">
+          <a href="mailto:nico99rueda@gmail.com?subject=Hola%20Nico"><span class="u">nico99rueda@gmail.com</span></a>
+          <button type="button" class="copy" data-copy="nico99rueda@gmail.com"><span lang="es">Copiar</span><span lang="en">Copy</span></button>
+        </div>
+        <span class="doodle doodle--e" aria-hidden="true"></span>
+        <ul class="links">
+          <li><a href="https://github.com/NicoRuedaA" target="_blank" rel="noopener">GitHub <span class="mono">NicoRuedaA <span class="ext" aria-hidden="true">↗</span></span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></li>
+          <li><a href="https://www.linkedin.com/in/nicolas-rueda-araque/" target="_blank" rel="noopener">LinkedIn <span class="mono">nicolas-rueda-araque <span class="ext" aria-hidden="true">↗</span></span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></li>
+          <li class="links__copy"><span>Discord <span class="mono">nicorueda</span></span><button type="button" class="copy" data-copy="nicorueda"><span lang="es">Copiar</span><span lang="en">Copy</span></button></li>
+          <li><a href="https://x.com/nicorruedaa" target="_blank" rel="noopener">X <span class="mono">@nicorruedaa <span class="ext" aria-hidden="true">↗</span></span><span class="sr-only"><span lang="es">(nueva pestaña)</span><span lang="en">(new tab)</span></span></a></li>
+        </ul>
+      </div>
+      <div class="boss__art">
+        <figure class="scan bk bk--lvl2">
+          <div class="scan__img" aria-hidden="true"><i class="black"></i><i class="col"></i></div>
+          <figcaption><span class="label"><span lang="es">del cuaderno · rotulador negro y granate</span><span lang="en">from the notebook · black and maroon marker</span></span><span lang="es">Otra página de niveles: bajo una plataforma, una flecha que cae hasta «LVL 2», con la nota «CERRADO HASTA MATAR A TODOS?».</span><span lang="en">Another level page: under a platform, an arrow that drops to “LVL 2”, with the note “CERRADO HASTA MATAR A TODOS?” (closed until you kill everyone?).</span></figcaption>
+        </figure>
+        <figure class="scan scan--murio"><div class="scan__img" aria-hidden="true"><i class="pencil"></i></div><figcaption><span class="label"><span lang="es">del cuaderno · lápiz</span><span lang="en">from the notebook · pencil</span></span><span lang="es">Un personaje tirado en el suelo, el sombrero a un lado, y «MURIÓ» subrayado con una flecha. Aquí no hace falta llegar a eso.</span><span lang="en">A character lying on the ground, hat to one side, and “MURIÓ” (“he died”) underlined with an arrow. No need to get that far here.</span></figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="colo" data-hb="footer.colo">
+  <div class="wrap grid colo__grid">
+    <div class="colo__col">
+      <span class="label"><span lang="es">Esta web</span><span lang="en">This site</span></span>
+      <p><span lang="es">Escrita en HTML, CSS y JavaScript, sin frameworks ni build, con ayuda de agentes de programación. Las figuras interactivas ejecutan código o reglas de mis proyectos. Todo lo escrito o dibujado a mano son fotos de mis cuadernos y de mi boceto de 2022, recortadas y recoloreadas según el tema: las cifras de los números salen de unos apuntes de árboles AVL, el fluorescente rosa de un diagrama entidad-relación y las rayas entre filas son trazos de lápiz, boli y rotulador. Los botones llevan el recuadro que dibujé alrededor de «consola» en unos apuntes; las capturas, una viñeta de un storyboard; lo elegido va rodeado con el círculo de mis árboles AVL; reproducir, pausa, la flecha de los enlaces, el visto bueno y la mancha de tinta del tema oscuro los dibujé para la web, y el papel tiene el grano de una hoja en blanco fotografiada. Los marcos de las figuras interactivas y sus dibujos los traza el código imitando cómo dibujo: una línea por lado, con presión, que se pasa de la esquina, y sombreado a 60°. Los títulos en español y mi nombre los escribí a mano para esta web; el resto del texto va en letra de imprenta.</span><span lang="en">Written in HTML, CSS and JavaScript, with no framework or build step, with help from coding agents. The interactive figures run code or rules from my projects. Everything handwritten or hand-drawn is a photo of my notebooks and of my 2022 sketch, cropped and recoloured per theme: the digits in the numbers come from some AVL tree notes, the pink highlighter from an entity-relationship diagram, and the rules between rows are pencil, ballpoint and marker strokes. Buttons carry the box I drew around “consola” in some notes; screenshots, a storyboard panel; whatever is selected gets the ring from my AVL trees; play, pause, the link arrow, the tick and the ink blot for the dark theme I drew for the site, and the paper has the grain of a photographed blank sheet. The frames of the interactive figures and the drawings inside them are drawn by code imitating how I draw: one line per side, with pressure, running past the corner, and 60° hatching. The Spanish titles and my name were handwritten for this site; the rest of the text is typeset.</span></p>
+      <p class="mono" style="font-size:.7rem;color:var(--ink-3)" data-weight></p>
+      <p><button type="button" class="tgl" id="hitbox" aria-pressed="false"><span lang="es">Ver hitboxes</span><span lang="en">Show hitboxes</span></button> <span class="plate__hint"><span lang="es">como la tecla H de Catpire Survivors</span><span lang="en">like the H key in Catpire Survivors</span></span></p>
+    </div>
+    <div class="colo__col">
+      <span class="label"><span lang="es">Tipos y color</span><span lang="en">Type and colour</span></span>
+      <p><span lang="es">Archivo y Martian Mono. La paleta sale de mis bolis: azul, granate y las cruces verdes, con lápiz para lo secundario y el fluorescente rosa para lo que importa. En tinta, la tinta pasa a ser la página.</span><span lang="en">Archivo and Martian Mono. The palette comes from my pens: blue, garnet and the green crosses, with pencil for anything secondary and the pink highlighter for what matters. In ink mode, the ink becomes the page.</span></p>
+      <div class="swatches" aria-hidden="true">
+        <span><i style="background:#f6f6f2"></i><span lang="es">papel</span><span lang="en">paper</span></span><span><i style="background:#243291"></i><span lang="es">boli</span><span lang="en">ballpoint</span></span><span><i style="background:#9b1c33"></i><span lang="es">granate</span><span lang="en">garnet</span></span><span><i style="background:#1d6a41"></i><span lang="es">verde</span><span lang="en">green</span></span><span><i style="background:#868a96"></i><span lang="es">lápiz</span><span lang="en">pencil</span></span><span><i style="background:#f18fe0"></i><span lang="es">fluorescente</span><span lang="en">highlighter</span></span><span><i style="background:#0f1326"></i><span lang="es">tinta</span><span lang="en">ink</span></span>
+      </div>
+      <figure class="scan scan--legend"><div class="hand hand--legend" aria-hidden="true"><i class="ink"></i><i class="mark"></i></div><figcaption><span class="label"><span lang="es">del boceto de 2022 · boli y rotulador</span><span lang="en">from the 2022 sketch · ballpoint and marker</span></span><span lang="es">La leyenda del nivel: enemigos, enemigos móviles, romper, enemigo interior.</span><span lang="en">The level’s legend: enemies, moving enemies, breakable, enemy inside.</span></figcaption></figure>
+    </div>
+    <div class="colo__col">
+      <span class="label"><span lang="es">Créditos y licencias</span><span lang="en">Credits and licences</span></span>
+      <p><span lang="es">voxel.js de Voxelizer (MPL-2.0) y face-model.js / renderer.js de Sports Face (GPL-2.0) se usan sin cambios. La FIG. 2 es una partida del port en Rust de Shotcaller (Spicy Lobster team, PolyForm Noncommercial). Super Cide Bros parte de «My Super Mario Java 2D Game», de Mohamed Talaat (TETOSOFT). Isometric Tactics, U.Roguelike y Animal Expirement se hicieron en equipo. Sin afiliación con Riot Games, Hypixel, Wizards of the Coast ni LucasArts.</span><span lang="en">Voxelizer's voxel.js (MPL-2.0) and Sports Face's face-model.js / renderer.js (GPL-2.0) are used unchanged. FIG. 2 is a match from the Rust port of Shotcaller (Spicy Lobster team, PolyForm Noncommercial). Super Cide Bros builds on “My Super Mario Java 2D Game” by Mohamed Talaat (TETOSOFT). Isometric Tactics, U.Roguelike and Animal Expirement were team projects. Not affiliated with Riot Games, Hypixel, Wizards of the Coast or LucasArts.</span></p>
+      <p class="mono" style="font-size:.7rem;color:var(--ink-3)">© 2026 Nicolás Rueda Araque · Manacor, Mallorca</p>
+      <span class="doodle doodle--gato" aria-hidden="true"></span>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="assets/js/main.js"></script>
+</body>
+</html>
