@@ -41,7 +41,18 @@ Los módulos ES y el Web Worker necesitan servirse por HTTP (no funcionan con `f
 
 ## Publicar
 
-Es una carpeta autocontenida con rutas relativas. Para `nicorueda.dev`, copia el contenido de `portfolio/` a la raíz del repo `nicoruedaa.github.io` (conserva `CNAME` y la carpeta `juegos/`, que es donde viven las builds jugables de Catpire y Sapo Mafioso enlazadas desde la web).
+La web se publica desde el repo **`NicoRuedaA/nicoruedaa.github.io`** (raíz de la rama `main`), con el dominio `nicorueda.dev` en su `CNAME`. **Cada push a `main` de ese repo la despliega sola**: GitHub Pages construye y publica («pages build and deployment» en *Actions*), en uno o dos minutos.
+
+Esta carpeta es la copia de trabajo del diseño. Para publicar un cambio, se copia a la raíz de ese repo y se hace push:
+
+```sh
+cd portfolio
+cp index.html 404.html ../../nicoruedaa.github.io/
+rsync -a --delete assets/ ../../nicoruedaa.github.io/assets/
+cd ../../nicoruedaa.github.io && git add -A && git commit -m "..." && git push
+```
+
+En ese repo hay que conservar `CNAME` (el dominio), `.nojekyll` (sirve los archivos sin procesar), `README.md` y la carpeta `juegos/` (las builds jugables de Catpire y Sapo Mafioso, enlazadas desde la web). La web anterior está en su rama `old-site`.
 
 ## Antes de publicar, revisar
 

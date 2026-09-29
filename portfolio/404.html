@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es" data-lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>404 · Nico Rueda</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#f6f6f2" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1326" media="(prefers-color-scheme: dark)">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..800&family=Martian+Mono:wdth,wght@87.5,400..600&display=swap">
+<link rel="stylesheet" href="/assets/css/site.css">
+<script>
+  /* same theme + language bootstrap as the home page */
+  (function () {
+    var d = document.documentElement, t = null, l = null;
+    try { t = localStorage.getItem('nr-theme'); l = localStorage.getItem('nr-lang'); } catch (e) {}
+    if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
+    if (l !== 'es' && l !== 'en') {
+      var n = (navigator.language || 'es').toLowerCase();
+      l = (n.indexOf('es') === 0 || n.indexOf('ca') === 0 || n.indexOf('gl') === 0 || n.indexOf('eu') === 0) ? 'es' : 'en';
+    }
+    d.setAttribute('data-lang', l); d.setAttribute('lang', l);
+  })();
+</script>
+<style>
+  .nf { min-height: calc(100svh - 2 * var(--page-m)); display: grid; align-content: center; justify-items: start; gap: 22px; padding-block: clamp(48px, 10vw, 120px); }
+  .nf .hw { font-size: clamp(5rem, 3rem + 12vw, 11rem); color: var(--red); }
+  .nf h1 { font-size: clamp(2rem, 1.4rem + 2.6vw, 3.4rem); letter-spacing: -.03em; line-height: 1.02; filter: none; }
+  .nf p { max-width: 46ch; color: var(--ink-2); margin: 0; }
+  @media (max-width: 719px) { .nf { min-height: 100svh; } }
+</style>
+</head>
+<body>
+<main id="main">
+  <section class="sheet" aria-labelledby="h-nf">
+    <div class="wrap nf">
+      <span class="hw" aria-hidden="true"><i class="g4"></i><i class="g0"></i><i class="g4"></i></span>
+      <h1 id="h-nf"><span class="sr-only">404 · </span><span lang="es">Esta página no existe.</span><span lang="en">This page doesn’t exist.</span></h1>
+      <p><span lang="es">Puede que hayas seguido un enlace antiguo: la web se ha rehecho a mano.</span><span lang="en">You may have followed an old link: the site has been redone by hand.</span></p>
+      <a class="btn btn--go" href="/"><span lang="es">Volver al inicio</span><span lang="en">Back to the home page</span></a>
+      <span class="doodle doodle--gato" aria-hidden="true"></span>
+    </div>
+  </section>
+</main>
+</body>
+</html>
