@@ -22,18 +22,15 @@
 
 - **[Platform Godot](https://github.com/NicoRuedaA/Platform_Godot)** · `Godot` ·
   A reusable base template for 2D platformer development in Godot. Includes optimized physics controllers, coyote time, jump buffering, and a modular player state machine.
-  
-- **[DnD Hex Combat](https://github.com/NicoRuedaA/DnDHexCombat)** · `Unity` ·
-  A hex-based tactical combat prototype in Unity featuring D&D-inspired initiative turns, BFS pathfinding, and interactive unit action systems.
-
-- **[Unity Packages](https://github.com/NicoRuedaA/Unity-Packages)** · `Unity` ·
-  A robust collection of Unity utilities featuring thread-safe Singleton patterns, editor automation tools, and efficient text-asset processing.
 
 - **[Isometric Godot](https://github.com/NicoRuedaA/Isometric_Godot)** · `Godot` ·
   A turn-based isometric tactical RPG built with Godot Engine, featuring grid-based combat and a scalable modular architecture.
 
-- **[Super Cide Bros](https://github.com/NicoRuedaA/Juego-Fiesta-Cide)** · `Java` `Java Swing` ·
-  A 2D Java platformer game featuring custom physics, sprite animations, and custom maps, developed for the CIDE educational center's celebration.
+- **[Unity Packages](https://github.com/NicoRuedaA/Unity-Packages)** · `Unity` ·
+  A robust collection of Unity utilities featuring thread-safe Singleton patterns, editor automation tools, and efficient text-asset processing.
+
+- **[DnD Hex Combat](https://github.com/NicoRuedaA/DnDHexCombat)** · `Unity` ·
+  A hex-based tactical combat prototype in Unity featuring D&D-inspired initiative turns, BFS pathfinding, and interactive unit action systems.
   
   
 ## 🤖 AI & Data Science
